@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Mortgage Calculator</title>
+<meta name="description" content="Calculate monthly mortgage payments instantly.">
+</head>
+<body>
+<h1>Mortgage Calculator</h1>
+
+<input id="amount" placeholder="Loan Amount"><br><br>
+<input id="rate" placeholder="Interest %"><br><br>
+<input id="years" placeholder="Years"><br><br>
+
+<button onclick="calc()">Calculate</button>
+<h2 id="result"></h2>
+
+<script>
+function calc(){
+let P=amount.value;
+let r=rate.value/100/12;
+let n=years.value*12;
+let m=(P*r)/(1-Math.pow(1+r,-n));
+result.innerHTML="Monthly: $"+m.toFixed(2);
+}
+</script>
+</body>
+</html>
