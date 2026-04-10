@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html>
+<body>
+<h1>Break-Even Calculator</h1>
+
+<input id="fixed" placeholder="Fixed costs">
+<input id="price" placeholder="Price per unit">
+<input id="cost" placeholder="Cost per unit">
+
+<button onclick="calc()">Calculate</button>
+
+<h2 id="r"></h2>
+
+<script>
+function calc(){
+let units = fixed.value / (price.value - cost.value);
+r.innerHTML = "Break-even units: " + units.toFixed(0);
+}
+</script>
+</body>
+</html>
