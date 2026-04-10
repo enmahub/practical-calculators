@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html>
+<body>
+<h1>Daily Calorie Calculator</h1>
+
+<input id="w" placeholder="Weight (kg)">
+<input id="h" placeholder="Height (cm)">
+<input id="a" placeholder="Age">
+
+<button onclick="calc()">Calculate</button>
+<h2 id="r"></h2>
+
+<script>
+function calc(){
+let cal = 10*w.value + 6.25*h.value - 5*a.value + 5;
+r.innerHTML="Calories/day: "+cal;
+}
+</script>
+</body>
+</html>
