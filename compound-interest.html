@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html>
+<body>
+<h1>Compound Interest Calculator</h1>
+
+<input id="p" placeholder="Principal">
+<input id="r" placeholder="Rate %">
+<input id="t" placeholder="Years">
+
+<button onclick="calc()">Calculate</button>
+<h2 id="r2"></h2>
+
+<script>
+function calc(){
+let A=p.value*Math.pow(1+r.value/100,t.value);
+r2.innerHTML="Total: $"+A.toFixed(2);
+}
+</script>
+</body>
+</html>
