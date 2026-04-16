@@ -129,33 +129,147 @@ ${body}
 }
 
 function pickRelatedEntries(entries, entry, limit = 8) {
-  const sameFamily = entries.filter(
-    (candidate) => candidate.fileName !== entry.fileName && candidate.family === entry.family
-  );
+  return pickStructuredRelated(entries, entry).primary.slice(0, limit);
+}
+
+function uniqueByFileName(items) {
+  const seen = new Set();
+  const unique = [];
+  for (const item of items) {
+    if (seen.has(item.fileName)) {
+      continue;
+    }
+    seen.add(item.fileName);
+    unique.push(item);
+  }
+  return unique;
+}
+
+function sortByAmountProximity(candidates, targetAmount) {
+  return [...candidates].sort((a, b) => {
+    const diffA = Math.abs(Number(a.amount || 0) - Number(targetAmount || 0));
+    const diffB = Math.abs(Number(b.amount || 0) - Number(targetAmount || 0));
+    if (diffA !== diffB) {
+      return diffA - diffB;
+    }
+    return a.fileName.localeCompare(b.fileName);
+  });
+}
+
+function scoreCurrencyCandidate(entry, candidate) {
+  if (entry.family !== "currencyConverter" || candidate.family !== "currencyConverter") {
+    return -1;
+  }
+  if (entry.fileName === candidate.fileName) {
+    return -1;
+  }
+
+  let score = 0;
+  if (candidate.fromCode === entry.toCode && candidate.toCode === entry.fromCode) {
+    score += 1000; // reverse pair is usually the most useful.
+  }
+  if (candidate.fromCode === entry.fromCode) {
+    score += 300;
+  }
+  if (candidate.toCode === entry.toCode) {
+    score += 260;
+  }
+  if (candidate.fromCode === entry.toCode) {
+    score += 220;
+  }
+  if (candidate.toCode === entry.fromCode) {
+    score += 220;
+  }
+  if (
+    candidate.fromCode === entry.fromCode ||
+    candidate.toCode === entry.toCode ||
+    candidate.fromCode === entry.toCode ||
+    candidate.toCode === entry.fromCode
+  ) {
+    score += 50;
+  }
+  return score;
+}
+
+function pickStructuredRelated(entries, entry) {
+  const primaryLimit = 10;
+  const expandedLimit = 30;
+
+  if (
+    entry.family === "loanPaymentByAmount" ||
+    entry.family === "salaryToHourlyByAmount"
+  ) {
+    const sameFamily = entries.filter(
+      (candidate) =>
+        candidate.fileName !== entry.fileName && candidate.family === entry.family
+    );
+    const sorted = sortByAmountProximity(sameFamily, entry.amount);
+    return {
+      primary: sorted.slice(0, primaryLimit),
+      expanded: sorted.slice(primaryLimit, primaryLimit + expandedLimit)
+    };
+  }
+
+  if (entry.family === "currencyConverter") {
+    const scored = entries
+      .filter((candidate) => candidate.family === "currencyConverter")
+      .map((candidate) => ({ candidate, score: scoreCurrencyCandidate(entry, candidate) }))
+      .filter((row) => row.score > 0)
+      .sort((a, b) => {
+        if (b.score !== a.score) {
+          return b.score - a.score;
+        }
+        return a.candidate.fileName.localeCompare(b.candidate.fileName);
+      })
+      .map((row) => row.candidate);
+
+    return {
+      primary: scored.slice(0, primaryLimit),
+      expanded: scored.slice(primaryLimit, primaryLimit + expandedLimit)
+    };
+  }
+
   const sameCategory = entries.filter(
     (candidate) =>
-      candidate.fileName !== entry.fileName &&
-      candidate.category === entry.category &&
-      candidate.family !== entry.family
+      candidate.fileName !== entry.fileName && candidate.category === entry.category
   );
-
-  return [...sameFamily, ...sameCategory].slice(0, limit);
+  const primary = sameCategory.slice(0, primaryLimit);
+  const expanded = sameCategory.slice(primaryLimit, primaryLimit + expandedLimit);
+  return { primary, expanded };
 }
 
 function relatedHtml(entries, entry) {
-  const related = pickRelatedEntries(entries, entry, 8);
-  if (!related.length) {
+  const structured = pickStructuredRelated(entries, entry);
+  const primary = uniqueByFileName(structured.primary);
+  const expanded = uniqueByFileName(structured.expanded).filter(
+    (item) => !primary.some((p) => p.fileName === item.fileName)
+  );
+  if (!primary.length && !expanded.length) {
     return "";
   }
 
-  const links = related
+  const primaryLinks = primary
     .map((item) => `<li><a href="${item.fileName}">${escapeHtml(item.h1)}</a></li>`)
     .join("\n");
 
-  return `<p>Related Calculators:</p>
+  const expandedLinks = expanded
+    .map((item) => `<li><a href="${item.fileName}">${escapeHtml(item.h1)}</a></li>`)
+    .join("\n");
+
+  const expandedBlock = expanded.length
+    ? `<details>
+<summary>More related calculators</summary>
 <ul>
-${links}
-</ul>`;
+${expandedLinks}
+</ul>
+</details>`
+    : "";
+
+  return `<h2>Related Calculators</h2>
+<ul>
+${primaryLinks}
+</ul>
+${expandedBlock}`;
 }
 
 function currencyTemplate(entry, entries) {
