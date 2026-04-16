@@ -1,7 +1,7 @@
 /* GLOBAL */
 body{
   margin:0;
-  font-family:Arial,sans-serif;
+  font-family:system-ui,-apple-system,"Segoe UI",Roboto,"Helvetica Neue",Arial,"Noto Sans","Liberation Sans",sans-serif;
   background:#eef2f7;
   color:#1d2939;
 }
@@ -18,10 +18,31 @@ body{
   top:0;
   background:#1e3a5f;
   color:#fff;
-  padding:14px 16px;
-  font-weight:bold;
   border-bottom:1px solid rgba(255,255,255,.12);
   z-index:10;
+}
+
+.top .wrap{
+  padding:0 18px;
+}
+
+.top-inner{
+  min-height:52px;
+  display:flex;
+  align-items:center;
+  justify-content:flex-start;
+}
+
+.brand{
+  color:#fff;
+  font-weight:700;
+  text-decoration:none;
+  letter-spacing:.2px;
+}
+
+.brand:hover{
+  color:#dbe8ff;
+  text-decoration:underline;
 }
 
 /* MAIN CARD */
@@ -105,12 +126,34 @@ button:hover{
 
 /* LINKS */
 a{
-  color:#1e3a5f;
+  color:#134067;
   text-decoration:none;
 }
 
-ul{
-  padding-left:18px;
+a:hover{
+  color:#0f2f4a;
+  text-decoration:underline;
+}
+
+.card ul{
+  list-style:none;
+  padding-left:0;
+}
+
+.card ul li{
+  margin:4px 0;
+}
+
+.card ul li a{
+  display:block;
+  padding:10px 12px;
+  border-radius:10px;
+  color:#1e3a5f;
+}
+
+.card ul li a:hover{
+  background:#f1f5fb;
+  text-decoration:underline;
 }
 
 /* DETAILS MENUS */
@@ -130,12 +173,14 @@ summary{
 
 details a{
   display:block;
-  padding:10px 0 2px;
+  padding:10px 12px;
+  border-radius:8px;
   color:#1e3a5f;
   text-decoration:none;
 }
 
 details a:hover{
+  background:#f1f5fb;
   text-decoration:underline;
 }
 
@@ -147,12 +192,35 @@ details a:hover{
   color:#475467;
 }
 
-.footer a{
-  color:#1e3a5f;
-  text-decoration:none;
-  margin:0 6px;
+.category-grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(140px,1fr));
+  gap:10px;
+  margin:10px 0 12px;
 }
 
-.footer a:hover{
+.category-link{
+  display:block;
+  padding:12px;
+  border:1px solid #d0d5dd;
+  border-radius:10px;
+  background:#fff;
+  color:#1e3a5f;
+  text-decoration:none;
+  font-weight:600;
+}
+
+.category-link:hover{
+  background:#f1f5fb;
+  color:#0f2f4a;
+  text-decoration:underline;
+}
+
+.footer .home-link{
+  color:#1e3a5f;
+  font-weight:600;
+}
+
+.footer .home-link:hover{
   text-decoration:underline;
 }

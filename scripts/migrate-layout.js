@@ -72,17 +72,6 @@ function splitFooter(mainHtml) {
   return { main, footer };
 }
 
-function extractTopTitle(mainHtml) {
-  const h1 = mainHtml.match(/<h1[^>]*>([\s\S]*?)<\/h1>/i);
-  if (!h1) {
-    return "Free Online Calculators";
-  }
-  return h1[1]
-    .replace(/<[^>]+>/g, "")
-    .replace(/\s+/g, " ")
-    .trim() || "Free Online Calculators";
-}
-
 function extractDetails(mainHtml) {
   const details = [];
   const main = mainHtml.replace(/<details[\s\S]*?<\/details>/gi, (match) => {
@@ -99,16 +88,33 @@ function normalizeSpacing(mainHtml) {
     .trim();
 }
 
-function rebuildBody(topTitle, main, details, footer) {
+function buildFooterMarkup() {
+  return `<div class="footer">
+<p>Browse Categories</p>
+<div class="category-grid">
+<a class="category-link" href="financial-calculators.html">Financial</a>
+<a class="category-link" href="health-calculators.html">Health</a>
+<a class="category-link" href="conversion-calculators.html">Conversions</a>
+<a class="category-link" href="career-calculators.html">Career</a>
+</div>
+<p><a class="home-link" href="index.html">Home</a></p>
+</div>`;
+}
+
+function rebuildBody(main, details) {
   const detailsBlock = details.length ? `${details.join("\n\n")}\n` : "";
-  const footerBlock = footer ? `<div class="footer">\n${footer}\n</div>\n` : "";
-  return `<div class="top">${topTitle}</div>
+  return `<div class="top">
+<div class="wrap top-inner">
+<a class="brand" href="index.html">Practical Calculators</a>
+</div>
+</div>
 <div class="wrap">
 <div class="card">
 ${main}
 </div>
 ${detailsBlock}
-${footerBlock}</div>`;
+${buildFooterMarkup()}
+</div>`;
 }
 
 function migrateFile(filePath) {
@@ -119,19 +125,13 @@ function migrateFile(filePath) {
   }
 
   let bodyInner = bodyMatch[1].trim();
-  let preservedFooter = "";
-  const existingFooterMatch = bodyInner.match(/<div class="footer">\s*([\s\S]*?)\s*<\/div>\s*<\/div>\s*$/i);
-  if (existingFooterMatch) {
-    preservedFooter = existingFooterMatch[1].trim();
-  }
   bodyInner = removeExistingShell(bodyInner);
   bodyInner = addDescClass(bodyInner);
   bodyInner = addResultClasses(bodyInner);
   bodyInner = normalizeSpacing(bodyInner);
   const split = splitFooter(bodyInner);
-  const topTitle = extractTopTitle(split.main);
   const detailSplit = extractDetails(split.main);
-  const rebuilt = rebuildBody(topTitle, detailSplit.main, detailSplit.details, split.footer || preservedFooter);
+  const rebuilt = rebuildBody(detailSplit.main, detailSplit.details);
 
   const next = raw.replace(/<body[^>]*>[\s\S]*?<\/body>/i, `<body>\n${rebuilt}\n</body>`);
   if (next === raw) {

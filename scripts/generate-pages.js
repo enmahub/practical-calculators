@@ -115,18 +115,24 @@ function htmlShell({ title, description, body, lang = "en" }) {
 ${robots}<link rel="stylesheet" href="styles.css">
 </head>
 <body>
-<div class="top">Free Online Calculators</div>
+<div class="top">
+<div class="wrap top-inner">
+<a class="brand" href="index.html">Practical Calculators</a>
+</div>
+</div>
 <div class="wrap">
 <div class="card">
 ${body}
 </div>
 <div class="footer">
-<p>Browse Categories:</p>
-<a href="financial-calculators.html">Financial</a> |
-<a href="health-calculators.html">Health</a> |
-<a href="conversion-calculators.html">Conversions</a> |
-<a href="career-calculators.html">Career</a>
-<p><a href="index.html">Home</a></p>
+<p>Browse Categories</p>
+<div class="category-grid">
+<a class="category-link" href="financial-calculators.html">Financial</a>
+<a class="category-link" href="health-calculators.html">Health</a>
+<a class="category-link" href="conversion-calculators.html">Conversions</a>
+<a class="category-link" href="career-calculators.html">Career</a>
+</div>
+<p><a class="home-link" href="index.html">Home</a></p>
 </div>
 </div>
 </body>
@@ -586,7 +592,11 @@ function writeGeneratedIndex(entries) {
 <!-- Generated from pages.config.json -->
 </head>
 <body>
-<div class="top">Free Online Calculators</div>
+<div class="top">
+<div class="wrap top-inner">
+<a class="brand" href="index.html">Practical Calculators</a>
+</div>
+</div>
 <div class="wrap">
 <div class="card">
 <h1>Generated Calculators Index</h1>
@@ -636,27 +646,33 @@ function writeHomeIndex(entries) {
 <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-<div class="top">Free Online Calculators</div>
+<div class="top">
+<div class="wrap top-inner">
+<a class="brand" href="index.html">Practical Calculators</a>
+</div>
+</div>
 <div class="wrap">
 <div class="card">
 <h1>Free Online Calculators</h1>
 <p class="desc">Browse calculators by category.</p>
 <!-- Home index generated from pages.config.json -->
 <h2>Categories</h2>
-<ul>
-<li><a href="financial-calculators.html">Financial Calculators</a></li>
-<li><a href="health-calculators.html">Health Calculators</a></li>
-<li><a href="conversion-calculators.html">Conversion Calculators</a></li>
-<li><a href="career-calculators.html">Career Calculators</a></li>
-</ul>
+<div class="category-grid">
+<a class="category-link" href="financial-calculators.html">Financial Calculators</a>
+<a class="category-link" href="health-calculators.html">Health Calculators</a>
+<a class="category-link" href="conversion-calculators.html">Conversion Calculators</a>
+<a class="category-link" href="career-calculators.html">Career Calculators</a>
+</div>
 ${sections}
 </div>
 <div class="footer">
-<p>Browse Categories:</p>
-<a href="financial-calculators.html">Financial</a> |
-<a href="health-calculators.html">Health</a> |
-<a href="conversion-calculators.html">Conversions</a> |
-<a href="career-calculators.html">Career</a>
+<p>Browse Categories</p>
+<div class="category-grid">
+<a class="category-link" href="financial-calculators.html">Financial</a>
+<a class="category-link" href="health-calculators.html">Health</a>
+<a class="category-link" href="conversion-calculators.html">Conversions</a>
+<a class="category-link" href="career-calculators.html">Career</a>
+</div>
 </div>
 </div>
 </body>
