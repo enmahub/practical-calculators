@@ -4,7 +4,7 @@
   "version": "1.0.0",
   "description": "Static calculator pages with generation and validation tooling",
   "scripts": {
-    "generate:pages": "node scripts/generate-pages.js",
+    "generate:pages": "node scripts/generate-pages.js && node scripts/migrate-layout.js",
     "migrate:layout": "node scripts/migrate-layout.js",
     "validate:pages": "node scripts/validate-pages.js"
   }

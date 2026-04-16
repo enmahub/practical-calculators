@@ -72,13 +72,42 @@ function splitFooter(mainHtml) {
   return { main, footer };
 }
 
-function rebuildBody(main, footer) {
+function extractTopTitle(mainHtml) {
+  const h1 = mainHtml.match(/<h1[^>]*>([\s\S]*?)<\/h1>/i);
+  if (!h1) {
+    return "Free Online Calculators";
+  }
+  return h1[1]
+    .replace(/<[^>]+>/g, "")
+    .replace(/\s+/g, " ")
+    .trim() || "Free Online Calculators";
+}
+
+function extractDetails(mainHtml) {
+  const details = [];
+  const main = mainHtml.replace(/<details[\s\S]*?<\/details>/gi, (match) => {
+    details.push(match.trim());
+    return "";
+  });
+  return { main: main.trim(), details };
+}
+
+function normalizeSpacing(mainHtml) {
+  return mainHtml
+    .replace(/<br\s*\/?>\s*<br\s*\/?>/gi, "\n")
+    .replace(/\n{3,}/g, "\n\n")
+    .trim();
+}
+
+function rebuildBody(topTitle, main, details, footer) {
+  const detailsBlock = details.length ? `${details.join("\n\n")}\n` : "";
   const footerBlock = footer ? `<div class="footer">\n${footer}\n</div>\n` : "";
-  return `<div class="top">Free Online Calculators</div>
+  return `<div class="top">${topTitle}</div>
 <div class="wrap">
 <div class="card">
 ${main}
 </div>
+${detailsBlock}
 ${footerBlock}</div>`;
 }
 
@@ -98,8 +127,11 @@ function migrateFile(filePath) {
   bodyInner = removeExistingShell(bodyInner);
   bodyInner = addDescClass(bodyInner);
   bodyInner = addResultClasses(bodyInner);
+  bodyInner = normalizeSpacing(bodyInner);
   const split = splitFooter(bodyInner);
-  const rebuilt = rebuildBody(split.main, split.footer || preservedFooter);
+  const topTitle = extractTopTitle(split.main);
+  const detailSplit = extractDetails(split.main);
+  const rebuilt = rebuildBody(topTitle, detailSplit.main, detailSplit.details, split.footer || preservedFooter);
 
   const next = raw.replace(/<body[^>]*>[\s\S]*?<\/body>/i, `<body>\n${rebuilt}\n</body>`);
   if (next === raw) {
