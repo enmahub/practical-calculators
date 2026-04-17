@@ -3,6 +3,23 @@ const path = require("path");
 
 const root = process.cwd();
 
+function isGeneratedFile(fileName) {
+  const generatedPatterns = [
+    /-loan-payment-calculator\.html$/i,
+    /-salary-to-hourly-calculator\.html$/i,
+    /-to-[a-z]{3}-converter\.html$/i
+  ];
+  return generatedPatterns.some((pattern) => pattern.test(fileName));
+}
+
+function shouldSkipMigration(fileName) {
+  const explicitlyManagedByGenerator = new Set([
+    "index.html",
+    "generated-calculators.html"
+  ]);
+  return explicitlyManagedByGenerator.has(fileName.toLowerCase()) || isGeneratedFile(fileName);
+}
+
 function hasClass(attrs, className) {
   const classMatch = attrs.match(/\bclass\s*=\s*["']([^"']*)["']/i);
   if (!classMatch) {
@@ -37,17 +54,24 @@ function appendClassToTag(tag, className) {
 
 function removeExistingShell(content) {
   let updated = content;
-  updated = updated.replace(
-    /<div class="top">\s*<div class="wrap top-inner">[\s\S]*?<\/div>\s*<\/div>\s*/i,
-    ""
+  updated = updated.replace(/^\s*<div class="top">[\s\S]*?<\/div>\s*/i, "");
+  updated = updated.replace(/\s*<div class="footer">[\s\S]*?<\/div>\s*$/i, "");
+  const emptyShellPrefix = /^\s*(?:<div class="wrap">\s*)?<div class="card">\s*<\/div>\s*(?:<\/div>\s*)?/i;
+  while (emptyShellPrefix.test(updated)) {
+    updated = updated.replace(emptyShellPrefix, "");
+  }
+
+  const wrappedMatch = updated.match(
+    /^\s*<div class="wrap">\s*<div class="card">\s*([\s\S]*?)\s*<\/div>\s*<\/div>\s*$/i
   );
-  updated = updated.replace(/^\s*<div class="wrap">\s*<div class="card">\s*/i, "");
-  updated = updated.replace(
-    /\s*<\/div>\s*<div class="footer">[\s\S]*?<\/div>\s*<\/div>\s*$/i,
-    ""
-  );
-  updated = updated.replace(/^(?:\s*<\/div>\s*)+/i, "");
-  updated = updated.replace(/(?:\s*<\/div>\s*)+$/i, "");
+  if (wrappedMatch) {
+    return wrappedMatch[1].trim();
+  }
+
+  updated = updated.replace(/^\s*<div class="wrap">\s*/i, "");
+  updated = updated.replace(/\s*<\/div>\s*$/i, "");
+  updated = updated.replace(/^\s*<div class="card">\s*/i, "");
+  updated = updated.replace(/\s*<\/div>\s*$/i, "");
   return updated.trim();
 }
 
@@ -156,6 +180,7 @@ function migrateFile(filePath) {
   }
 
   let bodyInner = bodyMatch[1].trim();
+  bodyInner = bodyInner.replace(/(?:<div class="wrap">\s*<div class="card">\s*<\/div>\s*)+/gi, "");
   bodyInner = removeExistingShell(bodyInner);
   bodyInner = addDescClass(bodyInner);
   bodyInner = addResultClasses(bodyInner);
@@ -165,7 +190,15 @@ function migrateFile(filePath) {
   const detailSplit = extractDetails(split.main);
   const rebuilt = rebuildBody(detailSplit.main, detailSplit.details);
 
-  const next = raw.replace(/<body[^>]*>[\s\S]*?<\/body>/i, `<body>\n${rebuilt}\n</body>`);
+  let next = raw.replace(/<body[^>]*>[\s\S]*?<\/body>/i, `<body>\n${rebuilt}\n</body>`);
+  const nestedEmptyWrapperPattern =
+    /<div class="wrap">\s*<div class="card">\s*<\/div>\s*<div class="wrap">\s*<div class="card">/i;
+  while (nestedEmptyWrapperPattern.test(next)) {
+    next = next.replace(
+      nestedEmptyWrapperPattern,
+      `<div class="wrap">\n<div class="card">`
+    );
+  }
   if (next === raw) {
     return false;
   }
@@ -175,7 +208,9 @@ function migrateFile(filePath) {
 }
 
 function main() {
-  const htmlFiles = fs.readdirSync(root).filter((name) => name.endsWith(".html"));
+  const htmlFiles = fs
+    .readdirSync(root)
+    .filter((name) => name.endsWith(".html") && !shouldSkipMigration(name));
   let updatedCount = 0;
   for (const file of htmlFiles) {
     const fullPath = path.join(root, file);
