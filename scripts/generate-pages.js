@@ -111,7 +111,8 @@ const LOCALE_LABELS = {
     health: "Salud",
     conversions: "Conversiones",
     career: "Carrera",
-    home: "Inicio",
+    home: "Inicio (Español)",
+    englishHome: "Home (English)",
     about: "Acerca de",
     contact: "Contacto",
     privacy: "Privacidad",
@@ -121,8 +122,8 @@ const LOCALE_LABELS = {
     categoryHub: "Índice de categoría",
     trustTitle: "Como se estima este resultado",
     trustDescription:
-      "Esta {topic} ofrece resultados estimados según los datos ingresados. Revisa los supuestos y verifica decisiones importantes por separado.",
-    trustItem1: "Los datos son ingresados por el usuario y pueden incluir redondeo.",
+      "Esta {topic} ofrece resultados estimados según los datos ingresados. Revisa los criterios de cálculo y verifica decisiones importantes por separado.",
+    trustItem1: "Los datos los ingresa el usuario y los resultados pueden incluir redondeos.",
     trustItem2: "Los resultados son informativos y no constituyen asesoría financiera, fiscal, legal ni médica.",
     trustItem3: "Para decisiones de alto impacto, consulta a un profesional autorizado.",
     trustReviewed: "Última revisión"
@@ -230,6 +231,7 @@ function htmlShell({
     : "";
   const stylesHref = toHref(pagePath, "styles.css");
   const homeHref = toHref(pagePath, isSpanishPath ? "es/index.html" : "index.html");
+  const englishHomeHref = toHref(pagePath, "index.html");
   const financialHref = toHref(
     pagePath,
     isSpanishPath ? "es/financial-calculators.html" : "financial-calculators.html"
@@ -247,12 +249,19 @@ function htmlShell({
     isSpanishPath ? "es/career-calculators.html" : "career-calculators.html"
   );
   const analyticsLoader = `<script src="${toHref(pagePath, "site-analytics.js")}" data-analytics-page defer></script>`;
+  const aboutPath = isSpanishPath ? "es/about.html" : "about.html";
+  const contactPath = isSpanishPath ? "es/contact.html" : "contact.html";
+  const privacyPath = isSpanishPath ? "es/privacy.html" : "privacy.html";
+  const termsPath = isSpanishPath ? "es/terms.html" : "terms.html";
   const footerInfoLinksHtml = `<p class="footer-meta">
-<a href="${toHref(pagePath, "about.html")}">${labels.about}</a> |
-<a href="${toHref(pagePath, "contact.html")}">${labels.contact}</a> |
-<a href="${toHref(pagePath, "privacy.html")}">${labels.privacy}</a> |
-<a href="${toHref(pagePath, "terms.html")}">${labels.terms}</a>
+<a href="${toHref(pagePath, aboutPath)}">${labels.about}</a> |
+<a href="${toHref(pagePath, contactPath)}">${labels.contact}</a> |
+<a href="${toHref(pagePath, privacyPath)}">${labels.privacy}</a> |
+<a href="${toHref(pagePath, termsPath)}">${labels.terms}</a>
 </p>`;
+  const homeLinksHtml = isSpanishPath
+    ? `<p><a class="home-link" href="${homeHref}">${labels.home}</a> | <a class="home-link" href="${englishHomeHref}">${labels.englishHome}</a></p>`
+    : `<p><a class="home-link" href="${homeHref}">${labels.home}</a></p>`;
   return `<!DOCTYPE html>
 <html lang="${lang}">
 <head>
@@ -280,7 +289,7 @@ ${body}
 <a class="category-link" href="${conversionsHref}">${labels.conversions}</a>
 <a class="category-link" href="${careerHref}">${labels.career}</a>
 </div>
-<p><a class="home-link" href="${homeHref}">${labels.home}</a></p>
+${homeLinksHtml}
 ${footerInfoLinksHtml}
 </div>
 </div>
@@ -516,6 +525,7 @@ function pickStructuredRelated(entries, entry) {
 function relatedHtml(entries, entry) {
   const locale = localeCode(entry.lang);
   const labels = LOCALE_LABELS[locale];
+  const isSpanish = locale === "es";
   const structured = pickStructuredRelated(entries, entry);
   const primary = uniqueByFileName(structured.primary);
   const expanded = uniqueByFileName(structured.expanded).filter(
@@ -543,9 +553,13 @@ ${expandedLinks}
     : "";
 
   const hubHref = toHref(entry.pagePath, entry.hubPath || "index.html");
-  const homeHref = toHref(entry.pagePath, "index.html");
+  const homeHref = toHref(entry.pagePath, isSpanish ? "es/index.html" : "index.html");
+  const englishHomeHref = toHref(entry.pagePath, "index.html");
+  const homeLinks = isSpanish
+    ? `<a href="${homeHref}">${labels.home}</a> | <a href="${englishHomeHref}">${labels.englishHome}</a>`
+    : `<a href="${homeHref}">${labels.home}</a>`;
 
-  return `<p><a href="${homeHref}">${labels.home}</a> | <a href="${hubHref}">${labels.categoryHub}</a></p>
+  return `<p>${homeLinks} | <a href="${hubHref}">${labels.categoryHub}</a></p>
 <h2>${labels.relatedTitle}</h2>
 <ul>
 ${primaryLinks}
@@ -1309,7 +1323,7 @@ function writeMarketPilotIndexes(entries) {
       robotsDirective: "index, follow",
       canonicalPath: "es/index.html",
       body: `<h1>Calculadoras en Español</h1>
-<p class="desc">Versión piloto de calculadoras en español. Incluye herramientas financieras, de conversión y salud.</p>
+<p class="desc">Versión piloto de calculadoras en español. Incluye herramientas de finanzas, conversiones, salud y carrera.</p>
 ${sections}`
     });
     fs.mkdirSync(path.join(root, "es"), { recursive: true });
