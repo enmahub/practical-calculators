@@ -2,6 +2,7 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url><loc>https://enmahub.github.io/practical-calculators/100000-loan-payment-calculator.html</loc></url>
   <url><loc>https://enmahub.github.io/practical-calculators/100000-salary-to-hourly-calculator.html</loc></url>
+  <url><loc>https://enmahub.github.io/practical-calculators/1099-vs-w2-income-calculator.html</loc></url>
   <url><loc>https://enmahub.github.io/practical-calculators/120000-salary-to-hourly-calculator.html</loc></url>
   <url><loc>https://enmahub.github.io/practical-calculators/125000-loan-payment-calculator.html</loc></url>
   <url><loc>https://enmahub.github.io/practical-calculators/140000-salary-to-hourly-calculator.html</loc></url>
@@ -90,6 +91,7 @@
   <url><loc>https://enmahub.github.io/practical-calculators/chf-to-eur-converter.html</loc></url>
   <url><loc>https://enmahub.github.io/practical-calculators/chf-to-gbp-converter.html</loc></url>
   <url><loc>https://enmahub.github.io/practical-calculators/chf-to-usd-converter.html</loc></url>
+  <url><loc>https://enmahub.github.io/practical-calculators/closing-cost-calculator.html</loc></url>
   <url><loc>https://enmahub.github.io/practical-calculators/commission-calculator.html</loc></url>
   <url><loc>https://enmahub.github.io/practical-calculators/compound-interest.html</loc></url>
   <url><loc>https://enmahub.github.io/practical-calculators/contact.html</loc></url>
@@ -100,7 +102,9 @@
   <url><loc>https://enmahub.github.io/practical-calculators/cop-to-gbp-converter.html</loc></url>
   <url><loc>https://enmahub.github.io/practical-calculators/cop-to-usd-converter.html</loc></url>
   <url><loc>https://enmahub.github.io/practical-calculators/credit-card-interest-calculator.html</loc></url>
+  <url><loc>https://enmahub.github.io/practical-calculators/debt-avalanche-calculator.html</loc></url>
   <url><loc>https://enmahub.github.io/practical-calculators/debt-payoff.html</loc></url>
+  <url><loc>https://enmahub.github.io/practical-calculators/debt-snowball-calculator.html</loc></url>
   <url><loc>https://enmahub.github.io/practical-calculators/debt-to-income-calculator.html</loc></url>
   <url><loc>https://enmahub.github.io/practical-calculators/discount-calculator.html</loc></url>
   <url><loc>https://enmahub.github.io/practical-calculators/dkk-to-aud-converter.html</loc></url>
@@ -145,7 +149,9 @@
   <url><loc>https://enmahub.github.io/practical-calculators/eur-to-sgd-converter.html</loc></url>
   <url><loc>https://enmahub.github.io/practical-calculators/eur-to-usd-converter.html</loc></url>
   <url><loc>https://enmahub.github.io/practical-calculators/eur-to-zar-converter.html</loc></url>
+  <url><loc>https://enmahub.github.io/practical-calculators/extra-payment-loan-calculator.html</loc></url>
   <url><loc>https://enmahub.github.io/practical-calculators/financial-calculators.html</loc></url>
+  <url><loc>https://enmahub.github.io/practical-calculators/freelance-tax-estimate-calculator.html</loc></url>
   <url><loc>https://enmahub.github.io/practical-calculators/gbp-to-aed-converter.html</loc></url>
   <url><loc>https://enmahub.github.io/practical-calculators/gbp-to-ars-converter.html</loc></url>
   <url><loc>https://enmahub.github.io/practical-calculators/gbp-to-aud-converter.html</loc></url>
@@ -166,6 +172,7 @@
   <url><loc>https://enmahub.github.io/practical-calculators/google00989570bfb5b7e8.html</loc></url>
   <url><loc>https://enmahub.github.io/practical-calculators/gpa-calculator.html</loc></url>
   <url><loc>https://enmahub.github.io/practical-calculators/health-calculators.html</loc></url>
+  <url><loc>https://enmahub.github.io/practical-calculators/hourly-to-salary-after-tax-calculator.html</loc></url>
   <url><loc>https://enmahub.github.io/practical-calculators/hours-to-days-converter.html</loc></url>
   <url><loc>https://enmahub.github.io/practical-calculators/index.html</loc></url>
   <url><loc>https://enmahub.github.io/practical-calculators/inflation-calculator.html</loc></url>
@@ -186,6 +193,7 @@
   <url><loc>https://enmahub.github.io/practical-calculators/loan-calculator.html</loc></url>
   <url><loc>https://enmahub.github.io/practical-calculators/macros-calculator.html</loc></url>
   <url><loc>https://enmahub.github.io/practical-calculators/minutes-to-hours-converter.html</loc></url>
+  <url><loc>https://enmahub.github.io/practical-calculators/mortgage-affordability-calculator.html</loc></url>
   <url><loc>https://enmahub.github.io/practical-calculators/mortgage-calculator.html</loc></url>
   <url><loc>https://enmahub.github.io/practical-calculators/mxn-to-aud-converter.html</loc></url>
   <url><loc>https://enmahub.github.io/practical-calculators/mxn-to-cad-converter.html</loc></url>
@@ -204,11 +212,13 @@
   <url><loc>https://enmahub.github.io/practical-calculators/percentage-calculator.html</loc></url>
   <url><loc>https://enmahub.github.io/practical-calculators/privacy.html</loc></url>
   <url><loc>https://enmahub.github.io/practical-calculators/profit-margin-calculator.html</loc></url>
+  <url><loc>https://enmahub.github.io/practical-calculators/property-tax-estimate-calculator.html</loc></url>
   <url><loc>https://enmahub.github.io/practical-calculators/raise-calculator.html</loc></url>
   <url><loc>https://enmahub.github.io/practical-calculators/refinance-calculator.html</loc></url>
   <url><loc>https://enmahub.github.io/practical-calculators/rent-vs-buy-calculator.html</loc></url>
   <url><loc>https://enmahub.github.io/practical-calculators/retirement-calculator.html</loc></url>
   <url><loc>https://enmahub.github.io/practical-calculators/roi-calculator.html</loc></url>
+  <url><loc>https://enmahub.github.io/practical-calculators/salary-after-tax-calculator.html</loc></url>
   <url><loc>https://enmahub.github.io/practical-calculators/salary-calculator.html</loc></url>
   <url><loc>https://enmahub.github.io/practical-calculators/savings-calculator.html</loc></url>
   <url><loc>https://enmahub.github.io/practical-calculators/seconds-to-minutes-converter.html</loc></url>
@@ -217,11 +227,13 @@
   <url><loc>https://enmahub.github.io/practical-calculators/sek-to-eur-converter.html</loc></url>
   <url><loc>https://enmahub.github.io/practical-calculators/sek-to-gbp-converter.html</loc></url>
   <url><loc>https://enmahub.github.io/practical-calculators/sek-to-usd-converter.html</loc></url>
+  <url><loc>https://enmahub.github.io/practical-calculators/self-employment-tax-calculator.html</loc></url>
   <url><loc>https://enmahub.github.io/practical-calculators/sgd-to-aud-converter.html</loc></url>
   <url><loc>https://enmahub.github.io/practical-calculators/sgd-to-cad-converter.html</loc></url>
   <url><loc>https://enmahub.github.io/practical-calculators/sgd-to-eur-converter.html</loc></url>
   <url><loc>https://enmahub.github.io/practical-calculators/sgd-to-gbp-converter.html</loc></url>
   <url><loc>https://enmahub.github.io/practical-calculators/sgd-to-usd-converter.html</loc></url>
+  <url><loc>https://enmahub.github.io/practical-calculators/side-hustle-income-tax-calculator.html</loc></url>
   <url><loc>https://enmahub.github.io/practical-calculators/take-home-paycheck-calculator.html</loc></url>
   <url><loc>https://enmahub.github.io/practical-calculators/tax-calculator.html</loc></url>
   <url><loc>https://enmahub.github.io/practical-calculators/terms.html</loc></url>

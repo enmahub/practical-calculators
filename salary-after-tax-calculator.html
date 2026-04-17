@@ -1,11 +1,11 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<title>Take-Home Paycheck Calculator (Free) - Estimate Net Pay</title>
-<meta name="description" content="Estimate net paycheck after taxes and deductions using gross pay and withholding assumptions.">
+<title>Salary After Tax Calculator (US) - Estimate Net Annual and Monthly Pay</title>
+<meta name="description" content="Estimate take-home salary after federal, state, and payroll tax assumptions for U.S. planning.">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="robots" content="index, follow">
-<link rel="canonical" href="https://enmahub.github.io/practical-calculators/take-home-paycheck-calculator.html">
+<link rel="canonical" href="https://enmahub.github.io/practical-calculators/salary-after-tax-calculator.html">
 <link rel="stylesheet" href="styles.css">
 <script src="site-analytics.js" data-analytics-page defer></script>
 </head>
@@ -17,32 +17,37 @@
 </div>
 <div class="wrap">
 <div class="card">
-<h1>Take-Home Paycheck Calculator</h1>
-<p class="desc">Estimate net pay from gross paycheck using tax and deduction percentages.</p>
-<label for="gross">Gross paycheck</label>
-<input id="gross" type="number" step="any" placeholder="2600">
-<label for="taxRate">Tax withholding (%)</label>
-<input id="taxRate" type="number" step="any" value="20">
-<label for="other">Other deductions (%)</label>
-<input id="other" type="number" step="any" value="5">
+<h1>Salary After Tax Calculator (US)</h1>
+<p class="desc">Estimate annual and monthly take-home pay from gross salary.</p>
+<label for="salary">Gross annual salary</label>
+<input id="salary" type="number" step="any" placeholder="85000">
+<label for="federal">Federal tax estimate (%)</label>
+<input id="federal" type="number" step="any" value="12">
+<label for="state">State tax estimate (%)</label>
+<input id="state" type="number" step="any" value="5">
+<label for="payroll">Payroll tax estimate (%)</label>
+<input id="payroll" type="number" step="any" value="7.65">
 <button onclick="calc()">Calculate</button>
 <h2 class="result" id="result">Result: -</h2>
 <script>
 function calc(){
-  const gross = parseFloat(document.getElementById('gross').value);
-  const taxRate = parseFloat(document.getElementById('taxRate').value);
-  const other = parseFloat(document.getElementById('other').value);
-  if (!Number.isFinite(gross) || !Number.isFinite(taxRate) || !Number.isFinite(other) || gross < 0) {
-    document.getElementById('result').innerHTML = 'Enter valid values.';
+  const salary = parseFloat(document.getElementById('salary').value);
+  const federal = parseFloat(document.getElementById('federal').value) || 0;
+  const state = parseFloat(document.getElementById('state').value) || 0;
+  const payroll = parseFloat(document.getElementById('payroll').value) || 0;
+  if (!Number.isFinite(salary) || salary <= 0) {
+    document.getElementById('result').innerHTML = 'Enter a valid salary.';
     return;
   }
-  const net = gross * (1 - (taxRate + other) / 100);
-  document.getElementById('result').innerHTML = 'Estimated take-home pay: $' + net.toFixed(2);
+  const totalRate = (federal + state + payroll) / 100;
+  const netAnnual = salary * (1 - totalRate);
+  const netMonthly = netAnnual / 12;
+  document.getElementById('result').innerHTML = 'Estimated net annual: $' + netAnnual.toFixed(2) + '<br>Estimated net monthly: $' + netMonthly.toFixed(2);
 }
 </script>
 <div class="trust-block">
 <h2>How this result is estimated</h2>
-<p class="desc">This paycheck calculator provides estimate-level outputs based on the values you enter. Review assumptions and verify important decisions independently.</p>
+<p class="desc">This after-tax salary calculator provides estimate-level outputs based on the values you enter. Review assumptions and verify important decisions independently.</p>
 <ul>
 <li>Inputs are user-provided and may include rounding.</li>
 <li>Results are informational and not financial, tax, legal, or medical advice.</li>
@@ -70,8 +75,8 @@ function calc(){
 <li><a href="commission-calculator.html">Commission Calculator</a></li>
 <li><a href="overtime-pay-calculator.html">Overtime Pay Calculator</a></li>
 <li><a href="biweekly-to-annual-salary-calculator.html">Biweekly to Annual Salary Calculator</a></li>
+<li><a href="take-home-paycheck-calculator.html">Take-Home Paycheck Calculator</a></li>
 <li><a href="raise-calculator.html">Raise Calculator</a></li>
-<li><a href="salary-after-tax-calculator.html">Salary After Tax Calculator (US)</a></li>
 <li><a href="hourly-to-salary-after-tax-calculator.html">Hourly to Salary After Tax Calculator</a></li>
 <li><a href="1099-vs-w2-income-calculator.html">1099 vs W2 Income Calculator</a></li>
 <li><a href="self-employment-tax-calculator.html">Self-Employment Tax Calculator</a></li>

@@ -1,11 +1,11 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<title>Take-Home Paycheck Calculator (Free) - Estimate Net Pay</title>
-<meta name="description" content="Estimate net paycheck after taxes and deductions using gross pay and withholding assumptions.">
+<title>1099 vs W2 Income Calculator - Compare Estimated Take-Home Pay</title>
+<meta name="description" content="Compare rough after-tax income between W2 employment and 1099 contractor pay assumptions.">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="robots" content="index, follow">
-<link rel="canonical" href="https://enmahub.github.io/practical-calculators/take-home-paycheck-calculator.html">
+<link rel="canonical" href="https://enmahub.github.io/practical-calculators/1099-vs-w2-income-calculator.html">
 <link rel="stylesheet" href="styles.css">
 <script src="site-analytics.js" data-analytics-page defer></script>
 </head>
@@ -17,32 +17,38 @@
 </div>
 <div class="wrap">
 <div class="card">
-<h1>Take-Home Paycheck Calculator</h1>
-<p class="desc">Estimate net pay from gross paycheck using tax and deduction percentages.</p>
-<label for="gross">Gross paycheck</label>
-<input id="gross" type="number" step="any" placeholder="2600">
-<label for="taxRate">Tax withholding (%)</label>
-<input id="taxRate" type="number" step="any" value="20">
-<label for="other">Other deductions (%)</label>
-<input id="other" type="number" step="any" value="5">
+<h1>1099 vs W2 Income Calculator</h1>
+<p class="desc">Compare estimated net annual income for W2 and 1099 setups.</p>
+<label for="gross">Gross annual income</label>
+<input id="gross" type="number" step="any" placeholder="90000">
+<label for="w2Tax">W2 total tax estimate (%)</label>
+<input id="w2Tax" type="number" step="any" value="23">
+<label for="tax1099">1099 total tax estimate (%)</label>
+<input id="tax1099" type="number" step="any" value="30">
+<label for="expenses1099">1099 deductible business expenses</label>
+<input id="expenses1099" type="number" step="any" value="7000">
 <button onclick="calc()">Calculate</button>
 <h2 class="result" id="result">Result: -</h2>
 <script>
 function calc(){
   const gross = parseFloat(document.getElementById('gross').value);
-  const taxRate = parseFloat(document.getElementById('taxRate').value);
-  const other = parseFloat(document.getElementById('other').value);
-  if (!Number.isFinite(gross) || !Number.isFinite(taxRate) || !Number.isFinite(other) || gross < 0) {
-    document.getElementById('result').innerHTML = 'Enter valid values.';
+  const w2Tax = parseFloat(document.getElementById('w2Tax').value) || 0;
+  const tax1099 = parseFloat(document.getElementById('tax1099').value) || 0;
+  const expenses1099 = parseFloat(document.getElementById('expenses1099').value) || 0;
+  if (!Number.isFinite(gross) || gross <= 0) {
+    document.getElementById('result').innerHTML = 'Enter a valid gross income.';
     return;
   }
-  const net = gross * (1 - (taxRate + other) / 100);
-  document.getElementById('result').innerHTML = 'Estimated take-home pay: $' + net.toFixed(2);
+  const w2Net = gross * (1 - w2Tax / 100);
+  const taxable1099 = Math.max(0, gross - expenses1099);
+  const net1099 = taxable1099 * (1 - tax1099 / 100);
+  const diff = net1099 - w2Net;
+  document.getElementById('result').innerHTML = 'Estimated W2 net: $' + w2Net.toFixed(2) + '<br>Estimated 1099 net: $' + net1099.toFixed(2) + '<br>Difference (1099 - W2): $' + diff.toFixed(2);
 }
 </script>
 <div class="trust-block">
 <h2>How this result is estimated</h2>
-<p class="desc">This paycheck calculator provides estimate-level outputs based on the values you enter. Review assumptions and verify important decisions independently.</p>
+<p class="desc">This income comparison calculator provides estimate-level outputs based on the values you enter. Review assumptions and verify important decisions independently.</p>
 <ul>
 <li>Inputs are user-provided and may include rounding.</li>
 <li>Results are informational and not financial, tax, legal, or medical advice.</li>
@@ -70,10 +76,10 @@ function calc(){
 <li><a href="commission-calculator.html">Commission Calculator</a></li>
 <li><a href="overtime-pay-calculator.html">Overtime Pay Calculator</a></li>
 <li><a href="biweekly-to-annual-salary-calculator.html">Biweekly to Annual Salary Calculator</a></li>
+<li><a href="take-home-paycheck-calculator.html">Take-Home Paycheck Calculator</a></li>
 <li><a href="raise-calculator.html">Raise Calculator</a></li>
 <li><a href="salary-after-tax-calculator.html">Salary After Tax Calculator (US)</a></li>
 <li><a href="hourly-to-salary-after-tax-calculator.html">Hourly to Salary After Tax Calculator</a></li>
-<li><a href="1099-vs-w2-income-calculator.html">1099 vs W2 Income Calculator</a></li>
 <li><a href="self-employment-tax-calculator.html">Self-Employment Tax Calculator</a></li>
 </ul>
 <details>

@@ -1,11 +1,11 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<title>Take-Home Paycheck Calculator (Free) - Estimate Net Pay</title>
-<meta name="description" content="Estimate net paycheck after taxes and deductions using gross pay and withholding assumptions.">
+<title>Freelance Tax Estimate Calculator - Plan Quarterly Taxes</title>
+<meta name="description" content="Estimate annual and quarterly freelance tax payments using income and expense assumptions.">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="robots" content="index, follow">
-<link rel="canonical" href="https://enmahub.github.io/practical-calculators/take-home-paycheck-calculator.html">
+<link rel="canonical" href="https://enmahub.github.io/practical-calculators/freelance-tax-estimate-calculator.html">
 <link rel="stylesheet" href="styles.css">
 <script src="site-analytics.js" data-analytics-page defer></script>
 </head>
@@ -17,32 +17,33 @@
 </div>
 <div class="wrap">
 <div class="card">
-<h1>Take-Home Paycheck Calculator</h1>
-<p class="desc">Estimate net pay from gross paycheck using tax and deduction percentages.</p>
-<label for="gross">Gross paycheck</label>
-<input id="gross" type="number" step="any" placeholder="2600">
-<label for="taxRate">Tax withholding (%)</label>
-<input id="taxRate" type="number" step="any" value="20">
-<label for="other">Other deductions (%)</label>
-<input id="other" type="number" step="any" value="5">
+<h1>Freelance Tax Estimate Calculator</h1>
+<p class="desc">Estimate annual and quarterly taxes for freelance income.</p>
+<label for="revenue">Annual freelance revenue</label>
+<input id="revenue" type="number" step="any" placeholder="95000">
+<label for="expenses">Business expenses</label>
+<input id="expenses" type="number" step="any" value="15000">
+<label for="taxRate">Combined tax estimate (%)</label>
+<input id="taxRate" type="number" step="any" value="28">
 <button onclick="calc()">Calculate</button>
 <h2 class="result" id="result">Result: -</h2>
 <script>
 function calc(){
-  const gross = parseFloat(document.getElementById('gross').value);
-  const taxRate = parseFloat(document.getElementById('taxRate').value);
-  const other = parseFloat(document.getElementById('other').value);
-  if (!Number.isFinite(gross) || !Number.isFinite(taxRate) || !Number.isFinite(other) || gross < 0) {
-    document.getElementById('result').innerHTML = 'Enter valid values.';
+  const revenue = parseFloat(document.getElementById('revenue').value);
+  const expenses = parseFloat(document.getElementById('expenses').value) || 0;
+  const taxRate = parseFloat(document.getElementById('taxRate').value) || 0;
+  if (!Number.isFinite(revenue) || revenue < 0) {
+    document.getElementById('result').innerHTML = 'Enter a valid revenue value.';
     return;
   }
-  const net = gross * (1 - (taxRate + other) / 100);
-  document.getElementById('result').innerHTML = 'Estimated take-home pay: $' + net.toFixed(2);
+  const taxable = Math.max(0, revenue - expenses);
+  const annualTax = taxable * (taxRate / 100);
+  document.getElementById('result').innerHTML = 'Estimated annual tax: $' + annualTax.toFixed(2) + '<br>Estimated quarterly payment: $' + (annualTax / 4).toFixed(2);
 }
 </script>
 <div class="trust-block">
 <h2>How this result is estimated</h2>
-<p class="desc">This paycheck calculator provides estimate-level outputs based on the values you enter. Review assumptions and verify important decisions independently.</p>
+<p class="desc">This freelance tax calculator provides estimate-level outputs based on the values you enter. Review assumptions and verify important decisions independently.</p>
 <ul>
 <li>Inputs are user-provided and may include rounding.</li>
 <li>Results are informational and not financial, tax, legal, or medical advice.</li>
@@ -70,16 +71,16 @@ function calc(){
 <li><a href="commission-calculator.html">Commission Calculator</a></li>
 <li><a href="overtime-pay-calculator.html">Overtime Pay Calculator</a></li>
 <li><a href="biweekly-to-annual-salary-calculator.html">Biweekly to Annual Salary Calculator</a></li>
+<li><a href="take-home-paycheck-calculator.html">Take-Home Paycheck Calculator</a></li>
 <li><a href="raise-calculator.html">Raise Calculator</a></li>
 <li><a href="salary-after-tax-calculator.html">Salary After Tax Calculator (US)</a></li>
 <li><a href="hourly-to-salary-after-tax-calculator.html">Hourly to Salary After Tax Calculator</a></li>
 <li><a href="1099-vs-w2-income-calculator.html">1099 vs W2 Income Calculator</a></li>
-<li><a href="self-employment-tax-calculator.html">Self-Employment Tax Calculator</a></li>
 </ul>
 <details>
 <summary>More related calculators</summary>
 <ul>
-<li><a href="freelance-tax-estimate-calculator.html">Freelance Tax Estimate Calculator</a></li>
+<li><a href="self-employment-tax-calculator.html">Self-Employment Tax Calculator</a></li>
 <li><a href="side-hustle-income-tax-calculator.html">Side Hustle Income Tax Calculator</a></li>
 </ul>
 </details>
