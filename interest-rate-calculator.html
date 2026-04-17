@@ -25,12 +25,12 @@
 
 <button onclick="calc()">Calculate</button>
 
-<h2 id="r2"></h2>
+<h2 class="result" id="result">Result: -</h2>
 
 <script>
 function calc(){
 let interest = p.value * (r.value/100) * t.value;
-r2.innerHTML = "Interest: $" + interest.toFixed(2);
+document.getElementById("result").innerHTML = "Interest: $" + interest.toFixed(2);
 }
 </script>
 <hr>

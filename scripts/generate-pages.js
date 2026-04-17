@@ -1398,13 +1398,14 @@ ${endMarker}`;
 
   let content = fs.readFileSync(filePath, "utf8");
   if (content.includes(startMarker) && content.includes(endMarker)) {
-    const replacePattern = new RegExp(
-      `${startMarker}[\\s\\S]*?${endMarker}`,
-      "m"
-    );
-    content = content.replace(replacePattern, section);
-  } else if (content.includes("<hr>")) {
+    const replacePattern = new RegExp(`\\n?${startMarker}[\\s\\S]*?${endMarker}\\n?`, "m");
+    content = content.replace(replacePattern, "\n");
+  }
+
+  if (content.includes("<hr>")) {
     content = content.replace("<hr>", `${section}\n\n<hr>`);
+  } else if (/<\/div>\s*<div class="footer">/i.test(content)) {
+    content = content.replace(/<\/div>\s*<div class="footer">/i, `${section}\n</div>\n\n<div class="footer">`);
   } else if (content.includes("</body>")) {
     content = content.replace("</body>", `${section}\n</body>`);
   } else {
