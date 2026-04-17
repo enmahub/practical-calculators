@@ -18,27 +18,103 @@
 <div class="wrap">
 <div class="card">
 <h1>California Paycheck Calculator</h1>
-<p class="desc">Estimate paycheck outcomes for California using a transparent state tax assumption (8.2%).</p>
+<p class="desc">Estimate paycheck outcomes for California using IRS-style progressive federal brackets and a transparent state tax assumption (8.2%).</p>
 <label for="salary">Annual Gross Salary ($):</label>
 <input type="number" id="salary" value="70000"><br><br>
-<label for="filing">Federal Tax Estimate (%):</label>
-<input type="number" id="filing" value="18" step="0.1"><br><br>
+<label for="year">Federal Tax Year:</label>
+<select id="year">
+  <option value="2025">2025</option>
+  <option value="2026" selected>2026</option>
+</select><br><br>
+<label for="filing">Filing Status:</label>
+<select id="filing">
+  <option value="single" selected>Single</option>
+  <option value="married">Married Filing Jointly</option>
+  <option value="head">Head of Household</option>
+</select><br><br>
 <button onclick="calcPaycheck()">Calculate</button>
 <h2 id="result" class="result">Result: -</h2>
 <script>
+const FEDERAL_TAX_DATA = {
+  2025: {
+    standardDeduction: { single: 15000, married: 30000, head: 22500 },
+    brackets: {
+      single: [
+        [11925, 0.10], [48475, 0.12], [103350, 0.22], [197300, 0.24], [250525, 0.32], [626350, 0.35], [Infinity, 0.37]
+      ],
+      married: [
+        [23850, 0.10], [96950, 0.12], [206700, 0.22], [394600, 0.24], [501050, 0.32], [751600, 0.35], [Infinity, 0.37]
+      ],
+      head: [
+        [17000, 0.10], [64850, 0.12], [103350, 0.22], [197300, 0.24], [250500, 0.32], [626350, 0.35], [Infinity, 0.37]
+      ]
+    }
+  },
+  2026: {
+    standardDeduction: { single: 15600, married: 31200, head: 23400 },
+    brackets: {
+      single: [
+        [11925, 0.10], [48475, 0.12], [103350, 0.22], [197300, 0.24], [250525, 0.32], [626350, 0.35], [Infinity, 0.37]
+      ],
+      married: [
+        [23850, 0.10], [96950, 0.12], [206700, 0.22], [394600, 0.24], [501050, 0.32], [751600, 0.35], [Infinity, 0.37]
+      ],
+      head: [
+        [17000, 0.10], [64850, 0.12], [103350, 0.22], [197300, 0.24], [250500, 0.32], [626350, 0.35], [Infinity, 0.37]
+      ]
+    }
+  }
+};
+
+function computeFederalTax(gross, filing, year) {
+  const table = FEDERAL_TAX_DATA[year] || FEDERAL_TAX_DATA[2026];
+  const deduction = table.standardDeduction[filing] || table.standardDeduction.single;
+  const taxable = Math.max(0, gross - deduction);
+  const brackets = table.brackets[filing] || table.brackets.single;
+
+  let tax = 0;
+  let prevCap = 0;
+  for (const row of brackets) {
+    const cap = row[0];
+    const rate = row[1];
+    if (taxable <= prevCap) {
+      break;
+    }
+    const taxedAmount = Math.min(taxable, cap) - prevCap;
+    tax += taxedAmount * rate;
+    prevCap = cap;
+  }
+  return { tax, taxableIncome: taxable, deduction };
+}
+
 function calcPaycheck() {
   const gross = parseFloat(document.getElementById("salary").value) || 0;
-  const fedRate = (parseFloat(document.getElementById("filing").value) || 0) / 100;
+  const filing = document.getElementById("filing").value || "single";
+  const year = Number(document.getElementById("year").value || 2026);
   const stateRate = 0.082;
   if (gross <= 0) {
     document.getElementById("result").textContent = "Enter a valid salary.";
     return;
   }
-  const netAnnual = gross * (1 - fedRate - stateRate);
+
+  const federal = computeFederalTax(gross, filing, year);
+  const stateTax = gross * stateRate;
+  const federalTax = federal.tax;
+  const netAnnual = gross - federalTax - stateTax;
   const monthly = netAnnual / 12;
   const biweekly = netAnnual / 26;
   const weekly = netAnnual / 52;
-  document.getElementById("result").innerHTML = "Estimated net annual: $" + netAnnual.toFixed(2) + "<br>Monthly: $" + monthly.toFixed(2) + "<br>Biweekly: $" + biweekly.toFixed(2) + "<br>Weekly: $" + weekly.toFixed(2);
+  const effectiveFederalRate = gross > 0 ? (federalTax / gross) * 100 : 0;
+
+  document.getElementById("result").innerHTML =
+    "Estimated net annual: $" + netAnnual.toFixed(2) +
+    "<br>Monthly: $" + monthly.toFixed(2) +
+    "<br>Biweekly: $" + biweekly.toFixed(2) +
+    "<br>Weekly: $" + weekly.toFixed(2) +
+    "<br><br>Federal tax estimate (" + year + "): $" + federalTax.toFixed(2) +
+    " (" + effectiveFederalRate.toFixed(2) + "% effective)" +
+    "<br>State tax estimate: $" + stateTax.toFixed(2) +
+    "<br>Taxable income after standard deduction: $" + federal.taxableIncome.toFixed(2);
 }
 </script>
 <div class="trust-block">

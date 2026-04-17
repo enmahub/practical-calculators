@@ -78,6 +78,64 @@ function toHref(pagePath, targetPath) {
   return `${prefix}${normalizePath(targetPath)}`;
 }
 
+function localeCode(lang) {
+  return String(lang || "en").toLowerCase().startsWith("es") ? "es" : "en";
+}
+
+const LOCALE_LABELS = {
+  en: {
+    browseCategories: "Browse Categories",
+    financial: "Financial",
+    health: "Health",
+    conversions: "Conversions",
+    career: "Career",
+    home: "Home",
+    about: "About",
+    contact: "Contact",
+    privacy: "Privacy",
+    terms: "Terms",
+    relatedTitle: "Related Calculators",
+    moreRelated: "More related calculators",
+    categoryHub: "Category Hub",
+    trustTitle: "How this result is estimated",
+    trustDescription:
+      "This {topic} provides estimate-level outputs based on the values you enter. Review assumptions and verify important decisions independently.",
+    trustItem1: "Inputs are user-provided and may include rounding.",
+    trustItem2: "Results are informational and not financial, tax, legal, or medical advice.",
+    trustItem3: "For high-impact decisions, confirm with a licensed professional.",
+    trustReviewed: "Last reviewed"
+  },
+  es: {
+    browseCategories: "Explorar categorías",
+    financial: "Finanzas",
+    health: "Salud",
+    conversions: "Conversiones",
+    career: "Carrera",
+    home: "Inicio",
+    about: "Acerca de",
+    contact: "Contacto",
+    privacy: "Privacidad",
+    terms: "Términos",
+    relatedTitle: "Calculadoras relacionadas",
+    moreRelated: "Más calculadoras relacionadas",
+    categoryHub: "Índice de categoría",
+    trustTitle: "Como se estima este resultado",
+    trustDescription:
+      "Esta {topic} ofrece resultados estimados según los datos ingresados. Revisa los supuestos y verifica decisiones importantes por separado.",
+    trustItem1: "Los datos son ingresados por el usuario y pueden incluir redondeo.",
+    trustItem2: "Los resultados son informativos y no constituyen asesoría financiera, fiscal, legal ni médica.",
+    trustItem3: "Para decisiones de alto impacto, consulta a un profesional autorizado.",
+    trustReviewed: "Última revisión"
+  }
+};
+
+const SPANISH_CATEGORY_LABELS = {
+  Financial: "Finanzas",
+  Conversions: "Conversiones",
+  Health: "Salud",
+  Career: "Carrera"
+};
+
 function collectHtmlPaths(baseDir, currentDir = "") {
   const dirPath = path.join(baseDir, currentDir);
   const rows = [];
@@ -156,6 +214,9 @@ function htmlShell({
   robotsDirective = "index, follow",
   canonicalPath = ""
 }) {
+  const locale = localeCode(lang);
+  const labels = LOCALE_LABELS[locale];
+  const isSpanishPath = normalizePath(pagePath).startsWith("es/");
   const robots = config.defaults?.includeRobotsMeta
     ? `<meta name="robots" content="${robotsDirective}">\n`
     : "";
@@ -168,17 +229,29 @@ function htmlShell({
     ? `<link rel="canonical" href="${canonicalHref}">\n`
     : "";
   const stylesHref = toHref(pagePath, "styles.css");
-  const homeHref = toHref(pagePath, "index.html");
-  const financialHref = toHref(pagePath, "financial-calculators.html");
-  const healthHref = toHref(pagePath, "health-calculators.html");
-  const conversionsHref = toHref(pagePath, "conversion-calculators.html");
-  const careerHref = toHref(pagePath, "career-calculators.html");
+  const homeHref = toHref(pagePath, isSpanishPath ? "es/index.html" : "index.html");
+  const financialHref = toHref(
+    pagePath,
+    isSpanishPath ? "es/financial-calculators.html" : "financial-calculators.html"
+  );
+  const healthHref = toHref(
+    pagePath,
+    isSpanishPath ? "es/health-calculators.html" : "health-calculators.html"
+  );
+  const conversionsHref = toHref(
+    pagePath,
+    isSpanishPath ? "es/conversion-calculators.html" : "conversion-calculators.html"
+  );
+  const careerHref = toHref(
+    pagePath,
+    isSpanishPath ? "es/career-calculators.html" : "career-calculators.html"
+  );
   const analyticsLoader = `<script src="${toHref(pagePath, "site-analytics.js")}" data-analytics-page defer></script>`;
   const footerInfoLinksHtml = `<p class="footer-meta">
-<a href="${toHref(pagePath, "about.html")}">About</a> |
-<a href="${toHref(pagePath, "contact.html")}">Contact</a> |
-<a href="${toHref(pagePath, "privacy.html")}">Privacy</a> |
-<a href="${toHref(pagePath, "terms.html")}">Terms</a>
+<a href="${toHref(pagePath, "about.html")}">${labels.about}</a> |
+<a href="${toHref(pagePath, "contact.html")}">${labels.contact}</a> |
+<a href="${toHref(pagePath, "privacy.html")}">${labels.privacy}</a> |
+<a href="${toHref(pagePath, "terms.html")}">${labels.terms}</a>
 </p>`;
   return `<!DOCTYPE html>
 <html lang="${lang}">
@@ -200,14 +273,14 @@ ${analyticsLoader}
 ${body}
 </div>
 <div class="footer">
-<p>Browse Categories</p>
+<p>${labels.browseCategories}</p>
 <div class="category-grid">
-<a class="category-link" href="${financialHref}">Financial</a>
-<a class="category-link" href="${healthHref}">Health</a>
-<a class="category-link" href="${conversionsHref}">Conversions</a>
-<a class="category-link" href="${careerHref}">Career</a>
+<a class="category-link" href="${financialHref}">${labels.financial}</a>
+<a class="category-link" href="${healthHref}">${labels.health}</a>
+<a class="category-link" href="${conversionsHref}">${labels.conversions}</a>
+<a class="category-link" href="${careerHref}">${labels.career}</a>
 </div>
-<p><a class="home-link" href="${homeHref}">Home</a></p>
+<p><a class="home-link" href="${homeHref}">${labels.home}</a></p>
 ${footerInfoLinksHtml}
 </div>
 </div>
@@ -272,16 +345,19 @@ const footerInfoLinksHtml = `<p class="footer-meta">
 
 const trustUpdatedDate = config.trust?.updatedDate || "2026-04-17";
 
-function trustBlockHtml(topic = "calculator") {
+function trustBlockHtml(topic = "calculator", lang = "en") {
+  const locale = localeCode(lang);
+  const labels = LOCALE_LABELS[locale];
+  const description = labels.trustDescription.replace("{topic}", escapeHtml(topic));
   return `<div class="trust-block">
-<h2>How this result is estimated</h2>
-<p class="desc">This ${escapeHtml(topic)} provides estimate-level outputs based on the values you enter. Review assumptions and verify important decisions independently.</p>
+<h2>${labels.trustTitle}</h2>
+<p class="desc">${description}</p>
 <ul>
-<li>Inputs are user-provided and may include rounding.</li>
-<li>Results are informational and not financial, tax, legal, or medical advice.</li>
-<li>For high-impact decisions, confirm with a licensed professional.</li>
+<li>${labels.trustItem1}</li>
+<li>${labels.trustItem2}</li>
+<li>${labels.trustItem3}</li>
 </ul>
-<p class="small">Last reviewed: ${escapeHtml(trustUpdatedDate)}</p>
+<p class="small">${labels.trustReviewed}: ${escapeHtml(trustUpdatedDate)}</p>
 </div>`;
 }
 
@@ -438,6 +514,8 @@ function pickStructuredRelated(entries, entry) {
 }
 
 function relatedHtml(entries, entry) {
+  const locale = localeCode(entry.lang);
+  const labels = LOCALE_LABELS[locale];
   const structured = pickStructuredRelated(entries, entry);
   const primary = uniqueByFileName(structured.primary);
   const expanded = uniqueByFileName(structured.expanded).filter(
@@ -457,7 +535,7 @@ function relatedHtml(entries, entry) {
 
   const expandedBlock = expanded.length
     ? `<details>
-<summary>More related calculators</summary>
+<summary>${labels.moreRelated}</summary>
 <ul>
 ${expandedLinks}
 </ul>
@@ -467,8 +545,8 @@ ${expandedLinks}
   const hubHref = toHref(entry.pagePath, entry.hubPath || "index.html");
   const homeHref = toHref(entry.pagePath, "index.html");
 
-  return `<p><a href="${homeHref}">Home</a> | <a href="${hubHref}">Category Hub</a></p>
-<h2>Related Calculators</h2>
+  return `<p><a href="${homeHref}">${labels.home}</a> | <a href="${hubHref}">${labels.categoryHub}</a></p>
+<h2>${labels.relatedTitle}</h2>
 <ul>
 ${primaryLinks}
 </ul>
@@ -496,7 +574,7 @@ function currencyTemplate(entry, entries) {
 <h2 id="result" class="result">Result: -</h2>
 
 <script src="${currencyScriptHref}" data-currency-page data-from="${entry.fromCode}" data-to="${entry.toCode}" data-amount-id="amount" data-rate-id="rate" data-result-id="result" defer></script>
-${trustBlockHtml("currency converter")}
+${trustBlockHtml("currency converter", entry.lang)}
 ${relatedHtml(entries, entry)}`
   });
 }
@@ -546,7 +624,7 @@ function calcPayment() {
   document.dispatchEvent(new CustomEvent("pc:calculator_result", { detail: { type: "loan" } }));
 }
 </script>
-${trustBlockHtml("loan calculator")}
+${trustBlockHtml("loan calculator", entry.lang)}
 ${relatedHtml(entries, entry)}`
   });
 }
@@ -587,7 +665,7 @@ function calcHourly() {
   document.dispatchEvent(new CustomEvent("pc:calculator_result", { detail: { type: "salary" } }));
 }
 </script>
-${trustBlockHtml("salary calculator")}
+${trustBlockHtml("salary calculator", entry.lang)}
 ${relatedHtml(entries, entry)}`
   });
 }
@@ -599,13 +677,13 @@ function spanishFormulaScript(formulaType) {
 <label for="peso">Peso (kg):</label>
 <input type="number" id="peso" step="any" placeholder="Ej. 70"><br><br>
 <button onclick="calcular()">Calcular</button>
-<h2 id="result" class="result">Result: -</h2>
+<h2 id="result" class="result">Resultado: -</h2>
 <script>
 function calcular() {
   const alturaCm = parseFloat(document.getElementById("altura").value);
   const pesoKg = parseFloat(document.getElementById("peso").value);
   if (!Number.isFinite(alturaCm) || !Number.isFinite(pesoKg) || alturaCm <= 0 || pesoKg <= 0) {
-    document.getElementById("result").textContent = "Ingresa datos validos.";
+    document.getElementById("result").textContent = "Ingresa datos válidos.";
     return;
   }
   const alturaM = alturaCm / 100;
@@ -623,10 +701,10 @@ function calcular() {
 <input type="number" id="monto" value="150000"><br><br>
 <label for="tasa">Tasa anual (%):</label>
 <input type="number" id="tasa" value="9" step="0.1"><br><br>
-<label for="anos">Plazo (anos):</label>
+<label for="anos">Plazo (años):</label>
 <input type="number" id="anos" value="15"><br><br>
 <button onclick="calcular()">Calcular</button>
-<h2 id="result" class="result">Result: -</h2>
+<h2 id="result" class="result">Resultado: -</h2>
 <script>
 function calcular() {
   const monto = parseFloat(document.getElementById("monto").value) || 0;
@@ -634,7 +712,7 @@ function calcular() {
   const anos = parseFloat(document.getElementById("anos").value) || 0;
   const meses = anos * 12;
   if (meses <= 0) {
-    document.getElementById("result").textContent = "Ingresa un plazo valido.";
+    document.getElementById("result").textContent = "Ingresa un plazo válido.";
     return;
   }
   const tasaMensual = tasaAnual / 100 / 12;
@@ -654,10 +732,10 @@ function calcular() {
 <input type="number" id="mensual" value="150"><br><br>
 <label for="tasa">Tasa anual (%):</label>
 <input type="number" id="tasa" value="5"><br><br>
-<label for="anos">Anos:</label>
+<label for="anos">Años:</label>
 <input type="number" id="anos" value="10"><br><br>
 <button onclick="calcular()">Calcular</button>
-<h2 id="result" class="result">Result: -</h2>
+<h2 id="result" class="result">Resultado: -</h2>
 <script>
 function calcular() {
   const inicial = parseFloat(document.getElementById("inicial").value) || 0;
@@ -665,7 +743,7 @@ function calcular() {
   const tasa = (parseFloat(document.getElementById("tasa").value) || 0) / 100 / 12;
   const meses = (parseFloat(document.getElementById("anos").value) || 0) * 12;
   if (meses <= 0) {
-    document.getElementById("result").textContent = "Ingresa anos validos.";
+    document.getElementById("result").textContent = "Ingresa años válidos.";
     return;
   }
   let saldo = inicial;
@@ -677,12 +755,12 @@ function calcular() {
 </script>`;
   }
   if (formulaType === "kmMi") {
-    return `<label for="km">Kilometros:</label>
+    return `<label for="km">Kilómetros:</label>
 <input type="number" id="km" step="any"><br><br>
 <label for="mi">Millas:</label>
 <input type="number" id="mi" step="any"><br><br>
 <button onclick="calcular()">Convertir</button>
-<h2 id="result" class="result">Result: -</h2>
+<h2 id="result" class="result">Resultado: -</h2>
 <script>
 function calcular() {
   const km = parseFloat(document.getElementById("km").value);
@@ -709,7 +787,7 @@ function calcular() {
 <label for="f">Fahrenheit:</label>
 <input type="number" id="f" step="any"><br><br>
 <button onclick="calcular()">Convertir</button>
-<h2 id="result" class="result">Result: -</h2>
+<h2 id="result" class="result">Resultado: -</h2>
 <script>
 function calcular() {
   const c = parseFloat(document.getElementById("c").value);
@@ -735,17 +813,17 @@ function calcular() {
 <input type="number" id="salario" value="52000"><br><br>
 <label for="horas">Horas por semana:</label>
 <input type="number" id="horas" value="40"><br><br>
-<label for="semanas">Semanas por ano:</label>
+<label for="semanas">Semanas por año:</label>
 <input type="number" id="semanas" value="52"><br><br>
 <button onclick="calcular()">Calcular</button>
-<h2 id="result" class="result">Result: -</h2>
+<h2 id="result" class="result">Resultado: -</h2>
 <script>
 function calcular() {
   const salario = parseFloat(document.getElementById("salario").value) || 0;
   const horas = parseFloat(document.getElementById("horas").value) || 0;
   const semanas = parseFloat(document.getElementById("semanas").value) || 0;
   if (horas <= 0 || semanas <= 0) {
-    document.getElementById("result").textContent = "Ingresa horas y semanas validas.";
+    document.getElementById("result").textContent = "Ingresa horas y semanas válidas.";
     return;
   }
   const tarifa = salario / (horas * semanas);
@@ -759,7 +837,7 @@ function calcular() {
 <label for="descuento">Descuento (%):</label>
 <input type="number" id="descuento" value="15"><br><br>
 <button onclick="calcular()">Calcular</button>
-<h2 id="result" class="result">Result: -</h2>
+<h2 id="result" class="result">Resultado: -</h2>
 <script>
 function calcular() {
   const precio = parseFloat(document.getElementById("precio").value) || 0;
@@ -775,7 +853,7 @@ function calcular() {
 <label for="propina">Propina (%):</label>
 <input type="number" id="propina" value="15"><br><br>
 <button onclick="calcular()">Calcular</button>
-<h2 id="result" class="result">Result: -</h2>
+<h2 id="result" class="result">Resultado: -</h2>
 <script>
 function calcular() {
   const cuenta = parseFloat(document.getElementById("cuenta").value) || 0;
@@ -791,13 +869,13 @@ function calcular() {
 <label for="valorB">Valor B:</label>
 <input type="number" id="valorB" step="any"><br><br>
 <button onclick="calcular()">Calcular</button>
-<h2 id="result" class="result">Result: -</h2>
+<h2 id="result" class="result">Resultado: -</h2>
 <script>
 function calcular() {
   const a = parseFloat(document.getElementById("valorA").value) || 0;
   const b = parseFloat(document.getElementById("valorB").value) || 0;
   if (b === 0) {
-    document.getElementById("result").textContent = "Ingresa valores validos.";
+    document.getElementById("result").textContent = "Ingresa valores válidos.";
     return;
   }
   const p = (a / b) * 100;
@@ -817,7 +895,7 @@ function spanishPilotTemplate(entry, entries) {
     body: `<h1>${entry.h1}</h1>
 <p class="desc">${entry.intro}</p>
 ${spanishFormulaScript(entry.formulaType)}
-${trustBlockHtml("calculadora")}
+${trustBlockHtml("calculadora", "es")}
 ${relatedHtml(entries, entry)}`
   });
 }
@@ -831,30 +909,106 @@ function statePaycheckTemplate(entry, entries) {
     robotsDirective: "index, follow",
     canonicalPath: entry.pagePath,
     body: `<h1>${entry.h1}</h1>
-<p class="desc">Estimate paycheck outcomes for ${entry.stateName} using a transparent state tax assumption (${(entry.stateTaxRate * 100).toFixed(1)}%).</p>
+<p class="desc">Estimate paycheck outcomes for ${entry.stateName} using IRS-style progressive federal brackets and a transparent state tax assumption (${(entry.stateTaxRate * 100).toFixed(1)}%).</p>
 <label for="salary">Annual Gross Salary ($):</label>
 <input type="number" id="salary" value="70000"><br><br>
-<label for="filing">Federal Tax Estimate (%):</label>
-<input type="number" id="filing" value="18" step="0.1"><br><br>
+<label for="year">Federal Tax Year:</label>
+<select id="year">
+  <option value="2025">2025</option>
+  <option value="2026" selected>2026</option>
+</select><br><br>
+<label for="filing">Filing Status:</label>
+<select id="filing">
+  <option value="single" selected>Single</option>
+  <option value="married">Married Filing Jointly</option>
+  <option value="head">Head of Household</option>
+</select><br><br>
 <button onclick="calcPaycheck()">Calculate</button>
 <h2 id="result" class="result">Result: -</h2>
 <script>
+const FEDERAL_TAX_DATA = {
+  2025: {
+    standardDeduction: { single: 15000, married: 30000, head: 22500 },
+    brackets: {
+      single: [
+        [11925, 0.10], [48475, 0.12], [103350, 0.22], [197300, 0.24], [250525, 0.32], [626350, 0.35], [Infinity, 0.37]
+      ],
+      married: [
+        [23850, 0.10], [96950, 0.12], [206700, 0.22], [394600, 0.24], [501050, 0.32], [751600, 0.35], [Infinity, 0.37]
+      ],
+      head: [
+        [17000, 0.10], [64850, 0.12], [103350, 0.22], [197300, 0.24], [250500, 0.32], [626350, 0.35], [Infinity, 0.37]
+      ]
+    }
+  },
+  2026: {
+    standardDeduction: { single: 15600, married: 31200, head: 23400 },
+    brackets: {
+      single: [
+        [11925, 0.10], [48475, 0.12], [103350, 0.22], [197300, 0.24], [250525, 0.32], [626350, 0.35], [Infinity, 0.37]
+      ],
+      married: [
+        [23850, 0.10], [96950, 0.12], [206700, 0.22], [394600, 0.24], [501050, 0.32], [751600, 0.35], [Infinity, 0.37]
+      ],
+      head: [
+        [17000, 0.10], [64850, 0.12], [103350, 0.22], [197300, 0.24], [250500, 0.32], [626350, 0.35], [Infinity, 0.37]
+      ]
+    }
+  }
+};
+
+function computeFederalTax(gross, filing, year) {
+  const table = FEDERAL_TAX_DATA[year] || FEDERAL_TAX_DATA[2026];
+  const deduction = table.standardDeduction[filing] || table.standardDeduction.single;
+  const taxable = Math.max(0, gross - deduction);
+  const brackets = table.brackets[filing] || table.brackets.single;
+
+  let tax = 0;
+  let prevCap = 0;
+  for (const row of brackets) {
+    const cap = row[0];
+    const rate = row[1];
+    if (taxable <= prevCap) {
+      break;
+    }
+    const taxedAmount = Math.min(taxable, cap) - prevCap;
+    tax += taxedAmount * rate;
+    prevCap = cap;
+  }
+  return { tax, taxableIncome: taxable, deduction };
+}
+
 function calcPaycheck() {
   const gross = parseFloat(document.getElementById("salary").value) || 0;
-  const fedRate = (parseFloat(document.getElementById("filing").value) || 0) / 100;
+  const filing = document.getElementById("filing").value || "single";
+  const year = Number(document.getElementById("year").value || 2026);
   const stateRate = ${entry.stateTaxRate};
   if (gross <= 0) {
     document.getElementById("result").textContent = "Enter a valid salary.";
     return;
   }
-  const netAnnual = gross * (1 - fedRate - stateRate);
+
+  const federal = computeFederalTax(gross, filing, year);
+  const stateTax = gross * stateRate;
+  const federalTax = federal.tax;
+  const netAnnual = gross - federalTax - stateTax;
   const monthly = netAnnual / 12;
   const biweekly = netAnnual / 26;
   const weekly = netAnnual / 52;
-  document.getElementById("result").innerHTML = "Estimated net annual: $" + netAnnual.toFixed(2) + "<br>Monthly: $" + monthly.toFixed(2) + "<br>Biweekly: $" + biweekly.toFixed(2) + "<br>Weekly: $" + weekly.toFixed(2);
+  const effectiveFederalRate = gross > 0 ? (federalTax / gross) * 100 : 0;
+
+  document.getElementById("result").innerHTML =
+    "Estimated net annual: $" + netAnnual.toFixed(2) +
+    "<br>Monthly: $" + monthly.toFixed(2) +
+    "<br>Biweekly: $" + biweekly.toFixed(2) +
+    "<br>Weekly: $" + weekly.toFixed(2) +
+    "<br><br>Federal tax estimate (" + year + "): $" + federalTax.toFixed(2) +
+    " (" + effectiveFederalRate.toFixed(2) + "% effective)" +
+    "<br>State tax estimate: $" + stateTax.toFixed(2) +
+    "<br>Taxable income after standard deduction: $" + federal.taxableIncome.toFixed(2);
 }
 </script>
-${trustBlockHtml("paycheck calculator")}
+${trustBlockHtml("paycheck calculator", entry.lang)}
 ${relatedHtml(entries, entry)}`
   });
 }
@@ -1138,23 +1292,24 @@ function writeMarketPilotIndexes(entries) {
       .sort()
       .map((category) => {
         const hubPath = spanishHubMap[category] || "es/index.html";
+        const categoryLabel = SPANISH_CATEGORY_LABELS[category] || category;
         const links = byCategory[category]
           .map((entry) => `<li><a href="${toHref("es/index.html", entry.pagePath)}">${escapeHtml(entry.h1)}</a></li>`)
           .join("\n");
-        const hubLink = `<p><a href="${toHref("es/index.html", hubPath)}">Ver indice de ${escapeHtml(category)}</a></p>`;
-        return `<h2>${escapeHtml(category)}</h2>\n${hubLink}\n<ul>\n${links}\n</ul>`;
+        const hubLink = `<p><a href="${toHref("es/index.html", hubPath)}">Ver índice de ${escapeHtml(categoryLabel)}</a></p>`;
+        return `<h2>${escapeHtml(categoryLabel)}</h2>\n${hubLink}\n<ul>\n${links}\n</ul>`;
       })
       .join("\n\n");
 
     const esIndex = htmlShell({
-      title: "Calculadoras Gratis en Espanol",
-      description: "Indice de calculadoras en espanol para LATAM y audiencias bilingues.",
+      title: "Calculadoras Gratis en Español",
+      description: "Índice general de calculadoras en español para audiencias hispanohablantes.",
       lang: "es",
       pagePath: "es/index.html",
       robotsDirective: "index, follow",
       canonicalPath: "es/index.html",
-      body: `<h1>Calculadoras en Espanol</h1>
-<p class="desc">Version piloto para audiencias de LATAM. Incluye herramientas financieras, de conversion y salud.</p>
+      body: `<h1>Calculadoras en Español</h1>
+<p class="desc">Versión piloto de calculadoras en español. Incluye herramientas financieras, de conversión y salud.</p>
 ${sections}`
     });
     fs.mkdirSync(path.join(root, "es"), { recursive: true });
@@ -1165,18 +1320,19 @@ ${sections}`
       if (!categoryEntries.length) {
         continue;
       }
+      const categoryLabel = SPANISH_CATEGORY_LABELS[category] || category;
       const hubLinks = categoryEntries
         .map((entry) => `<li><a href="${toHref(hubPath, entry.pagePath)}">${escapeHtml(entry.h1)}</a></li>`)
         .join("\n");
       const hubPage = htmlShell({
-        title: `Calculadoras de ${category}`,
-        description: `Listado de calculadoras de ${category.toLowerCase()} en espanol.`,
+        title: `Calculadoras de ${categoryLabel}`,
+        description: `Listado de calculadoras de ${categoryLabel.toLowerCase()} en español.`,
         lang: "es",
         pagePath: hubPath,
         robotsDirective: "index, follow",
         canonicalPath: hubPath,
-        body: `<h1>Calculadoras de ${escapeHtml(category)}</h1>
-<p class="desc">Indice piloto para herramientas de ${escapeHtml(category.toLowerCase())}.</p>
+        body: `<h1>Calculadoras de ${escapeHtml(categoryLabel)}</h1>
+<p class="desc">Índice piloto para herramientas de ${escapeHtml(categoryLabel.toLowerCase())}.</p>
 <ul>
 ${hubLinks}
 </ul>`
@@ -1188,17 +1344,20 @@ ${hubLinks}
   const stateEntries = entries.filter((entry) => entry.family === "statePaycheckPilotPage");
   if (stateEntries.length > 0) {
     const stateLinks = stateEntries
-      .map((entry) => `<li><a href="${toHref("us/index.html", entry.pagePath)}">${escapeHtml(entry.stateName)} Paycheck Calculator</a></li>`)
+      .map(
+        (entry) =>
+          `<li><a href="${toHref("us/index.html", entry.pagePath)}">${escapeHtml(entry.stateName)} Paycheck Calculator</a></li>`
+      )
       .join("\n");
     const usIndex = htmlShell({
-      title: "US State Paycheck Calculators",
-      description: "Pilot set of U.S. state paycheck calculators using transparent assumptions.",
+      title: "US State Calculators",
+      description: "Pilot index for U.S. state-specific calculators. Current release includes paycheck tools.",
       lang: "en",
       pagePath: "us/index.html",
       robotsDirective: "index, follow",
       canonicalPath: "us/index.html",
-      body: `<h1>U.S. State Paycheck Calculators</h1>
-<p class="desc">Pilot rollout of state-specific paycheck estimators.</p>
+      body: `<h1>U.S. State Calculators</h1>
+<p class="desc">Pilot rollout of state-specific calculators. Current pilot tools are paycheck estimators by state.</p>
 <ul>
 ${stateLinks}
 </ul>`
@@ -1288,12 +1447,12 @@ function writeHomeIndex(entries) {
 <a class="category-link" href="conversion-calculators.html">Conversion Calculators</a>
 <a class="category-link" href="career-calculators.html">Career Calculators</a>
 </div>
+${sections}
 <h2>Regional Indexes</h2>
 <ul>
-<li><a href="es/index.html">Spanish and LATAM Calculators (Pilot)</a></li>
+<li><a href="es/index.html">Spanish Calculators (Pilot)</a></li>
 <li><a href="us/index.html">U.S. State Calculators (Pilot)</a></li>
 </ul>
-${sections}
 </div>
 <div class="footer">
 <p>Browse Categories</p>

@@ -31,7 +31,7 @@
       "lang": "es",
       "pathSegment": "es",
       "numberLocale": "es-419",
-      "label": "Espanol LATAM"
+      "label": "Español"
     }
   ],
   "pilots": {
@@ -41,7 +41,7 @@
         "title": "Calculadora de Porcentaje Gratis",
         "description": "Calcula porcentajes en ambas direcciones con resultados inmediatos.",
         "h1": "Calculadora de Porcentaje",
-        "intro": "Calcula un valor a partir de un porcentaje o descubre que porcentaje representa un valor sobre otro.",
+        "intro": "Calcula un valor a partir de un porcentaje o descubre qué porcentaje representa un valor sobre otro.",
         "category": "Conversions",
         "hubPath": "es/conversion-calculators.html",
         "formulaType": "percentage"
@@ -49,9 +49,9 @@
       {
         "slug": "calculadora-imc",
         "title": "Calculadora de IMC Gratis",
-        "description": "Calcula tu indice de masa corporal y su clasificacion.",
+        "description": "Calcula tu índice de masa corporal y su clasificación.",
         "h1": "Calculadora de IMC",
-        "intro": "Ingresa estatura y peso para calcular el IMC y ver una clasificacion general.",
+        "intro": "Ingresa estatura y peso para calcular el IMC y ver una clasificación general.",
         "category": "Health",
         "hubPath": "es/health-calculators.html",
         "formulaType": "bmi"
@@ -61,17 +61,17 @@
         "title": "Calculadora de Hipoteca Gratis",
         "description": "Estima pago mensual de una hipoteca con tasa y plazo.",
         "h1": "Calculadora de Hipoteca",
-        "intro": "Usa monto, tasa y anos para estimar el pago mensual de una hipoteca.",
+        "intro": "Usa monto, tasa y años para estimar el pago mensual de una hipoteca.",
         "category": "Financial",
         "hubPath": "es/financial-calculators.html",
         "formulaType": "loan"
       },
       {
         "slug": "calculadora-prestamo",
-        "title": "Calculadora de Prestamo Gratis",
-        "description": "Calcula pagos mensuales de prestamo en segundos.",
-        "h1": "Calculadora de Prestamo",
-        "intro": "Calcula pagos mensuales segun monto, tasa anual y plazo en anos.",
+        "title": "Calculadora de Préstamo Gratis",
+        "description": "Calcula pagos mensuales de préstamo en segundos.",
+        "h1": "Calculadora de Préstamo",
+        "intro": "Calcula pagos mensuales según monto, tasa anual y plazo en años.",
         "category": "Financial",
         "hubPath": "es/financial-calculators.html",
         "formulaType": "loan"
@@ -79,19 +79,19 @@
       {
         "slug": "calculadora-ahorro",
         "title": "Calculadora de Ahorro Gratis",
-        "description": "Proyecta ahorro futuro con aportes mensuales e interes.",
+        "description": "Proyecta ahorro futuro con aportes mensuales e interés.",
         "h1": "Calculadora de Ahorro",
-        "intro": "Proyecta tu saldo futuro usando aporte inicial, aporte mensual, tasa y anos.",
+        "intro": "Proyecta tu saldo futuro usando aporte inicial, aporte mensual, tasa y años.",
         "category": "Financial",
         "hubPath": "es/financial-calculators.html",
         "formulaType": "savings"
       },
       {
         "slug": "convertidor-kilometros-millas",
-        "title": "Convertidor de Kilometros a Millas",
-        "description": "Convierte kilometros y millas en ambas direcciones.",
-        "h1": "Convertidor de Kilometros y Millas",
-        "intro": "Ingresa kilometros o millas y convierte en ambas direcciones.",
+        "title": "Convertidor de Kilómetros a Millas",
+        "description": "Convierte kilómetros y millas en ambas direcciones.",
+        "h1": "Convertidor de Kilómetros y Millas",
+        "intro": "Ingresa kilómetros o millas y convierte en ambas direcciones.",
         "category": "Conversions",
         "hubPath": "es/conversion-calculators.html",
         "formulaType": "kmMi"
@@ -101,7 +101,7 @@
         "title": "Convertidor de Celsius a Fahrenheit",
         "description": "Convierte temperaturas en Celsius y Fahrenheit.",
         "h1": "Convertidor de Celsius y Fahrenheit",
-        "intro": "Convierte temperaturas facilmente de Celsius a Fahrenheit y viceversa.",
+        "intro": "Convierte temperaturas fácilmente de Celsius a Fahrenheit y viceversa.",
         "category": "Conversions",
         "hubPath": "es/conversion-calculators.html",
         "formulaType": "cF"
@@ -119,7 +119,7 @@
       {
         "slug": "calculadora-descuento",
         "title": "Calculadora de Descuento",
-        "description": "Calcula precio final despues de un descuento.",
+        "description": "Calcula precio final después de un descuento.",
         "h1": "Calculadora de Descuento",
         "intro": "Ingresa precio original y porcentaje de descuento para ver el precio final.",
         "category": "Financial",
@@ -129,7 +129,7 @@
       {
         "slug": "calculadora-propinas",
         "title": "Calculadora de Propinas",
-        "description": "Calcula total con propina rapidamente.",
+        "description": "Calcula total con propina rápidamente.",
         "h1": "Calculadora de Propinas",
         "intro": "Ingresa total de cuenta y porcentaje de propina para calcular total a pagar.",
         "category": "Financial",
