@@ -11,7 +11,7 @@ function collectHtmlFiles(baseDir, currentDir = "") {
   const dirPath = path.join(baseDir, currentDir);
   const rows = [];
   for (const item of fs.readdirSync(dirPath, { withFileTypes: true })) {
-    if (item.name.startsWith(".")) {
+    if (item.name.startsWith(".") || item.name === "node_modules") {
       continue;
     }
     const rel = normalizePath(path.join(currentDir, item.name));

@@ -31,7 +31,7 @@ function methodologyCurrency(helpers, entry, lang) {
 </ul>
 <h3>${escapeHtml(L.methodologyFormula)}</h3>
 <p><em>Result ≈ amount × rate</em></p>
-<p class="small">When you are online, this page can fetch a suggested market rate; you can always type your own. Banks and cards may use different spreads, fees, and cut-off times—use results for planning only.</p>`;
+<p class="small">This page can prefill a suggested rate from the latest published rates snapshot; you can always type your own. Banks and cards may use different spreads, fees, and cut-off times—use results for planning only.</p>`;
   return methodologyDetailsWrap(helpers, lang, inner);
 }
 

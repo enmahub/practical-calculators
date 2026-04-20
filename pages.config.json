@@ -1,5 +1,7 @@
 {
   "siteUrl": "https://enmahub.github.io/practical-calculators",
+  "frankfurterProxyBase": "",
+  "currencyLiveFallback": false,
   "generatedIndexFile": "generated-calculators.html",
   "defaults": {
     "lang": "en",

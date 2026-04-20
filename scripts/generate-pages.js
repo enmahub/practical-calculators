@@ -1016,6 +1016,13 @@ ${expandedBlock}`;
 function currencyTemplate(entry, entries) {
   const faqItems = faqItemsForEntry(entry);
   const currencyScriptHref = toHref(entry.pagePath, "currency-rates.js");
+  const ratesSnapshotHref = toHref(entry.pagePath, "rates/latest.json");
+  const liveFallbackEnabled = Boolean(config.currencyLiveFallback);
+  const liveFallbackAttr = liveFallbackEnabled ? ' data-live-fallback="1"' : "";
+  const proxyBase = String(config.frankfurterProxyBase || "").trim();
+  const frankfurterProxyAttr = proxyBase
+    ? ` data-frankfurter-proxy="${escapeHtml(proxyBase.replace(/\/$/, ""))}"`
+    : "";
   return htmlShell({
     title: entry.title,
     description: entry.description,
@@ -1033,8 +1040,9 @@ function currencyTemplate(entry, entries) {
 
 <button onclick="convert()">Convert</button>
 <h2 id="result" class="result">Result: -</h2>
+<p id="rate-updated" class="small"></p>
 
-<script src="${currencyScriptHref}" data-currency-page data-from="${entry.fromCode}" data-to="${entry.toCode}" data-amount-id="amount" data-rate-id="rate" data-result-id="result" defer></script>
+<script src="${currencyScriptHref}" data-currency-page data-from="${entry.fromCode}" data-to="${entry.toCode}" data-amount-id="amount" data-rate-id="rate" data-result-id="result" data-updated-id="rate-updated" data-rates-url="${ratesSnapshotHref}"${liveFallbackAttr}${frankfurterProxyAttr} defer></script>
 ${methodologyBlockHtml(entry)}
 ${trustBlockHtml("currency converter", entry.lang)}
 ${faqSectionHtml(faqItems, entry.lang)}

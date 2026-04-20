@@ -27,8 +27,9 @@
 
 <button onclick="convert()">Convert</button>
 <h2 id="result" class="result">Result: -</h2>
+<p id="rate-updated" class="small"></p>
 
-<script src="currency-rates.js" data-currency-page data-from="SEK" data-to="CAD" data-amount-id="amount" data-rate-id="rate" data-result-id="result" defer></script>
+<script src="currency-rates.js" data-currency-page data-from="SEK" data-to="CAD" data-amount-id="amount" data-rate-id="rate" data-result-id="result" data-updated-id="rate-updated" data-rates-url="rates/latest.json" defer></script>
 <details class="methodology-block">
 <summary>How this calculation works</summary>
 <div>
@@ -39,7 +40,7 @@
 </ul>
 <h3>Formula used</h3>
 <p><em>Result ≈ amount × rate</em></p>
-<p class="small">When you are online, this page can fetch a suggested market rate; you can always type your own. Banks and cards may use different spreads, fees, and cut-off times—use results for planning only.</p>
+<p class="small">This page can prefill a suggested rate from the latest published rates snapshot; you can always type your own. Banks and cards may use different spreads, fees, and cut-off times—use results for planning only.</p>
 </div>
 </details>
 <div class="trust-block">

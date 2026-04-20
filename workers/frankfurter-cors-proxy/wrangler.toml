@@ -1,0 +1,6 @@
+name = "practical-calculators-frankfurter-proxy"
+main = "src/index.js"
+compatibility_date = "2024-01-01"
+
+# After first deploy: wrangler tail — optional
+# routes = [{ pattern = "rates.example.com/*", zone_name = "example.com" }]
