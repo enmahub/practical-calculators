@@ -60,7 +60,19 @@ const result = (a / b) * 100;
 document.getElementById("result").innerHTML = "Result: " + result.toFixed(2) + "%";
 }
 </script>
-
+<details class="methodology-block">
+<summary>How this calculation works</summary>
+<div>
+<h3>What each input means</h3>
+<ul>
+<li><strong>Mode</strong> — Choose <em>Find value (X% of Y)</em> or <em>Find percent (X is what % of Y)</em>; the first two fields relabel automatically.</li>
+<li><strong>Find value</strong> — Enter percentage (%) and base value; result = <em>base × (percentage ÷ 100)</em>.</li>
+<li><strong>Find percent</strong> — Enter part value and total value; result = <em>(part ÷ total) × 100</em> as a percent. If total is 0, the tool shows an error instead of dividing.</li>
+</ul>
+<h3>Formula used</h3>
+<p>Both modes use standard percent arithmetic; non-numeric inputs are rejected.</p>
+</div>
+</details>
 <div class="trust-block">
 <h2>How this result is estimated</h2>
 <p class="desc">This calculator provides estimate-level outputs based on the values you enter. Review assumptions and verify important decisions independently.</p>
@@ -73,8 +85,14 @@ document.getElementById("result").innerHTML = "Result: " + result.toFixed(2) + "
 </div>
 <div class="faq-block">
 <h2>Frequently asked questions</h2>
-
-
+<details>
+<summary>Is this calculator result exact?</summary>
+<p>It is an estimate based on your inputs and may differ from official or provider-specific calculations.</p>
+</details>
+<details>
+<summary>Can I rely on this for final financial decisions?</summary>
+<p>Use it for planning and verify important numbers with official sources or licensed professionals.</p>
+</details>
 </div>
 <script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"Is this calculator result exact?","acceptedAnswer":{"@type":"Answer","text":"It is an estimate based on your inputs and may differ from official or provider-specific calculations."}},{"@type":"Question","name":"Can I rely on this for final financial decisions?","acceptedAnswer":{"@type":"Answer","text":"Use it for planning and verify important numbers with official sources or licensed professionals."}}]}</script>
 <p><a href="index.html">Home</a> | <a href="conversion-calculators.html">Category Hub</a></p>
@@ -91,31 +109,6 @@ document.getElementById("result").innerHTML = "Result: " + result.toFixed(2) + "
 <li><a href="usd-to-jpy-converter.html">USD to JPY Converter</a></li>
 <li><a href="jpy-to-usd-converter.html">JPY to USD Converter</a></li>
 </ul>
-</div>
-<details class="methodology-block">
-<summary>How this calculation works</summary>
-<div>
-<h3>What each input means</h3>
-<ul>
-<li><strong>Mode</strong> — Choose <em>Find value (X% of Y)</em> or <em>Find percent (X is what % of Y)</em>; the first two fields relabel automatically.</li>
-<li><strong>Find value</strong> — Enter percentage (%) and base value; result = <em>base × (percentage ÷ 100)</em>.</li>
-<li><strong>Find percent</strong> — Enter part value and total value; result = <em>(part ÷ total) × 100</em> as a percent. If total is 0, the tool shows an error instead of dividing.</li>
-</ul>
-<h3>Formula used</h3>
-<p>Both modes use standard percent arithmetic; non-numeric inputs are rejected.</p>
-</div>
-</details>
-
-<details>
-<summary>Is this calculator result exact?</summary>
-<p>It is an estimate based on your inputs and may differ from official or provider-specific calculations.</p>
-</details>
-
-<details>
-<summary>Can I rely on this for final financial decisions?</summary>
-<p>Use it for planning and verify important numbers with official sources or licensed professionals.</p>
-</details>
-
 <details>
 <summary>More related calculators</summary>
 <ul>
@@ -151,7 +144,7 @@ document.getElementById("result").innerHTML = "Result: " + result.toFixed(2) + "
 <li><a href="aud-to-eur-converter.html">AUD to EUR Converter</a></li>
 </ul>
 </details>
-
+</div>
 <div class="footer">
 <p>Browse Categories</p>
 <div class="category-grid">

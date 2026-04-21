@@ -121,15 +121,6 @@ function splitFooter(mainHtml) {
   return { main, footer };
 }
 
-function extractDetails(mainHtml) {
-  const details = [];
-  const main = mainHtml.replace(/<details[\s\S]*?<\/details>/gi, (match) => {
-    details.push(match.trim());
-    return "";
-  });
-  return { main: main.trim(), details };
-}
-
 function normalizeSpacing(mainHtml) {
   return mainHtml
     .replace(/<br\s*\/?>\s*<br\s*\/?>/gi, "\n")
@@ -156,8 +147,7 @@ function buildFooterMarkup() {
 </div>`;
 }
 
-function rebuildBody(main, details) {
-  const detailsBlock = details.length ? `${details.join("\n\n")}\n` : "";
+function rebuildBody(main) {
   return `<div class="top">
 <div class="wrap top-inner">
 <a class="brand" href="index.html">Practical Calculators</a>
@@ -167,7 +157,6 @@ function rebuildBody(main, details) {
 <div class="card">
 ${main}
 </div>
-${detailsBlock}
 ${buildFooterMarkup()}
 </div>`;
 }
@@ -187,8 +176,7 @@ function migrateFile(filePath) {
   bodyInner = addResultPlaceholders(bodyInner);
   bodyInner = normalizeSpacing(bodyInner);
   const split = splitFooter(bodyInner);
-  const detailSplit = extractDetails(split.main);
-  const rebuilt = rebuildBody(detailSplit.main, detailSplit.details);
+  const rebuilt = rebuildBody(split.main);
 
   let next = raw.replace(/<body[^>]*>[\s\S]*?<\/body>/i, `<body>\n${rebuilt}\n</body>`);
   const nestedEmptyWrapperPattern =

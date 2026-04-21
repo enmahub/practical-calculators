@@ -32,7 +32,21 @@ let A=p.value*Math.pow(1+r.value/100,t.value);
 document.getElementById("result").innerHTML="Total: $"+A.toFixed(2);
 }
 </script>
-
+<details class="methodology-block">
+<summary>How this calculation works</summary>
+<div>
+<h3>What each input means</h3>
+<ul>
+<li><strong>Principal (<em>P</em>)</strong> — Starting lump sum.</li>
+<li><strong>Rate % (<em>r</em>)</strong> — Annual interest rate entered as a percent.</li>
+<li><strong>Years (<em>t</em>)</strong> — Whole years the balance grows.</li>
+</ul>
+<h3>Formula used</h3>
+<p>Interest compounds <strong>once per year</strong> at the rate you enter:</p>
+<p><em>A = P × (1 + r/100)<sup>t</sup></em></p>
+<p class="small">Does not model contributions, withdrawals, or intra-year compounding.</p>
+</div>
+</details>
 <div class="trust-block">
 <h2>How this result is estimated</h2>
 <p class="desc">This calculator provides estimate-level outputs based on the values you enter. Review assumptions and verify important decisions independently.</p>
@@ -45,8 +59,14 @@ document.getElementById("result").innerHTML="Total: $"+A.toFixed(2);
 </div>
 <div class="faq-block">
 <h2>Frequently asked questions</h2>
-
-
+<details>
+<summary>Is this calculator result exact?</summary>
+<p>It is an estimate based on your inputs and may differ from official or provider-specific calculations.</p>
+</details>
+<details>
+<summary>Can I rely on this for final financial decisions?</summary>
+<p>Use it for planning and verify important numbers with official sources or licensed professionals.</p>
+</details>
 </div>
 <script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"Is this calculator result exact?","acceptedAnswer":{"@type":"Answer","text":"It is an estimate based on your inputs and may differ from official or provider-specific calculations."}},{"@type":"Question","name":"Can I rely on this for final financial decisions?","acceptedAnswer":{"@type":"Answer","text":"Use it for planning and verify important numbers with official sources or licensed professionals."}}]}</script>
 <p><a href="index.html">Home</a> | <a href="financial-calculators.html">Category Hub</a></p>
@@ -63,33 +83,6 @@ document.getElementById("result").innerHTML="Total: $"+A.toFixed(2);
 <li><a href="225000-loan-payment-calculator.html">$225,000 Loan Payment Calculator</a></li>
 <li><a href="250000-loan-payment-calculator.html">$250,000 Loan Payment Calculator</a></li>
 </ul>
-</div>
-<details class="methodology-block">
-<summary>How this calculation works</summary>
-<div>
-<h3>What each input means</h3>
-<ul>
-<li><strong>Principal (<em>P</em>)</strong> — Starting lump sum.</li>
-<li><strong>Rate % (<em>r</em>)</strong> — Annual interest rate entered as a percent.</li>
-<li><strong>Years (<em>t</em>)</strong> — Whole years the balance grows.</li>
-</ul>
-<h3>Formula used</h3>
-<p>Interest compounds <strong>once per year</strong> at the rate you enter:</p>
-<p><em>A = P × (1 + r/100)<sup>t</sup></em></p>
-<p class="small">Does not model contributions, withdrawals, or intra-year compounding.</p>
-</div>
-</details>
-
-<details>
-<summary>Is this calculator result exact?</summary>
-<p>It is an estimate based on your inputs and may differ from official or provider-specific calculations.</p>
-</details>
-
-<details>
-<summary>Can I rely on this for final financial decisions?</summary>
-<p>Use it for planning and verify important numbers with official sources or licensed professionals.</p>
-</details>
-
 <details>
 <summary>More related calculators</summary>
 <ul>
@@ -125,7 +118,7 @@ document.getElementById("result").innerHTML="Total: $"+A.toFixed(2);
 <li><a href="debt-to-income-calculator.html">Debt-to-Income (DTI) Calculator</a></li>
 </ul>
 </details>
-
+</div>
 <div class="footer">
 <p>Browse Categories</p>
 <div class="category-grid">

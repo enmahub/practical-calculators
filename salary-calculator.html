@@ -44,7 +44,14 @@ document.getElementById("result").innerHTML =
 document.dispatchEvent(new CustomEvent("pc:calculator_result", { detail: { type: "salary" } }));
 }
 </script>
-
+<details class="methodology-block">
+<summary>How this calculation works</summary>
+<div>
+<h3>What each input means</h3>
+<p class="desc">Enter the values requested above, then use <strong>Calculate</strong>. The result is computed immediately in your browser from those inputs.</p>
+<p class="small">Outputs are planning-level estimates. For taxes, credit, health, or legal decisions, confirm figures and definitions with an authoritative source or professional.</p>
+</div>
+</details>
 <div class="trust-block">
 <h2>How this result is estimated</h2>
 <p class="desc">This calculator provides estimate-level outputs based on the values you enter. Review assumptions and verify important decisions independently.</p>
@@ -57,8 +64,14 @@ document.dispatchEvent(new CustomEvent("pc:calculator_result", { detail: { type:
 </div>
 <div class="faq-block">
 <h2>Frequently asked questions</h2>
-
-
+<details>
+<summary>Is this calculator result exact?</summary>
+<p>It is an estimate based on your inputs and may differ from official or provider-specific calculations.</p>
+</details>
+<details>
+<summary>Can I rely on this for final financial decisions?</summary>
+<p>Use it for planning and verify important numbers with official sources or licensed professionals.</p>
+</details>
 </div>
 <script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"Is this calculator result exact?","acceptedAnswer":{"@type":"Answer","text":"It is an estimate based on your inputs and may differ from official or provider-specific calculations."}},{"@type":"Question","name":"Can I rely on this for final financial decisions?","acceptedAnswer":{"@type":"Answer","text":"Use it for planning and verify important numbers with official sources or licensed professionals."}}]}</script>
 <p><a href="index.html">Home</a> | <a href="career-calculators.html">Category Hub</a></p>
@@ -75,26 +88,6 @@ document.dispatchEvent(new CustomEvent("pc:calculator_result", { detail: { type:
 <li><a href="1099-vs-w2-income-calculator.html">1099 vs W2 Income Calculator</a></li>
 <li><a href="self-employment-tax-calculator.html">Self-Employment Tax Calculator</a></li>
 </ul>
-</div>
-<details class="methodology-block">
-<summary>How this calculation works</summary>
-<div>
-<h3>What each input means</h3>
-<p class="desc">Enter the values requested above, then use <strong>Calculate</strong>. The result is computed immediately in your browser from those inputs.</p>
-<p class="small">Outputs are planning-level estimates. For taxes, credit, health, or legal decisions, confirm figures and definitions with an authoritative source or professional.</p>
-</div>
-</details>
-
-<details>
-<summary>Is this calculator result exact?</summary>
-<p>It is an estimate based on your inputs and may differ from official or provider-specific calculations.</p>
-</details>
-
-<details>
-<summary>Can I rely on this for final financial decisions?</summary>
-<p>Use it for planning and verify important numbers with official sources or licensed professionals.</p>
-</details>
-
 <details>
 <summary>More related calculators</summary>
 <ul>
@@ -102,7 +95,7 @@ document.dispatchEvent(new CustomEvent("pc:calculator_result", { detail: { type:
 <li><a href="side-hustle-income-tax-calculator.html">Side Hustle Income Tax Calculator</a></li>
 </ul>
 </details>
-
+</div>
 <div class="footer">
 <p>Browse Categories</p>
 <div class="category-grid">
