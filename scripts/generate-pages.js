@@ -597,6 +597,7 @@ function htmlShell({
     ? `<p><a class="home-link" href="${homeHref}">${labels.home}</a> | <a class="home-link" href="${englishHomeHref}">${labels.englishHome}</a></p>`
     : `<p><a class="home-link" href="${homeHref}">${labels.home}</a></p>`;
   const searchScriptHref = toHref(pagePath, "site-search.js");
+  const numberFormatHref = toHref(pagePath, "number-format.js");
   const socialWebApp = headFragmentSocialWebApp(title, description, canonicalPath, pagePath, lang);
   const hreflangTags = hreflangTagsHtml(canonicalPath || pagePath, lang);
   return `<!DOCTYPE html>
@@ -627,6 +628,7 @@ ${homeLinksHtml}
 ${footerInfoLinksHtml}
 </div>
 </div>
+<script src="${numberFormatHref}" defer></script>
 <script src="${searchScriptHref}" defer></script>
 </body>
 </html>
@@ -2588,6 +2590,7 @@ window.location.replace("index.html");
 </script>
 </div>
 </div>
+<script src="number-format.js" defer></script>
 <script src="site-search.js" defer></script>
 </body>
 </html>
@@ -2706,6 +2709,7 @@ ${sections}
 ${footerInfoLinksHtml}
 </div>
 </div>
+<script src="number-format.js" defer></script>
 <script src="site-search.js" defer></script>
 </body>
 </html>

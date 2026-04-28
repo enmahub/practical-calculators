@@ -176,6 +176,7 @@ ${main}
 </div>
 ${buildFooterMarkup()}
 </div>
+<script src="number-format.js" defer></script>
 <script src="site-search.js" defer></script>`;
 }
 
