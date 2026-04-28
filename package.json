@@ -9,6 +9,8 @@
     "migrate:layout": "node scripts/migrate-layout.js",
     "validate:pages": "node scripts/validate-pages.js",
     "test:apr": "node scripts/test-apr-math.js",
+    "report:indexability": "node scripts/report-indexability.js",
+    "refresh:inventory": "node scripts/refresh-pages-inventory.js",
     "deploy:worker": "wrangler deploy --config workers/frankfurter-cors-proxy/wrangler.toml"
   },
   "devDependencies": {

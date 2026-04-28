@@ -476,6 +476,70 @@ function headFragmentSocialWebApp(title, description, canonicalPath, pagePath, l
   return webapp ? `${social}\n${webapp}` : social;
 }
 
+function alternateLanguagePaths(pagePath) {
+  const p = normalizePath(pagePath || "");
+  const map = {
+    "index.html": ["es/index.html"],
+    "es/index.html": ["index.html"],
+    "financial-calculators.html": ["es/financial-calculators.html"],
+    "es/financial-calculators.html": ["financial-calculators.html"],
+    "health-calculators.html": ["es/health-calculators.html"],
+    "es/health-calculators.html": ["health-calculators.html"],
+    "career-calculators.html": ["es/career-calculators.html"],
+    "es/career-calculators.html": ["career-calculators.html"],
+    "conversion-calculators.html": ["es/conversion-calculators.html"],
+    "es/conversion-calculators.html": ["conversion-calculators.html"],
+    "about.html": ["es/about.html"],
+    "es/about.html": ["about.html"],
+    "contact.html": ["es/contact.html"],
+    "es/contact.html": ["contact.html"],
+    "privacy.html": ["es/privacy.html"],
+    "es/privacy.html": ["privacy.html"],
+    "terms.html": ["es/terms.html"],
+    "es/terms.html": ["terms.html"],
+    "percentage-calculator.html": ["es/calculadora-porcentaje.html"],
+    "es/calculadora-porcentaje.html": ["percentage-calculator.html"],
+    "bmi-calculator.html": ["es/calculadora-imc.html"],
+    "es/calculadora-imc.html": ["bmi-calculator.html"],
+    "mortgage-calculator.html": ["es/calculadora-hipoteca.html"],
+    "es/calculadora-hipoteca.html": ["mortgage-calculator.html"],
+    "loan-calculator.html": ["es/calculadora-prestamo.html"],
+    "es/calculadora-prestamo.html": ["loan-calculator.html"],
+    "savings-calculator.html": ["es/calculadora-ahorro.html"],
+    "es/calculadora-ahorro.html": ["savings-calculator.html"],
+    "kilometers-to-miles-converter.html": ["es/convertidor-kilometros-millas.html"],
+    "es/convertidor-kilometros-millas.html": ["kilometers-to-miles-converter.html"],
+    "celsius-to-fahrenheit-converter.html": ["es/convertidor-celsius-fahrenheit.html"],
+    "es/convertidor-celsius-fahrenheit.html": ["celsius-to-fahrenheit-converter.html"],
+    "salary-calculator.html": ["es/calculadora-salario-hora.html"],
+    "es/calculadora-salario-hora.html": ["salary-calculator.html"],
+    "discount-calculator.html": ["es/calculadora-descuento.html"],
+    "es/calculadora-descuento.html": ["discount-calculator.html"],
+    "tip-calculator.html": ["es/calculadora-propinas.html"],
+    "es/calculadora-propinas.html": ["tip-calculator.html"]
+  };
+  return map[p] || [];
+}
+
+function hreflangTagsHtml(pagePath, lang) {
+  const base = siteBaseUrl();
+  if (!base) {
+    return "";
+  }
+  const current = normalizePath(pagePath || "index.html");
+  const tags = [];
+  const selfLang = localeCode(lang) === "es" ? "es" : "en";
+  tags.push(`<link rel="alternate" hreflang="${selfLang}" href="${escapeHtml(`${base}/${current}`)}">`);
+  for (const altPath of alternateLanguagePaths(current)) {
+    const altLang = String(altPath).startsWith("es/") ? "es" : "en";
+    tags.push(`<link rel="alternate" hreflang="${altLang}" href="${escapeHtml(`${base}/${normalizePath(altPath)}`)}">`);
+  }
+  if (current === "index.html" || current === "es/index.html") {
+    tags.push(`<link rel="alternate" hreflang="x-default" href="${escapeHtml(`${base}/index.html`)}">`);
+  }
+  return tags.join("\n");
+}
+
 function htmlShell({
   title,
   description,
@@ -534,6 +598,7 @@ function htmlShell({
     : `<p><a class="home-link" href="${homeHref}">${labels.home}</a></p>`;
   const searchScriptHref = toHref(pagePath, "site-search.js");
   const socialWebApp = headFragmentSocialWebApp(title, description, canonicalPath, pagePath, lang);
+  const hreflangTags = hreflangTagsHtml(canonicalPath || pagePath, lang);
   return `<!DOCTYPE html>
 <html lang="${lang}" data-page-path="${escapeHtml(normalizePath(pagePath))}">
 <head>
@@ -541,7 +606,7 @@ function htmlShell({
 <meta name="description" content="${description}">
 ${socialWebApp}
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-${robots}${canonical}<link rel="stylesheet" href="${stylesHref}">
+${robots}${canonical}${hreflangTags ? `${hreflangTags}\n` : ""}<link rel="stylesheet" href="${stylesHref}">
 ${analyticsLoader}
 </head>
 <body>
@@ -2029,6 +2094,46 @@ function ensureStandaloneSocialMeta(fileName) {
   fs.writeFileSync(filePath, content, "utf8");
 }
 
+/** Add hreflang alternates for standalone EN/ES hub pages and info pages. */
+function ensureStandaloneHreflang(fileName) {
+  const base = siteBaseUrl();
+  if (!base) {
+    return;
+  }
+  const normalized = normalizePath(fileName);
+  const alternates = alternateLanguagePaths(normalized);
+  if (!alternates.length) {
+    return;
+  }
+  const filePath = path.join(root, fileName);
+  if (!fs.existsSync(filePath)) {
+    return;
+  }
+  let content = fs.readFileSync(filePath, "utf8");
+  if (/hreflang=/i.test(content)) {
+    return;
+  }
+  const selfLang = normalized.startsWith("es/") ? "es" : "en";
+  const tags = [
+    `<link rel="alternate" hreflang="${selfLang}" href="${escapeHtml(`${base}/${normalized}`)}">`,
+    ...alternates.map((altPath) => {
+      const altNorm = normalizePath(altPath);
+      const altLang = altNorm.startsWith("es/") ? "es" : "en";
+      return `<link rel="alternate" hreflang="${altLang}" href="${escapeHtml(`${base}/${altNorm}`)}">`;
+    })
+  ];
+  if (normalized === "index.html" || normalized === "es/index.html") {
+    tags.push(`<link rel="alternate" hreflang="x-default" href="${escapeHtml(`${base}/index.html`)}">`);
+  }
+  const block = `${tags.join("\n")}\n`;
+  if (/<link\s+rel=["']canonical["'][^>]*>\s*/i.test(content)) {
+    content = content.replace(/(<link\s+rel=["']canonical["'][^>]*>\s*)/i, `$1${block}`);
+  } else {
+    content = content.replace(/(<meta\s+name=["']viewport["'][^>]*>\s*)/i, `$1${block}`);
+  }
+  fs.writeFileSync(filePath, content, "utf8");
+}
+
 /** Order currency "from" groups: core majors first (from pages.config qualityRules), then A–Z. */
 function orderedHubCurrencyFromCodes(fromCodes) {
   const upperSet = new Set(fromCodes.map((c) => String(c).toUpperCase()));
@@ -2064,6 +2169,7 @@ function upsertFinancialHubSplitSection(entries) {
   const FINANCIAL_HUB_POPULAR_PATHS = [
     "mortgage-calculator.html",
     "loan-calculator.html",
+    "apr-calculator.html",
     "compound-interest.html",
     "savings-calculator.html",
     "debt-payoff.html",
@@ -2360,6 +2466,7 @@ function syncMainCategoryPages(entries) {
   for (const hubFile of categoryHubFiles) {
     ensureStandalonePageCanonical(hubFile);
     ensureStandaloneSocialMeta(hubFile);
+    ensureStandaloneHreflang(hubFile);
   }
 }
 
@@ -2394,7 +2501,7 @@ function writeMarketPilotIndexes(entries) {
       robotsDirective: "index, follow",
       canonicalPath: "es/index.html",
       body: `<h1>Calculadoras en Español</h1>
-<p class="desc">Versión piloto de calculadoras en español. Incluye herramientas de finanzas, conversiones, salud y carrera.</p>
+<p class="desc">Colección en español de calculadoras para finanzas, conversiones, salud y carrera.</p>
 ${sections}`
     });
     fs.mkdirSync(path.join(root, "es"), { recursive: true });
@@ -2417,7 +2524,7 @@ ${sections}`
         robotsDirective: "index, follow",
         canonicalPath: hubPath,
         body: `<h1>Calculadoras de ${escapeHtml(categoryLabel)}</h1>
-<p class="desc">Índice piloto para herramientas de ${escapeHtml(categoryLabel.toLowerCase())}.</p>
+<p class="desc">Índice de herramientas de ${escapeHtml(categoryLabel.toLowerCase())} en español.</p>
 <h2>Todas las calculadoras (${categoryEntries.length})</h2>
 <ul>
 ${hubLinks}
@@ -2437,13 +2544,13 @@ ${hubLinks}
       .join("\n");
     const usIndex = htmlShell({
       title: "US State Calculators",
-      description: "Pilot index for U.S. state-specific calculators. Current release includes paycheck tools.",
+      description: "Index for U.S. state-specific calculators. Current release includes paycheck tools.",
       lang: "en",
       pagePath: "us/index.html",
       robotsDirective: "index, follow",
       canonicalPath: "us/index.html",
       body: `<h1>U.S. State Calculators</h1>
-<p class="desc">Pilot rollout of state-specific calculators. Current pilot tools are paycheck estimators by state.</p>
+<p class="desc">State-specific calculators. Current tools are paycheck estimators by state.</p>
 <ul>
 ${stateLinks}
 </ul>`
@@ -2555,6 +2662,7 @@ ${currencyList}
   const homeDescription =
     "Use free online calculators for finance, health, conversions, and more. Simple tools with instant results.";
   const homeSocial = headFragmentSocialWebApp(homeTitle, homeDescription, "index.html", "", "en");
+  const homeHreflang = hreflangTagsHtml("index.html", "en");
 
   const page = `<!DOCTYPE html>
 <html lang="en" data-page-path="">
@@ -2564,7 +2672,7 @@ ${currencyList}
 ${homeSocial}
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="robots" content="index, follow">
-${homeCanonicalLine}<link rel="stylesheet" href="styles.css">
+${homeCanonicalLine}${homeHreflang ? `${homeHreflang}\n` : ""}<link rel="stylesheet" href="styles.css">
 </head>
 <body>
 ${topBarHtml({ pagePath: "", lang: "en" })}
@@ -2583,8 +2691,8 @@ ${topBarHtml({ pagePath: "", lang: "en" })}
 ${sections}
 <h2>Regional Indexes</h2>
 <ul>
-<li><a href="es/index.html">Spanish Calculators (Pilot)</a></li>
-<li><a href="us/index.html">U.S. State Calculators (Pilot)</a></li>
+<li><a href="es/index.html">Spanish Calculators</a></li>
+<li><a href="us/index.html">U.S. State Calculators</a></li>
 </ul>
 </div>
 <div class="footer">

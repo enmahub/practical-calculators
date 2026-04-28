@@ -104,6 +104,16 @@
     let loadError = false;
     let activeIndex = -1;
     let searchDebounceTimer = null;
+    let openedTracked = false;
+    let lastResultsEventKey = "";
+
+    function sendSearchEvent(eventName, detail) {
+      if (typeof window === "undefined" || typeof window.gtag !== "function") {
+        return;
+      }
+      const payload = detail && typeof detail === "object" ? detail : {};
+      window.gtag("event", eventName, payload);
+    }
 
     function noResultsLabel() {
       return (
@@ -214,6 +224,15 @@
         empty.className = "site-search-empty";
         empty.textContent = noResultsLabel();
         dropdown.appendChild(empty);
+        const key = "q:" + tokenize(input.value).join("|") + ":n:0";
+        if (lastResultsEventKey !== key) {
+          lastResultsEventKey = key;
+          sendSearchEvent("search_results_shown", {
+            page_path: window.location.pathname,
+            query_length: String(input.value || "").trim().length,
+            result_count: 0
+          });
+        }
         return;
       }
       const max = 14;
@@ -247,7 +266,24 @@
         a.addEventListener("mouseenter", function () {
           applyActive(i);
         });
+        a.addEventListener("click", function () {
+          sendSearchEvent("search_result_clicked", {
+            page_path: window.location.pathname,
+            query_length: String(input.value || "").trim().length,
+            result_index: i,
+            target_path: a.getAttribute("href") || ""
+          });
+        });
         dropdown.appendChild(a);
+      }
+      const key = "q:" + tokenize(input.value).join("|") + ":n:" + slice.length;
+      if (lastResultsEventKey !== key) {
+        lastResultsEventKey = key;
+        sendSearchEvent("search_results_shown", {
+          page_path: window.location.pathname,
+          query_length: String(input.value || "").trim().length,
+          result_count: slice.length
+        });
       }
     }
 
@@ -288,6 +324,10 @@
     }
 
     input.addEventListener("focus", function () {
+      if (!openedTracked) {
+        openedTracked = true;
+        sendSearchEvent("search_opened", { page_path: window.location.pathname });
+      }
       loadIndex();
     });
 
@@ -366,6 +406,12 @@
         e.preventDefault();
         const href = anchors[activeIndex].getAttribute("href");
         if (href) {
+          sendSearchEvent("search_result_clicked", {
+            page_path: window.location.pathname,
+            query_length: String(input.value || "").trim().length,
+            result_index: activeIndex,
+            target_path: href
+          });
           window.location.href = anchors[activeIndex].href;
         }
       }

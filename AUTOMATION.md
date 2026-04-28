@@ -27,7 +27,12 @@ Pull requests: see **`CONTRIBUTING.md`**. GitHub Actions runs **`npm run validat
 ```bash
 npm run generate:pages
 npm run validate:pages
+npm run report:indexability
+npm run refresh:inventory
 ```
+
+- `report:indexability`: emits family-level totals for configured entries (`indexable` vs `noindex`) and writes `reports/indexability-report.json`.
+- `refresh:inventory`: rebuilds `pages-inventory.md` from current on-disk HTML files.
 
 ## Current Families
 

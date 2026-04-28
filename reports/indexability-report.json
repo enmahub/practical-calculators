@@ -1,0 +1,38 @@
+{
+  "generatedAt": "2026-04-28T02:24:37.048Z",
+  "configuredEntries": 337,
+  "indexable": 248,
+  "noindex": 89,
+  "byFamily": {
+    "currencyConverter": {
+      "total": 150,
+      "indexable": 150,
+      "noindex": 0
+    },
+    "loanPaymentByAmount": {
+      "total": 60,
+      "indexable": 12,
+      "noindex": 48
+    },
+    "salaryToHourlyByAmount": {
+      "total": 55,
+      "indexable": 14,
+      "noindex": 41
+    },
+    "spanishPilotPage": {
+      "total": 10,
+      "indexable": 10,
+      "noindex": 0
+    },
+    "statePaycheckPilotPage": {
+      "total": 5,
+      "indexable": 5,
+      "noindex": 0
+    },
+    "legacyStaticPage": {
+      "total": 57,
+      "indexable": 57,
+      "noindex": 0
+    }
+  }
+}

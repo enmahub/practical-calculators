@@ -11,8 +11,10 @@ npm ci
 ## Before you open a PR
 
 1. Run **`npm run validate:pages`** and fix any reported errors (broken links, duplicate titles, related-list issues). Run **`npm run test:apr`** after changes to `apr-math.js` or APR calculator behavior.
-2. If you changed **`pages.config.json`**, **`legacy-pages.config.json`**, or **`scripts/generate-pages.js` / `scripts/methodology-sections.js`**, run **`npm run generate:pages`** (or `node scripts/generate-pages.js --overwrite` when you intend to refresh existing HTML). That refreshes **`search-index.json`**, hubs, sitemap, and nested pilot pages so site search and navigation stay in sync.
-3. If you only touched hand-maintained root HTML that uses the shared shell, run **`npm run migrate:layout`** when the project docs call for it (see `AUTOMATION.md`).
+2. Run **`npm run report:indexability`** when changing config/rules for generated families so your index/noindex counts stay visible.
+3. Run **`npm run refresh:inventory`** when page totals or generated routes change so `pages-inventory.md` remains current.
+4. If you changed **`pages.config.json`**, **`legacy-pages.config.json`**, or **`scripts/generate-pages.js` / `scripts/methodology-sections.js`**, run **`npm run generate:pages`** (or `node scripts/generate-pages.js --overwrite` when you intend to refresh existing HTML). That refreshes **`search-index.json`**, hubs, sitemap, and nested pilot pages so site search and navigation stay in sync.
+5. If you only touched hand-maintained root HTML that uses the shared shell, run **`npm run migrate:layout`** when the project docs call for it (see `AUTOMATION.md`).
 
 CI runs `npm ci` and **`npm run validate:pages`** on pushes and pull requests to `main`.
 
