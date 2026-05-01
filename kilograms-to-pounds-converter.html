@@ -39,7 +39,7 @@
 <label for="lb">Pounds</label>
 <input type="number" id="lb" step="any" placeholder="Enter pounds">
 <button onclick="convert()">Convert</button>
-<h2 class="result" id="result">Result: -</h2>
+<h2 class="result"><span class="result-label">Result</span><div class="result-body" id="result">—</div></h2>
 <script>
 function convert() {
   const kgField = document.getElementById("kg");

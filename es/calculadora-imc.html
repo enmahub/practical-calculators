@@ -40,7 +40,7 @@
 <label for="peso">Peso (kg):</label>
 <input type="number" id="peso" step="any" placeholder="Ej. 70"><br><br>
 <button onclick="calcular()">Calcular</button>
-<h2 id="result" class="result">Resultado: -</h2>
+<h2 class="result"><span class="result-label">Resultado</span><div class="result-body" id="result">—</div></h2>
 <script>
 function calcular() {
   const alturaCm = parseFloat(document.getElementById("altura").value);

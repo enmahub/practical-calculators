@@ -41,7 +41,7 @@
 <input type="number" id="rate" value="1.00" step="0.0001"><br><br>
 
 <button onclick="convert()">Convert</button>
-<h2 id="result" class="result">Result: -</h2>
+<h2 class="result"><span class="result-label">Result</span><div class="result-body" id="result">—</div></h2>
 <p id="rate-updated" class="small"></p>
 
 <script src="currency-rates.js" data-currency-page data-from="DKK" data-to="AUD" data-amount-id="amount" data-rate-id="rate" data-result-id="result" data-updated-id="rate-updated" data-rates-url="rates/latest.json" defer></script>

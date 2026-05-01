@@ -2,9 +2,13 @@
 
 const assert = require("assert");
 const path = require("path");
-const { monthlyPayment, pvLevelMonthlyPayments, npvMonthly, solveApr } = require(
-  path.join(__dirname, "..", "apr-math.js")
-);
+const {
+  monthlyPayment,
+  pvLevelMonthlyPayments,
+  npvMonthly,
+  solveApr,
+  solveImpliedAnnualRate
+} = require(path.join(__dirname, "..", "apr-math.js"));
 
 function approxEqual(a, b, eps) {
   return Math.abs(a - b) <= eps * Math.max(1, Math.abs(b));
@@ -49,6 +53,23 @@ function approxEqual(a, b, eps) {
 {
   assert.strictEqual(solveApr(6, 100000, 100000, 30).ok, false);
   assert.strictEqual(solveApr(6, 0, 0, 30).ok, false);
+}
+
+// Inverse: payment + principal + term → implied nominal rate
+{
+  const note = 6.5;
+  const P = 200000;
+  const years = 30;
+  const M = monthlyPayment(P, note, Math.round(years * 12));
+  const inv = solveImpliedAnnualRate(P, M, years);
+  assert.strictEqual(inv.ok, true);
+  assert.ok(approxEqual(inv.nominalAnnualPct, note, 1e-4), "implied rate should match note");
+}
+
+// Impossible payment
+{
+  const inv = solveImpliedAnnualRate(200000, 100, 30);
+  assert.strictEqual(inv.ok, false);
 }
 
 console.log("apr-math tests passed.");

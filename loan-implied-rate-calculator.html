@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="en" data-page-path="loan-implied-rate-calculator.html">
+<head>
+<title>Loan Implied Rate Calculator (Free) – Rate from Payment & Term</title>
+<meta name="description" content="Solve nominal annual interest (monthly compounding) from loan principal, monthly payment, and term—inverse of standard amortization.">
+<meta property="og:title" content="Loan Implied Rate Calculator (Free) – Rate from Payment &amp; Term">
+<meta property="og:description" content="Solve nominal annual interest (monthly compounding) from loan principal, monthly payment, and term—inverse of standard amortization.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://enmahub.github.io/practical-calculators/loan-implied-rate-calculator.html">
+<meta property="og:site_name" content="Practical Calculators">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Loan Implied Rate Calculator (Free) – Rate from Payment &amp; Term">
+<meta name="twitter:description" content="Solve nominal annual interest (monthly compounding) from loan principal, monthly payment, and term—inverse of standard amortization.">
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"WebApplication","name":"Loan Implied Rate Calculator (Free) – Rate from Payment & Term","description":"Solve nominal annual interest (monthly compounding) from loan principal, monthly payment, and term—inverse of standard amortization.","url":"https://enmahub.github.io/practical-calculators/loan-implied-rate-calculator.html","applicationCategory":"UtilitiesApplication","operatingSystem":"Any","browserRequirements":"Requires JavaScript. Requires HTML5.","offers":{"@type":"Offer","price":"0","priceCurrency":"USD"}}</script>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="robots" content="index, follow">
+<link rel="canonical" href="https://enmahub.github.io/practical-calculators/loan-implied-rate-calculator.html">
+<link rel="alternate" hreflang="en" href="https://enmahub.github.io/practical-calculators/loan-implied-rate-calculator.html">
+<link rel="stylesheet" href="styles.css">
+<script src="site-analytics.js" data-analytics-page defer></script>
+</head>
+<body>
+<div class="top">
+<div class="wrap top-inner">
+<a class="brand" href="index.html">Practical Calculators</a>
+<div class="site-search" data-site-search data-search-index="search-index.json" data-page-path="loan-implied-rate-calculator.html" data-pref-lang="en" data-no-results="No matches">
+<label class="visually-hidden" for="site-search-q">Search calculators</label>
+<input type="search" id="site-search-q" class="site-search-input" placeholder="Search calculators…" autocomplete="off" spellcheck="false" role="combobox" aria-haspopup="listbox" aria-autocomplete="list" aria-controls="site-search-results" aria-expanded="false">
+<div class="site-search-dropdown" id="site-search-results" hidden role="listbox" aria-label="Search calculators"></div>
+</div>
+</div>
+</div>
+<div class="wrap">
+<div class="card">
+<h1>Loan implied rate calculator</h1>
+<p class="desc">Fixed-rate, level-payment model: finds the <strong>nominal annual rate</strong> with <strong>monthly compounding</strong> so that your payment amortizes the principal over the term. Use with the <a href="loan-calculator.html">loan calculator</a> or <a href="mortgage-calculator.html">mortgage calculator</a>; for fees + note rate → APR, see <a href="apr-calculator.html">APR calculator</a>.</p>
+<label for="principal">Loan principal ($)</label>
+<input id="principal" type="number" step="any" placeholder="200000">
+<label for="payment">Monthly payment ($)</label>
+<input id="payment" type="number" step="any" placeholder="1260">
+<label for="years">Loan term (years)</label>
+<input id="years" type="number" step="any" value="30">
+<button onclick="calc()">Calculate</button>
+<h2 class="result"><span class="result-label">Result</span><div class="result-body" id="result">—</div></h2>
+<script src="apr-math.js"></script>
+<script>
+function calc(){
+  const principal = parseFloat(document.getElementById('principal').value);
+  const payment = parseFloat(document.getElementById('payment').value);
+  const years = parseFloat(document.getElementById('years').value);
+  const out = document.getElementById('result');
+  if (typeof AprMath === 'undefined') {
+    out.innerHTML = 'Could not load loan math script.';
+    return;
+  }
+  const r = AprMath.solveImpliedAnnualRate(principal, payment, years);
+  if (!r.ok) {
+    out.innerHTML = r.error;
+    return;
+  }
+  out.innerHTML = 'Implied nominal rate: <strong>' + r.nominalAnnualPct.toFixed(4) + '%</strong> per year (monthly compounding)<br>Effective annual rate: ' + r.effectiveAnnualPct.toFixed(4) + '%';
+  document.dispatchEvent(new CustomEvent('pc:calculator_result', { detail: { type: 'loan_implied_rate' } }));
+}
+</script>
+<details class="methodology-block">
+<summary>How this calculation works</summary>
+<div>
+<h3>What each input means</h3>
+<ul>
+<li><strong>Loan principal</strong> — Amount being amortized.</li>
+<li><strong>Monthly payment</strong> — Level payment assumed each month.</li>
+<li><strong>Loan term (years)</strong> — Converted to months (rounded) for payment count.</li>
+</ul>
+<h3>Formula used</h3>
+<p>Solves monthly rate <em>r</em> such that principal equals the present value of <em>n</em> payments at <em>r</em>, then quotes <strong>nominal annual rate ≈ 12 × r</strong> (monthly compounding) plus an effective annual rate.</p>
+<p class="small">Assumes standard fixed-rate amortization; not for interest-only, balloon, or negative amortization schedules.</p>
+</div>
+</details>
+<div class="trust-block">
+<h2>How this result is estimated</h2>
+<p class="desc">This loan rate calculator provides estimate-level outputs based on the values you enter. Review assumptions and verify important decisions independently.</p>
+<ul>
+<li>Inputs are user-provided and may include rounding.</li>
+<li>Results are informational and not financial, tax, legal, or medical advice.</li>
+<li>For high-impact decisions, confirm with a licensed professional.</li>
+</ul>
+<p class="small">Last reviewed: 2026-04-17</p>
+</div>
+<div class="faq-block">
+<h2>Frequently asked questions</h2>
+<details>
+<summary>What rate is this solving for?</summary>
+<p>A nominal annual rate with monthly compounding that makes your fixed monthly payment amortize the principal over the term—the usual level-payment mortgage-style assumption.</p>
+</details>
+<details>
+<summary>Why might the calculator say my payment is too low?</summary>
+<p>If the payment cannot amortize the principal over that many months at any nonnegative interest rate, no solution exists for this model.</p>
+</details>
+<details>
+<summary>Does this include upfront fees?</summary>
+<p>No. For fees that reduce net proceeds while payments amortize full principal, use the APR calculator on this site.</p>
+</details>
+</div>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"What rate is this solving for?","acceptedAnswer":{"@type":"Answer","text":"A nominal annual rate with monthly compounding that makes your fixed monthly payment amortize the principal over the term—the usual level-payment mortgage-style assumption."}},{"@type":"Question","name":"Why might the calculator say my payment is too low?","acceptedAnswer":{"@type":"Answer","text":"If the payment cannot amortize the principal over that many months at any nonnegative interest rate, no solution exists for this model."}},{"@type":"Question","name":"Does this include upfront fees?","acceptedAnswer":{"@type":"Answer","text":"No. For fees that reduce net proceeds while payments amortize full principal, use the APR calculator on this site."}}]}</script>
+<p><a href="index.html">Home</a> | <a href="financial-calculators.html">Category Hub</a></p>
+<h2>Related Calculators</h2>
+<ul>
+<li><a href="loan-calculator.html">Loan Calculator</a></li>
+<li><a href="mortgage-calculator.html">Mortgage Calculator</a></li>
+<li><a href="apr-calculator.html">APR calculator (estimate)</a></li>
+<li><a href="loan-fee-annualizer.html">Loan fee annualizer (simple)</a></li>
+<li><a href="apy-calculator.html">APY Calculator</a></li>
+<li><a href="debt-to-income-calculator.html">Debt-to-Income (DTI) Calculator</a></li>
+<li><a href="roi-calculator.html">ROI Calculator</a></li>
+<li><a href="compound-interest.html">Compound Interest Calculator</a></li>
+<li><a href="25000-loan-payment-calculator.html">$25,000 Loan Payment Calculator</a></li>
+<li><a href="50000-loan-payment-calculator.html">$50,000 Loan Payment Calculator</a></li>
+</ul>
+<details>
+<summary>More related calculators</summary>
+<ul>
+<li><a href="75000-loan-payment-calculator.html">$75,000 Loan Payment Calculator</a></li>
+<li><a href="100000-loan-payment-calculator.html">$100,000 Loan Payment Calculator</a></li>
+<li><a href="125000-loan-payment-calculator.html">$125,000 Loan Payment Calculator</a></li>
+<li><a href="150000-loan-payment-calculator.html">$150,000 Loan Payment Calculator</a></li>
+<li><a href="175000-loan-payment-calculator.html">$175,000 Loan Payment Calculator</a></li>
+<li><a href="200000-loan-payment-calculator.html">$200,000 Loan Payment Calculator</a></li>
+<li><a href="225000-loan-payment-calculator.html">$225,000 Loan Payment Calculator</a></li>
+<li><a href="250000-loan-payment-calculator.html">$250,000 Loan Payment Calculator</a></li>
+<li><a href="275000-loan-payment-calculator.html">$275,000 Loan Payment Calculator</a></li>
+<li><a href="300000-loan-payment-calculator.html">$300,000 Loan Payment Calculator</a></li>
+<li><a href="40000-salary-to-hourly-calculator.html">$40,000 Salary to Hourly Calculator</a></li>
+<li><a href="60000-salary-to-hourly-calculator.html">$60,000 Salary to Hourly Calculator</a></li>
+<li><a href="80000-salary-to-hourly-calculator.html">$80,000 Salary to Hourly Calculator</a></li>
+<li><a href="100000-salary-to-hourly-calculator.html">$100,000 Salary to Hourly Calculator</a></li>
+<li><a href="120000-salary-to-hourly-calculator.html">$120,000 Salary to Hourly Calculator</a></li>
+<li><a href="140000-salary-to-hourly-calculator.html">$140,000 Salary to Hourly Calculator</a></li>
+<li><a href="160000-salary-to-hourly-calculator.html">$160,000 Salary to Hourly Calculator</a></li>
+<li><a href="180000-salary-to-hourly-calculator.html">$180,000 Salary to Hourly Calculator</a></li>
+<li><a href="200000-salary-to-hourly-calculator.html">$200,000 Salary to Hourly Calculator</a></li>
+<li><a href="220000-salary-to-hourly-calculator.html">$220,000 Salary to Hourly Calculator</a></li>
+<li><a href="240000-salary-to-hourly-calculator.html">$240,000 Salary to Hourly Calculator</a></li>
+<li><a href="260000-salary-to-hourly-calculator.html">$260,000 Salary to Hourly Calculator</a></li>
+<li><a href="280000-salary-to-hourly-calculator.html">$280,000 Salary to Hourly Calculator</a></li>
+<li><a href="300000-salary-to-hourly-calculator.html">$300,000 Salary to Hourly Calculator</a></li>
+<li><a href="break-even-calculator.html">Break-Even Calculator</a></li>
+<li><a href="debt-payoff.html">Debt Payoff Calculator</a></li>
+<li><a href="discount-calculator.html">Discount Calculator</a></li>
+<li><a href="inflation-calculator.html">Inflation Calculator</a></li>
+<li><a href="interest-rate-calculator.html">Simple Interest Calculator</a></li>
+<li><a href="profit-margin-calculator.html">Profit Margin Calculator</a></li>
+</ul>
+</details>
+</div>
+<div class="footer">
+<p>Browse Categories</p>
+<div class="category-grid">
+<a class="category-link" href="financial-calculators.html">Financial</a>
+<a class="category-link" href="health-calculators.html">Health</a>
+<a class="category-link" href="conversion-calculators.html">Conversions</a>
+<a class="category-link" href="career-calculators.html">Career</a>
+</div>
+<p><a class="home-link" href="index.html">Home</a></p>
+<p class="footer-meta">
+<a href="about.html">About</a> |
+<a href="contact.html">Contact</a> |
+<a href="privacy.html">Privacy</a> |
+<a href="terms.html">Terms</a>
+</p>
+</div>
+</div>
+<script src="number-format.js" defer></script>
+<script src="site-search.js" defer></script>
+</body>
+</html>

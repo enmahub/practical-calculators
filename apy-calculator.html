@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="en" data-page-path="apy-calculator.html">
+<head>
+<title>APY Calculator (Free) – Nominal Rate to Annual Percentage Yield</title>
+<meta name="description" content="Convert a nominal annual rate and compounding frequency into APY: (1 + r/n)^n − 1. For deposits and investments, not loan disclosures.">
+<meta property="og:title" content="APY Calculator (Free) – Nominal Rate to Annual Percentage Yield">
+<meta property="og:description" content="Convert a nominal annual rate and compounding frequency into APY: (1 + r/n)^n − 1. For deposits and investments, not loan disclosures.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://enmahub.github.io/practical-calculators/apy-calculator.html">
+<meta property="og:site_name" content="Practical Calculators">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="APY Calculator (Free) – Nominal Rate to Annual Percentage Yield">
+<meta name="twitter:description" content="Convert a nominal annual rate and compounding frequency into APY: (1 + r/n)^n − 1. For deposits and investments, not loan disclosures.">
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"WebApplication","name":"APY Calculator (Free) – Nominal Rate to Annual Percentage Yield","description":"Convert a nominal annual rate and compounding frequency into APY: (1 + r/n)^n − 1. For deposits and investments, not loan disclosures.","url":"https://enmahub.github.io/practical-calculators/apy-calculator.html","applicationCategory":"UtilitiesApplication","operatingSystem":"Any","browserRequirements":"Requires JavaScript. Requires HTML5.","offers":{"@type":"Offer","price":"0","priceCurrency":"USD"}}</script>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="robots" content="index, follow">
+<link rel="canonical" href="https://enmahub.github.io/practical-calculators/apy-calculator.html">
+<link rel="alternate" hreflang="en" href="https://enmahub.github.io/practical-calculators/apy-calculator.html">
+<link rel="stylesheet" href="styles.css">
+<script src="site-analytics.js" data-analytics-page defer></script>
+</head>
+<body>
+<div class="top">
+<div class="wrap top-inner">
+<a class="brand" href="index.html">Practical Calculators</a>
+<div class="site-search" data-site-search data-search-index="search-index.json" data-page-path="apy-calculator.html" data-pref-lang="en" data-no-results="No matches">
+<label class="visually-hidden" for="site-search-q">Search calculators</label>
+<input type="search" id="site-search-q" class="site-search-input" placeholder="Search calculators…" autocomplete="off" spellcheck="false" role="combobox" aria-haspopup="listbox" aria-autocomplete="list" aria-controls="site-search-results" aria-expanded="false">
+<div class="site-search-dropdown" id="site-search-results" hidden role="listbox" aria-label="Search calculators"></div>
+</div>
+</div>
+</div>
+<div class="wrap">
+<div class="card">
+<h1>APY Calculator</h1>
+<p class="desc">Turns a <strong>nominal annual rate</strong> into <strong>annual percentage yield (APY)</strong> assuming interest compounds at a fixed number of periods per year. Compare with <a href="apr-calculator.html">APR on loans</a> (different cash-flow meaning).</p>
+<label for="nominal">Nominal annual rate (%)</label>
+<input id="nominal" type="number" step="any" value="5">
+<label for="nper">Compounding periods per year</label>
+<select id="nper">
+<option value="365">365 (daily)</option>
+<option value="12" selected>12 (monthly)</option>
+<option value="4">4 (quarterly)</option>
+<option value="2">2 (semiannual)</option>
+<option value="1">1 (annual)</option>
+</select>
+<button onclick="calc()">Calculate</button>
+<h2 class="result"><span class="result-label">Result</span><div class="result-body" id="result">—</div></h2>
+<script>
+function calc(){
+  const nominal = parseFloat(document.getElementById('nominal').value);
+  const n = parseInt(document.getElementById('nper').value, 10);
+  const out = document.getElementById('result');
+  if (!Number.isFinite(nominal) || nominal < 0 || !Number.isFinite(n) || n < 1) {
+    out.innerHTML = 'Enter a valid nominal rate and compounding frequency.';
+    return;
+  }
+  const i = nominal / 100 / n;
+  const apy = (Math.pow(1 + i, n) - 1) * 100;
+  out.innerHTML = 'APY: <strong>' + apy.toFixed(4) + '%</strong> per year<br><span class="small">Using APY = (1 + nominal÷n)<sup>n</sup> − 1</span>';
+  document.dispatchEvent(new CustomEvent('pc:calculator_result', { detail: { type: 'apy' } }));
+}
+</script>
+<details class="methodology-block">
+<summary>How this calculation works</summary>
+<div>
+<h3>What each input means</h3>
+<ul>
+<li><strong>Nominal annual rate (%)</strong> — Stated yearly rate before converting to a periodic rate.</li>
+<li><strong>Compounding periods per year (<em>n</em>)</strong> — How often interest is credited per year (12 monthly, 365 daily, etc.).</li>
+</ul>
+<h3>Formula used</h3>
+<p>Periodic rate <em>i = (nominal% ÷ 100) ÷ n</em>. <strong>APY</strong> = <em>(1 + i)<sup>n</sup> − 1</em>, expressed as a percent per year.</p>
+<p class="small">Educational deposit/yield math only—not a bank disclosure or loan APR.</p>
+</div>
+</details>
+<div class="trust-block">
+<h2>How this result is estimated</h2>
+<p class="desc">This APY calculator provides estimate-level outputs based on the values you enter. Review assumptions and verify important decisions independently.</p>
+<ul>
+<li>Inputs are user-provided and may include rounding.</li>
+<li>Results are informational and not financial, tax, legal, or medical advice.</li>
+<li>For high-impact decisions, confirm with a licensed professional.</li>
+</ul>
+<p class="small">Last reviewed: 2026-04-17</p>
+</div>
+<div class="faq-block">
+<h2>Frequently asked questions</h2>
+<details>
+<summary>Is APY the same as APR on my loan?</summary>
+<p>No. Loan APR communicates borrowing cost under lender or regulatory conventions. This APY tool converts a nominal rate you enter into a yearly yield assuming periodic compounding—typical for savings and investments, not loan disclosures.</p>
+</details>
+<details>
+<summary>Why does APY change when I change compounding frequency?</summary>
+<p>More frequent compounding means interest is credited more often within the year, so the effective yearly growth (APY) increases relative to the same nominal rate.</p>
+</details>
+<details>
+<summary>Does this include taxes or fees?</summary>
+<p>No. It applies the stated formula only to the numbers you enter.</p>
+</details>
+</div>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"Is APY the same as APR on my loan?","acceptedAnswer":{"@type":"Answer","text":"No. Loan APR communicates borrowing cost under lender or regulatory conventions. This APY tool converts a nominal rate you enter into a yearly yield assuming periodic compounding—typical for savings and investments, not loan disclosures."}},{"@type":"Question","name":"Why does APY change when I change compounding frequency?","acceptedAnswer":{"@type":"Answer","text":"More frequent compounding means interest is credited more often within the year, so the effective yearly growth (APY) increases relative to the same nominal rate."}},{"@type":"Question","name":"Does this include taxes or fees?","acceptedAnswer":{"@type":"Answer","text":"No. It applies the stated formula only to the numbers you enter."}}]}</script>
+<p><a href="index.html">Home</a> | <a href="financial-calculators.html">Category Hub</a></p>
+<h2>Related Calculators</h2>
+<ul>
+<li><a href="loan-calculator.html">Loan Calculator</a></li>
+<li><a href="mortgage-calculator.html">Mortgage Calculator</a></li>
+<li><a href="apr-calculator.html">APR calculator (estimate)</a></li>
+<li><a href="loan-implied-rate-calculator.html">Loan implied rate calculator</a></li>
+<li><a href="loan-fee-annualizer.html">Loan fee annualizer (simple)</a></li>
+<li><a href="debt-to-income-calculator.html">Debt-to-Income (DTI) Calculator</a></li>
+<li><a href="roi-calculator.html">ROI Calculator</a></li>
+<li><a href="compound-interest.html">Compound Interest Calculator</a></li>
+<li><a href="25000-loan-payment-calculator.html">$25,000 Loan Payment Calculator</a></li>
+<li><a href="50000-loan-payment-calculator.html">$50,000 Loan Payment Calculator</a></li>
+</ul>
+<details>
+<summary>More related calculators</summary>
+<ul>
+<li><a href="75000-loan-payment-calculator.html">$75,000 Loan Payment Calculator</a></li>
+<li><a href="100000-loan-payment-calculator.html">$100,000 Loan Payment Calculator</a></li>
+<li><a href="125000-loan-payment-calculator.html">$125,000 Loan Payment Calculator</a></li>
+<li><a href="150000-loan-payment-calculator.html">$150,000 Loan Payment Calculator</a></li>
+<li><a href="175000-loan-payment-calculator.html">$175,000 Loan Payment Calculator</a></li>
+<li><a href="200000-loan-payment-calculator.html">$200,000 Loan Payment Calculator</a></li>
+<li><a href="225000-loan-payment-calculator.html">$225,000 Loan Payment Calculator</a></li>
+<li><a href="250000-loan-payment-calculator.html">$250,000 Loan Payment Calculator</a></li>
+<li><a href="275000-loan-payment-calculator.html">$275,000 Loan Payment Calculator</a></li>
+<li><a href="300000-loan-payment-calculator.html">$300,000 Loan Payment Calculator</a></li>
+<li><a href="40000-salary-to-hourly-calculator.html">$40,000 Salary to Hourly Calculator</a></li>
+<li><a href="60000-salary-to-hourly-calculator.html">$60,000 Salary to Hourly Calculator</a></li>
+<li><a href="80000-salary-to-hourly-calculator.html">$80,000 Salary to Hourly Calculator</a></li>
+<li><a href="100000-salary-to-hourly-calculator.html">$100,000 Salary to Hourly Calculator</a></li>
+<li><a href="120000-salary-to-hourly-calculator.html">$120,000 Salary to Hourly Calculator</a></li>
+<li><a href="140000-salary-to-hourly-calculator.html">$140,000 Salary to Hourly Calculator</a></li>
+<li><a href="160000-salary-to-hourly-calculator.html">$160,000 Salary to Hourly Calculator</a></li>
+<li><a href="180000-salary-to-hourly-calculator.html">$180,000 Salary to Hourly Calculator</a></li>
+<li><a href="200000-salary-to-hourly-calculator.html">$200,000 Salary to Hourly Calculator</a></li>
+<li><a href="220000-salary-to-hourly-calculator.html">$220,000 Salary to Hourly Calculator</a></li>
+<li><a href="240000-salary-to-hourly-calculator.html">$240,000 Salary to Hourly Calculator</a></li>
+<li><a href="260000-salary-to-hourly-calculator.html">$260,000 Salary to Hourly Calculator</a></li>
+<li><a href="280000-salary-to-hourly-calculator.html">$280,000 Salary to Hourly Calculator</a></li>
+<li><a href="300000-salary-to-hourly-calculator.html">$300,000 Salary to Hourly Calculator</a></li>
+<li><a href="break-even-calculator.html">Break-Even Calculator</a></li>
+<li><a href="debt-payoff.html">Debt Payoff Calculator</a></li>
+<li><a href="discount-calculator.html">Discount Calculator</a></li>
+<li><a href="inflation-calculator.html">Inflation Calculator</a></li>
+<li><a href="interest-rate-calculator.html">Simple Interest Calculator</a></li>
+<li><a href="profit-margin-calculator.html">Profit Margin Calculator</a></li>
+</ul>
+</details>
+</div>
+<div class="footer">
+<p>Browse Categories</p>
+<div class="category-grid">
+<a class="category-link" href="financial-calculators.html">Financial</a>
+<a class="category-link" href="health-calculators.html">Health</a>
+<a class="category-link" href="conversion-calculators.html">Conversions</a>
+<a class="category-link" href="career-calculators.html">Career</a>
+</div>
+<p><a class="home-link" href="index.html">Home</a></p>
+<p class="footer-meta">
+<a href="about.html">About</a> |
+<a href="contact.html">Contact</a> |
+<a href="privacy.html">Privacy</a> |
+<a href="terms.html">Terms</a>
+</p>
+</div>
+</div>
+<script src="number-format.js" defer></script>
+<script src="site-search.js" defer></script>
+</body>
+</html>

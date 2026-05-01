@@ -640,8 +640,11 @@ const homeSections = [
     category: "Financial",
     hub: "financial-calculators.html",
     items: [
+      { fileName: "apr-calculator.html", h1: "APR calculator (estimate)" },
       { fileName: "mortgage-calculator.html", h1: "Mortgage Calculator" },
       { fileName: "loan-calculator.html", h1: "Loan Calculator" },
+      { fileName: "roi-calculator.html", h1: "ROI Calculator" },
+      { fileName: "debt-to-income-calculator.html", h1: "Debt-to-Income (DTI) Calculator" },
       { fileName: "compound-interest.html", h1: "Compound Interest" },
       { fileName: "savings-calculator.html", h1: "Savings Calculator" },
       { fileName: "retirement-calculator.html", h1: "Retirement Calculator" }
@@ -856,6 +859,44 @@ function faqItemsForEntry(entry) {
         }
       ];
     }
+    if (legacyKey === "apy-calculator.html") {
+      return [
+        {
+          question: "Is APY the same as APR on my loan?",
+          answer:
+            "No. Loan APR communicates borrowing cost under lender or regulatory conventions. This APY tool converts a nominal rate you enter into a yearly yield assuming periodic compounding—typical for savings and investments, not loan disclosures."
+        },
+        {
+          question: "Why does APY change when I change compounding frequency?",
+          answer:
+            "More frequent compounding means interest is credited more often within the year, so the effective yearly growth (APY) increases relative to the same nominal rate."
+        },
+        {
+          question: "Does this include taxes or fees?",
+          answer:
+            "No. It applies the stated formula only to the numbers you enter."
+        }
+      ];
+    }
+    if (legacyKey === "loan-implied-rate-calculator.html") {
+      return [
+        {
+          question: "What rate is this solving for?",
+          answer:
+            "A nominal annual rate with monthly compounding that makes your fixed monthly payment amortize the principal over the term—the usual level-payment mortgage-style assumption."
+        },
+        {
+          question: "Why might the calculator say my payment is too low?",
+          answer:
+            "If the payment cannot amortize the principal over that many months at any nonnegative interest rate, no solution exists for this model."
+        },
+        {
+          question: "Does this include upfront fees?",
+          answer:
+            "No. For fees that reduce net proceeds while payments amortize full principal, use the APR calculator on this site."
+        }
+      ];
+    }
     if (legacyKey === "ovulation-calculator.html") {
       return [
         {
@@ -1022,14 +1063,51 @@ function sortByAmountProximity(candidates, targetAmount) {
 const FINANCE_INTERNAL_PILLAR_NAMES = [
   "loan-calculator.html",
   "mortgage-calculator.html",
-  "debt-payoff.html",
   "apr-calculator.html",
+  "loan-implied-rate-calculator.html",
   "loan-fee-annualizer.html",
+  "apy-calculator.html",
+  "debt-to-income-calculator.html",
+  "roi-calculator.html",
   "compound-interest.html",
+  "interest-rate-calculator.html",
+  "debt-payoff.html",
   "savings-calculator.html",
   "tax-calculator.html",
   "retirement-calculator.html"
 ];
+
+const CAREER_INTERNAL_PILLAR_NAMES = [
+  "salary-calculator.html",
+  "commission-calculator.html",
+  "bonus-calculator.html",
+  "salary-plus-commission-calculator.html",
+  "take-home-paycheck-calculator.html",
+  "raise-calculator.html",
+  "overtime-pay-calculator.html"
+];
+
+const FINANCE_LEGACY_RELATED_PILLAR_CAP = 8;
+const CAREER_LEGACY_RELATED_PILLAR_CAP = 7;
+
+function resolveLegacyPillarEntries(entries, entry, orderedFileNames, maxTake) {
+  const selfKey = normalizePath(entry.pagePath || entry.fileName).toLowerCase();
+  const out = [];
+  for (let i = 0; i < orderedFileNames.length; i += 1) {
+    if (out.length >= maxTake) {
+      break;
+    }
+    const fn = orderedFileNames[i];
+    if (normalizePath(fn).toLowerCase() === selfKey) {
+      continue;
+    }
+    const cand = resolveLegacyEntryByFileName(entries, fn);
+    if (cand) {
+      out.push(cand);
+    }
+  }
+  return out;
+}
 
 function financePillarOrderForEntry(entry) {
   if (entry.family === "salaryToHourlyByAmount") {
@@ -1201,6 +1279,53 @@ function pickStructuredRelated(entries, entry) {
       isSameMarket(entry, candidate) &&
       candidate.indexable !== false
   );
+
+  if (entry.family === "legacyStaticPage" && entry.category === "Financial" && isSameMarket(entry, { marketId: "en" })) {
+    const pillarEntries = resolveLegacyPillarEntries(
+      entries,
+      entry,
+      FINANCE_INTERNAL_PILLAR_NAMES,
+      FINANCE_LEGACY_RELATED_PILLAR_CAP
+    );
+    const pillarKeys = new Set(
+      pillarEntries.map((p) => normalizePath(p.pagePath || p.fileName).toLowerCase())
+    );
+    const rest = sameCategory.filter(
+      (c) => !pillarKeys.has(normalizePath(c.pagePath || c.fileName).toLowerCase())
+    );
+    const primary = uniqueByFileName([...pillarEntries, ...rest]).slice(0, primaryLimit);
+    const primaryKeys = new Set(
+      primary.map((p) => normalizePath(p.pagePath || p.fileName).toLowerCase())
+    );
+    const expanded = sameCategory
+      .filter((c) => !primaryKeys.has(normalizePath(c.pagePath || c.fileName).toLowerCase()))
+      .slice(0, expandedLimit);
+    return { primary, expanded };
+  }
+
+  if (entry.family === "legacyStaticPage" && entry.category === "Career" && isSameMarket(entry, { marketId: "en" })) {
+    const pillarEntries = resolveLegacyPillarEntries(
+      entries,
+      entry,
+      CAREER_INTERNAL_PILLAR_NAMES,
+      CAREER_LEGACY_RELATED_PILLAR_CAP
+    );
+    const pillarKeys = new Set(
+      pillarEntries.map((p) => normalizePath(p.pagePath || p.fileName).toLowerCase())
+    );
+    const rest = sameCategory.filter(
+      (c) => !pillarKeys.has(normalizePath(c.pagePath || c.fileName).toLowerCase())
+    );
+    const primary = uniqueByFileName([...pillarEntries, ...rest]).slice(0, primaryLimit);
+    const primaryKeys = new Set(
+      primary.map((p) => normalizePath(p.pagePath || p.fileName).toLowerCase())
+    );
+    const expanded = sameCategory
+      .filter((c) => !primaryKeys.has(normalizePath(c.pagePath || c.fileName).toLowerCase()))
+      .slice(0, expandedLimit);
+    return { primary, expanded };
+  }
+
   const primary = sameCategory.slice(0, primaryLimit);
   const expanded = sameCategory.slice(primaryLimit, primaryLimit + expandedLimit);
   return { primary, expanded };
@@ -1283,7 +1408,7 @@ function currencyTemplate(entry, entries) {
 <input type="number" id="rate" value="1.00" step="0.0001"><br><br>
 
 <button onclick="convert()">Convert</button>
-<h2 id="result" class="result">Result: -</h2>
+<h2 class="result"><span class="result-label">Result</span><div class="result-body" id="result">—</div></h2>
 <p id="rate-updated" class="small"></p>
 
 <script src="${currencyScriptHref}" data-currency-page data-from="${entry.fromCode}" data-to="${entry.toCode}" data-amount-id="amount" data-rate-id="rate" data-result-id="result" data-updated-id="rate-updated" data-rates-url="${ratesSnapshotHref}"${liveFallbackAttr}${frankfurterProxyAttr} defer></script>
@@ -1317,7 +1442,7 @@ function loanTemplate(entry, entries) {
 <input type="number" id="years" value="5"><br><br>
 
 <button onclick="calcPayment()">Calculate Payment</button>
-<h2 id="result" class="result">Result: -</h2>
+<h2 class="result"><span class="result-label">Result</span><div class="result-body" id="result">—</div></h2>
 
 <script>
 function calcPayment() {
@@ -1369,7 +1494,7 @@ function salaryTemplate(entry, entries) {
 <input type="number" id="weeks" value="52"><br><br>
 
 <button onclick="calcHourly()">Calculate Hourly</button>
-<h2 id="result" class="result">Result: -</h2>
+<h2 class="result"><span class="result-label">Result</span><div class="result-body" id="result">—</div></h2>
 
 <script>
 function calcHourly() {
@@ -1401,7 +1526,7 @@ function spanishFormulaScript(formulaType) {
 <label for="peso">Peso (kg):</label>
 <input type="number" id="peso" step="any" placeholder="Ej. 70"><br><br>
 <button onclick="calcular()">Calcular</button>
-<h2 id="result" class="result">Resultado: -</h2>
+<h2 class="result"><span class="result-label">Resultado</span><div class="result-body" id="result">—</div></h2>
 <script>
 function calcular() {
   const alturaCm = parseFloat(document.getElementById("altura").value);
@@ -1428,7 +1553,7 @@ function calcular() {
 <label for="anos">Plazo (años):</label>
 <input type="number" id="anos" value="15"><br><br>
 <button onclick="calcular()">Calcular</button>
-<h2 id="result" class="result">Resultado: -</h2>
+<h2 class="result"><span class="result-label">Resultado</span><div class="result-body" id="result">—</div></h2>
 <script>
 function calcular() {
   const monto = parseFloat(document.getElementById("monto").value) || 0;
@@ -1459,7 +1584,7 @@ function calcular() {
 <label for="anos">Años:</label>
 <input type="number" id="anos" value="10"><br><br>
 <button onclick="calcular()">Calcular</button>
-<h2 id="result" class="result">Resultado: -</h2>
+<h2 class="result"><span class="result-label">Resultado</span><div class="result-body" id="result">—</div></h2>
 <script>
 function calcular() {
   const inicial = parseFloat(document.getElementById("inicial").value) || 0;
@@ -1484,7 +1609,7 @@ function calcular() {
 <label for="mi">Millas:</label>
 <input type="number" id="mi" step="any"><br><br>
 <button onclick="calcular()">Convertir</button>
-<h2 id="result" class="result">Resultado: -</h2>
+<h2 class="result"><span class="result-label">Resultado</span><div class="result-body" id="result">—</div></h2>
 <script>
 function calcular() {
   const km = parseFloat(document.getElementById("km").value);
@@ -1511,7 +1636,7 @@ function calcular() {
 <label for="f">Fahrenheit:</label>
 <input type="number" id="f" step="any"><br><br>
 <button onclick="calcular()">Convertir</button>
-<h2 id="result" class="result">Resultado: -</h2>
+<h2 class="result"><span class="result-label">Resultado</span><div class="result-body" id="result">—</div></h2>
 <script>
 function calcular() {
   const c = parseFloat(document.getElementById("c").value);
@@ -1540,7 +1665,7 @@ function calcular() {
 <label for="semanas">Semanas por año:</label>
 <input type="number" id="semanas" value="52"><br><br>
 <button onclick="calcular()">Calcular</button>
-<h2 id="result" class="result">Resultado: -</h2>
+<h2 class="result"><span class="result-label">Resultado</span><div class="result-body" id="result">—</div></h2>
 <script>
 function calcular() {
   const salario = parseFloat(document.getElementById("salario").value) || 0;
@@ -1561,7 +1686,7 @@ function calcular() {
 <label for="descuento">Descuento (%):</label>
 <input type="number" id="descuento" value="15"><br><br>
 <button onclick="calcular()">Calcular</button>
-<h2 id="result" class="result">Resultado: -</h2>
+<h2 class="result"><span class="result-label">Resultado</span><div class="result-body" id="result">—</div></h2>
 <script>
 function calcular() {
   const precio = parseFloat(document.getElementById("precio").value) || 0;
@@ -1577,7 +1702,7 @@ function calcular() {
 <label for="propina">Propina (%):</label>
 <input type="number" id="propina" value="15"><br><br>
 <button onclick="calcular()">Calcular</button>
-<h2 id="result" class="result">Resultado: -</h2>
+<h2 class="result"><span class="result-label">Resultado</span><div class="result-body" id="result">—</div></h2>
 <script>
 function calcular() {
   const cuenta = parseFloat(document.getElementById("cuenta").value) || 0;
@@ -1599,7 +1724,7 @@ function calcular() {
 <label for="valorB" id="labelB">Valor total (base):</label>
 <input type="number" id="valorB" step="any"><br><br>
 <button onclick="calcular()">Calcular</button>
-<h2 id="result" class="result">Resultado: -</h2>
+<h2 class="result"><span class="result-label">Resultado</span><div class="result-body" id="result">—</div></h2>
 <script>
 function sincronizarEtiquetas() {
   const modo = document.getElementById("modo").value;
@@ -1643,7 +1768,7 @@ function calcular() {
 <label for="valorB">Valor B:</label>
 <input type="number" id="valorB" step="any"><br><br>
 <button onclick="calcular()">Calcular</button>
-<h2 id="result" class="result">Resultado: -</h2>
+<h2 class="result"><span class="result-label">Resultado</span><div class="result-body" id="result">—</div></h2>
 <script>
 function calcular() {
   const a = parseFloat(document.getElementById("valorA").value) || 0;
@@ -1703,7 +1828,7 @@ function statePaycheckTemplate(entry, entries) {
   <option value="head">Head of Household</option>
 </select><br><br>
 <button onclick="calcPaycheck()">Calculate</button>
-<h2 id="result" class="result">Result: -</h2>
+<h2 class="result"><span class="result-label">Result</span><div class="result-body" id="result">—</div></h2>
 <script>
 const FEDERAL_TAX_DATA = {
   2025: {
@@ -2172,6 +2297,10 @@ function upsertFinancialHubSplitSection(entries) {
     "mortgage-calculator.html",
     "loan-calculator.html",
     "apr-calculator.html",
+    "roi-calculator.html",
+    "debt-to-income-calculator.html",
+    "apy-calculator.html",
+    "loan-implied-rate-calculator.html",
     "compound-interest.html",
     "savings-calculator.html",
     "debt-payoff.html",
@@ -2682,7 +2811,16 @@ ${topBarHtml({ pagePath: "", lang: "en" })}
 <div class="wrap">
 <div class="card">
 <h1>Free Online Calculators</h1>
-<p class="desc">Browse calculators by category.</p>
+<p class="desc">Practical Calculators offers fast, free tools for loans, mortgages, savings, health metrics, and everyday conversions—with short methodology notes on each page so you can see what is (and is not) modeled.</p>
+<h2>Popular calculators</h2>
+<ul>
+<li><a href="apr-calculator.html">APR calculator (estimate)</a></li>
+<li><a href="mortgage-calculator.html">Mortgage Calculator</a></li>
+<li><a href="roi-calculator.html">ROI Calculator</a></li>
+<li><a href="debt-to-income-calculator.html">Debt-to-Income (DTI) Calculator</a></li>
+<li><a href="loan-calculator.html">Loan Calculator</a></li>
+<li><a href="apy-calculator.html">APY Calculator</a></li>
+</ul>
 <!-- Home index generated from pages.config.json -->
 <h2>Categories</h2>
 <div class="category-grid">

@@ -45,7 +45,7 @@
 <label for="valorB" id="labelB">Valor total (base):</label>
 <input type="number" id="valorB" step="any"><br><br>
 <button onclick="calcular()">Calcular</button>
-<h2 id="result" class="result">Resultado: -</h2>
+<h2 class="result"><span class="result-label">Resultado</span><div class="result-body" id="result">—</div></h2>
 <script>
 function sincronizarEtiquetas() {
   const modo = document.getElementById("modo").value;

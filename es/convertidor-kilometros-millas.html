@@ -40,7 +40,7 @@
 <label for="mi">Millas:</label>
 <input type="number" id="mi" step="any"><br><br>
 <button onclick="calcular()">Convertir</button>
-<h2 id="result" class="result">Resultado: -</h2>
+<h2 class="result"><span class="result-label">Resultado</span><div class="result-body" id="result">—</div></h2>
 <script>
 function calcular() {
   const km = parseFloat(document.getElementById("km").value);

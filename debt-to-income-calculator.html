@@ -33,24 +33,44 @@
 <div class="wrap">
 <div class="card">
 <h1>Debt-to-Income (DTI) Calculator</h1>
-<p class="desc">Use this to estimate your DTI ratio for lending pre-checks.</p>
+<p class="desc">Estimate <strong>back-end DTI</strong>: total <strong>minimum monthly debt payments</strong> divided by <strong>gross monthly income</strong>. Lenders also use <strong>front-end</strong> ratios (housing-only vs income) and their own inclusion rules—this is a generic planning ratio. Related: <a href="mortgage-calculator.html">Mortgage calculator</a>, <a href="loan-calculator.html">Loan calculator</a>, <a href="apr-calculator.html">APR calculator</a>.</p>
+<h2>What is a “good” DTI?</h2>
+<ul>
+<li><strong>~28% housing-only</strong> — Often cited as a rough guardrail for mortgage payment vs gross income (front-end style); actual limits vary by lender and loan program.</li>
+<li><strong>~36% all debts</strong> — A common conservative target for total monthly obligations vs gross income.</li>
+<li><strong>~43%+</strong> — May still be workable depending on credit, reserves, and underwriting—but higher DTI leaves less cushion.</li>
+</ul>
+<p class="small">Rules of thumb only; verify with your lender or advisor.</p>
+<h2>Examples</h2>
+<ul>
+<li><strong>$5,000 gross income, $1,200 debts</strong> → DTI ≈ 24%.</li>
+<li><strong>$6,500 gross income, $2,600 debts</strong> → DTI = 40%.</li>
+</ul>
 <label for="debt">Monthly debt payments</label>
 <input id="debt" type="number" step="any" placeholder="1200">
 <label for="income">Gross monthly income</label>
 <input id="income" type="number" step="any" placeholder="5000">
 <button onclick="calc()">Calculate</button>
-<h2 class="result" id="result">Result: -</h2>
+<h2 class="result"><span class="result-label">Result</span><div class="result-body" id="result">—</div></h2>
 <script>
 function calc(){
   const debt = parseFloat(document.getElementById('debt').value);
   const income = parseFloat(document.getElementById('income').value);
-  if (!Number.isFinite(debt) || !Number.isFinite(income) || income <= 0) {
-    document.getElementById('result').innerHTML = 'Enter valid values.';
+  const out = document.getElementById('result');
+  if (!Number.isFinite(debt) || !Number.isFinite(income) || income <= 0 || debt < 0) {
+    out.innerHTML = 'Enter valid values.';
     return;
   }
   const dti = (debt / income) * 100;
-  const label = dti <= 36 ? 'Generally strong' : (dti <= 43 ? 'Borderline' : 'High');
-  document.getElementById('result').innerHTML = 'DTI: ' + dti.toFixed(2) + '% (' + label + ')';
+  let label = 'High';
+  if (dti <= 28) {
+    label = 'Strong (often compared to front-end housing benchmarks)';
+  } else if (dti <= 36) {
+    label = 'Moderate (common back-end planning band)';
+  } else if (dti <= 43) {
+    label = 'Elevated (may still qualify depending on program)';
+  }
+  out.innerHTML = 'DTI: ' + dti.toFixed(2) + '% — ' + label;
 }
 </script>
 <details class="methodology-block">
@@ -59,11 +79,12 @@ function calc(){
 <h3>What each input means</h3>
 <ul>
 <li><strong>Monthly gross income</strong> — Denominator for the ratio.</li>
-<li><strong>Monthly debt payments</strong> — Total minimum obligations the tool compares to income.</li>
+<li><strong>Monthly debt payments</strong> — Intended as total recurring minimum payments (credit cards, auto, student loans, other installment debt). Mortgage calculators on this site can help estimate a housing payment component.</li>
 </ul>
 <h3>Formula used</h3>
-<p><em>DTI (%) ≈ (monthly debt ÷ monthly gross income) × 100</em> as implemented.</p>
-<p class="small">Lenders use front-end/back-end definitions and exclude some debts; this is a generic ratio only.</p>
+<p><em>DTI (%) ≈ (monthly debt ÷ monthly gross income) × 100</em> as implemented—a generic <strong>back-end</strong>-style ratio.</p>
+<p><strong>Front-end vs back-end:</strong> Some lenders emphasize housing payment vs income (“front-end”) separately from all debts (“back-end”). This page uses one combined debts field.</p>
+<p class="small">Lenders use underwriting-specific definitions; this is not a credit decision.</p>
 </div>
 </details>
 <div class="trust-block">
@@ -91,8 +112,20 @@ function calc(){
 <p><a href="index.html">Home</a> | <a href="financial-calculators.html">Category Hub</a></p>
 <h2>Related Calculators</h2>
 <ul>
+<li><a href="loan-calculator.html">Loan Calculator</a></li>
+<li><a href="mortgage-calculator.html">Mortgage Calculator</a></li>
+<li><a href="apr-calculator.html">APR calculator (estimate)</a></li>
+<li><a href="loan-implied-rate-calculator.html">Loan implied rate calculator</a></li>
+<li><a href="loan-fee-annualizer.html">Loan fee annualizer (simple)</a></li>
+<li><a href="apy-calculator.html">APY Calculator</a></li>
+<li><a href="roi-calculator.html">ROI Calculator</a></li>
+<li><a href="compound-interest.html">Compound Interest Calculator</a></li>
 <li><a href="25000-loan-payment-calculator.html">$25,000 Loan Payment Calculator</a></li>
 <li><a href="50000-loan-payment-calculator.html">$50,000 Loan Payment Calculator</a></li>
+</ul>
+<details>
+<summary>More related calculators</summary>
+<ul>
 <li><a href="75000-loan-payment-calculator.html">$75,000 Loan Payment Calculator</a></li>
 <li><a href="100000-loan-payment-calculator.html">$100,000 Loan Payment Calculator</a></li>
 <li><a href="125000-loan-payment-calculator.html">$125,000 Loan Payment Calculator</a></li>
@@ -101,10 +134,6 @@ function calc(){
 <li><a href="200000-loan-payment-calculator.html">$200,000 Loan Payment Calculator</a></li>
 <li><a href="225000-loan-payment-calculator.html">$225,000 Loan Payment Calculator</a></li>
 <li><a href="250000-loan-payment-calculator.html">$250,000 Loan Payment Calculator</a></li>
-</ul>
-<details>
-<summary>More related calculators</summary>
-<ul>
 <li><a href="275000-loan-payment-calculator.html">$275,000 Loan Payment Calculator</a></li>
 <li><a href="300000-loan-payment-calculator.html">$300,000 Loan Payment Calculator</a></li>
 <li><a href="40000-salary-to-hourly-calculator.html">$40,000 Salary to Hourly Calculator</a></li>
@@ -122,19 +151,11 @@ function calc(){
 <li><a href="280000-salary-to-hourly-calculator.html">$280,000 Salary to Hourly Calculator</a></li>
 <li><a href="300000-salary-to-hourly-calculator.html">$300,000 Salary to Hourly Calculator</a></li>
 <li><a href="break-even-calculator.html">Break-Even Calculator</a></li>
-<li><a href="compound-interest.html">Compound Interest Calculator</a></li>
 <li><a href="debt-payoff.html">Debt Payoff Calculator</a></li>
 <li><a href="discount-calculator.html">Discount Calculator</a></li>
 <li><a href="inflation-calculator.html">Inflation Calculator</a></li>
 <li><a href="interest-rate-calculator.html">Simple Interest Calculator</a></li>
-<li><a href="loan-calculator.html">Loan Calculator</a></li>
-<li><a href="mortgage-calculator.html">Mortgage Calculator</a></li>
 <li><a href="profit-margin-calculator.html">Profit Margin Calculator</a></li>
-<li><a href="retirement-calculator.html">Retirement Savings Calculator</a></li>
-<li><a href="savings-calculator.html">Savings Calculator</a></li>
-<li><a href="tax-calculator.html">Tax Calculator</a></li>
-<li><a href="tip-calculator.html">Tip Calculator</a></li>
-<li><a href="roi-calculator.html">ROI Calculator</a></li>
 </ul>
 </details>
 </div>

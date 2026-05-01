@@ -34,6 +34,25 @@
 <div class="card">
 <h1>APR calculator (estimate)</h1>
 <p class="desc">Uses your <strong>stated note rate</strong> (compounded monthly), <strong>loan principal</strong>, <strong>term</strong>, and <strong>upfront fees</strong> that reduce <strong>net cash received</strong> at closing while payments still amortize the full principal. Solves the monthly rate so the present value of payments equals net proceeds, then shows <strong>actuarial APR ≈ 12 × monthly IRR</strong>. Ignores PMI, escrow, odd days, prepaid per-diem interest, and Reg Z fee rules—<strong>not your Loan Estimate APR</strong>. For a fee-only yearly spread with no interest rate, use the <a href="loan-fee-annualizer.html">loan fee annualizer</a>.</p>
+<p class="see-also"><strong>See also:</strong> <a href="loan-calculator.html">Loan calculator</a> · <a href="mortgage-calculator.html">Mortgage calculator</a> · <a href="interest-rate-calculator.html">Simple interest calculator</a> · <a href="compound-interest.html">Compound interest</a> · <a href="apy-calculator.html">APY calculator</a> · <a href="loan-implied-rate-calculator.html">Implied loan rate (payment solver)</a></p>
+<h2>When APR matters</h2>
+<ul>
+<li><strong>Comparing loans with different upfront costs</strong> — Fees reduce cash you receive while payments may still amortize the full principal.</li>
+<li><strong>Beyond the note rate</strong> — APR folds fee timing into an annualized borrowing-cost figure.</li>
+<li><strong>Planning only</strong> — Truth-in-Lending / Regulation Z disclosures use definitions and rounding this tool does not implement.</li>
+</ul>
+<h2>APR vs APY</h2>
+<p><strong>APR</strong> here reflects <em>loan cash flows</em>: payments versus net funding, expressed as an annualized rate from the solved monthly IRR.</p>
+<p><strong>APY</strong> describes how an <em>earning</em> balance grows when interest compounds within the year (for example savings). Use the <a href="apy-calculator.html">APY calculator</a> to convert nominal rate + compounding frequency into APY.</p>
+<h2>Quick examples ($320k principal, 30-year, 6.5% note)</h2>
+<ul>
+<li><strong>$0 upfront fees</strong> — Net proceeds equal principal; actuarial APR matches the note rate in this model.</li>
+<li><strong>$6,500 fees deducted from proceeds</strong> — You receive less cash at closing but payments still amortize $320k; APR rises above the note rate.</li>
+</ul>
+<h2>Equation solved</h2>
+<p>Let <em>M</em> be the monthly payment amortizing principal <em>P</em> at the stated note rate, and <em>N = P − fees</em> net proceeds. The tool finds monthly IRR <em>r</em> such that</p>
+<p class="formula-line"><em>N</em> = Σ<sub>k=1</sub><sup>n</sup> <em>M</em> ⁄ (1 + <em>r</em>)<sup>k</sup></p>
+<p>then reports <strong>actuarial APR ≈ 12 × r</strong> and an effective annual rate for comparison.</p>
 <label for="principal">Loan principal / contract amount ($)</label>
 <input id="principal" type="number" step="any" placeholder="320000">
 <label for="note">Stated interest rate (% per year)</label>
@@ -43,7 +62,7 @@
 <label for="fees">Upfront fees deducted from proceeds ($)</label>
 <input id="fees" type="number" step="any" placeholder="6500">
 <button onclick="calc()">Calculate</button>
-<h2 class="result" id="result">Result: -</h2>
+<h2 class="result"><span class="result-label">Result</span><div class="result-body" id="result">—</div></h2>
 <script src="apr-math.js"></script>
 <script>
 function calc(){
@@ -81,6 +100,7 @@ function calc(){
 </ul>
 <h3>Formula used</h3>
 <p>Monthly payment <em>M</em> = standard amortization on principal <em>P</em> at monthly rate <em>i = (note% ÷ 100 ÷ 12)</em> for <em>n</em> months. Net proceeds <em>N = P − fees</em>. The tool finds monthly IRR <em>r</em> such that present value of <em>n</em> payments of <em>M</em> at rate <em>r</em> equals <em>N</em>, then reports <strong>actuarial APR ≈ 12 × r</strong> (and an effective annual rate for comparison).</p>
+<p><strong>APR vs APY:</strong> APR here reflects loan cash-flow timing (cost of borrowing). APY describes compounded growth on savings—see the <a href="apy-calculator.html">APY calculator</a>.</p>
 <p class="small">Not a Reg Z / Loan Estimate substitute: ignores PMI, escrow, odd-day interest, APR tolerance rules, prepaid finance charges definitions, variable rates, and lender-specific cash-flow timing.</p>
 </div>
 </details>
@@ -113,8 +133,20 @@ function calc(){
 <p><a href="index.html">Home</a> | <a href="financial-calculators.html">Category Hub</a></p>
 <h2>Related Calculators</h2>
 <ul>
+<li><a href="loan-calculator.html">Loan Calculator</a></li>
+<li><a href="mortgage-calculator.html">Mortgage Calculator</a></li>
+<li><a href="loan-implied-rate-calculator.html">Loan implied rate calculator</a></li>
+<li><a href="loan-fee-annualizer.html">Loan fee annualizer (simple)</a></li>
+<li><a href="apy-calculator.html">APY Calculator</a></li>
+<li><a href="debt-to-income-calculator.html">Debt-to-Income (DTI) Calculator</a></li>
+<li><a href="roi-calculator.html">ROI Calculator</a></li>
+<li><a href="compound-interest.html">Compound Interest Calculator</a></li>
 <li><a href="25000-loan-payment-calculator.html">$25,000 Loan Payment Calculator</a></li>
 <li><a href="50000-loan-payment-calculator.html">$50,000 Loan Payment Calculator</a></li>
+</ul>
+<details>
+<summary>More related calculators</summary>
+<ul>
 <li><a href="75000-loan-payment-calculator.html">$75,000 Loan Payment Calculator</a></li>
 <li><a href="100000-loan-payment-calculator.html">$100,000 Loan Payment Calculator</a></li>
 <li><a href="125000-loan-payment-calculator.html">$125,000 Loan Payment Calculator</a></li>
@@ -123,10 +155,6 @@ function calc(){
 <li><a href="200000-loan-payment-calculator.html">$200,000 Loan Payment Calculator</a></li>
 <li><a href="225000-loan-payment-calculator.html">$225,000 Loan Payment Calculator</a></li>
 <li><a href="250000-loan-payment-calculator.html">$250,000 Loan Payment Calculator</a></li>
-</ul>
-<details>
-<summary>More related calculators</summary>
-<ul>
 <li><a href="275000-loan-payment-calculator.html">$275,000 Loan Payment Calculator</a></li>
 <li><a href="300000-loan-payment-calculator.html">$300,000 Loan Payment Calculator</a></li>
 <li><a href="40000-salary-to-hourly-calculator.html">$40,000 Salary to Hourly Calculator</a></li>
@@ -144,19 +172,11 @@ function calc(){
 <li><a href="280000-salary-to-hourly-calculator.html">$280,000 Salary to Hourly Calculator</a></li>
 <li><a href="300000-salary-to-hourly-calculator.html">$300,000 Salary to Hourly Calculator</a></li>
 <li><a href="break-even-calculator.html">Break-Even Calculator</a></li>
-<li><a href="compound-interest.html">Compound Interest Calculator</a></li>
 <li><a href="debt-payoff.html">Debt Payoff Calculator</a></li>
 <li><a href="discount-calculator.html">Discount Calculator</a></li>
 <li><a href="inflation-calculator.html">Inflation Calculator</a></li>
 <li><a href="interest-rate-calculator.html">Simple Interest Calculator</a></li>
-<li><a href="loan-calculator.html">Loan Calculator</a></li>
-<li><a href="mortgage-calculator.html">Mortgage Calculator</a></li>
 <li><a href="profit-margin-calculator.html">Profit Margin Calculator</a></li>
-<li><a href="retirement-calculator.html">Retirement Savings Calculator</a></li>
-<li><a href="savings-calculator.html">Savings Calculator</a></li>
-<li><a href="tax-calculator.html">Tax Calculator</a></li>
-<li><a href="tip-calculator.html">Tip Calculator</a></li>
-<li><a href="roi-calculator.html">ROI Calculator</a></li>
 </ul>
 </details>
 </div>

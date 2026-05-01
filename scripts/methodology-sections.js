@@ -262,7 +262,43 @@ function methodologyLegacyByFileName(helpers, fileName, lang) {
 </ul>
 <h3>${escapeHtml(L.methodologyFormula)}</h3>
 <p>Monthly payment <em>M</em> = standard amortization on principal <em>P</em> at monthly rate <em>i = (note% ÷ 100 ÷ 12)</em> for <em>n</em> months. Net proceeds <em>N = P − fees</em>. The tool finds monthly IRR <em>r</em> such that present value of <em>n</em> payments of <em>M</em> at rate <em>r</em> equals <em>N</em>, then reports <strong>actuarial APR ≈ 12 × r</strong> (and an effective annual rate for comparison).</p>
+<p><strong>APR vs APY:</strong> APR here reflects loan cash-flow timing (cost of borrowing). APY describes compounded growth on savings—see the <a href="apy-calculator.html">APY calculator</a>.</p>
 <p class="small">Not a Reg Z / Loan Estimate substitute: ignores PMI, escrow, odd-day interest, APR tolerance rules, prepaid finance charges definitions, variable rates, and lender-specific cash-flow timing.</p>`,
+    "apy-calculator.html": `<h3>${escapeHtml(L.methodologyInputs)}</h3>
+<ul>
+<li><strong>Nominal annual rate (%)</strong> — Stated yearly rate before converting to a periodic rate.</li>
+<li><strong>Compounding periods per year (<em>n</em>)</strong> — How often interest is credited per year (12 monthly, 365 daily, etc.).</li>
+</ul>
+<h3>${escapeHtml(L.methodologyFormula)}</h3>
+<p>Periodic rate <em>i = (nominal% ÷ 100) ÷ n</em>. <strong>APY</strong> = <em>(1 + i)<sup>n</sup> − 1</em>, expressed as a percent per year.</p>
+<p class="small">Educational deposit/yield math only—not a bank disclosure or loan APR.</p>`,
+    "loan-implied-rate-calculator.html": `<h3>${escapeHtml(L.methodologyInputs)}</h3>
+<ul>
+<li><strong>Loan principal</strong> — Amount being amortized.</li>
+<li><strong>Monthly payment</strong> — Level payment assumed each month.</li>
+<li><strong>Loan term (years)</strong> — Converted to months (rounded) for payment count.</li>
+</ul>
+<h3>${escapeHtml(L.methodologyFormula)}</h3>
+<p>Solves monthly rate <em>r</em> such that principal equals the present value of <em>n</em> payments at <em>r</em>, then quotes <strong>nominal annual rate ≈ 12 × r</strong> (monthly compounding) plus an effective annual rate.</p>
+<p class="small">Assumes standard fixed-rate amortization; not for interest-only, balloon, or negative amortization schedules.</p>`,
+    "bonus-calculator.html": `<h3>${escapeHtml(L.methodologyInputs)}</h3>
+<ul>
+<li><strong>Annual base salary</strong> — Multiplied by bonus percent when you use the percentage piece.</li>
+<li><strong>Bonus (% of base)</strong> — Applied as <em>base × (percent ÷ 100)</em> when base is a valid number.</li>
+<li><strong>Flat bonus ($)</strong> — Added after the percentage portion.</li>
+</ul>
+<h3>${escapeHtml(L.methodologyFormula)}</h3>
+<p><em>Estimated bonus ≈ base × (bonus% ÷ 100) + flat</em> with non-finite inputs treated as zero where noted in the script.</p>
+<p class="small">Gross estimate only—no tax withholding, clawbacks, or employer caps.</p>`,
+    "salary-plus-commission-calculator.html": `<h3>${escapeHtml(L.methodologyInputs)}</h3>
+<ul>
+<li><strong>Annual base salary</strong> — Fixed component.</li>
+<li><strong>Sales amount</strong> — Multiplied by commission rate.</li>
+<li><strong>Commission rate (%)</strong> — <em>Commission = sales × (rate ÷ 100)</em>.</li>
+</ul>
+<h3>${escapeHtml(L.methodologyFormula)}</h3>
+<p><em>Total ≈ base + commission</em> as entered; all figures are gross before tax.</p>
+<p class="small">Does not prorate partial years, tiers, draws, or accelerators.</p>`,
     "percentage-calculator.html": `<h3>${escapeHtml(L.methodologyInputs)}</h3>
 <ul>
 <li><strong>Mode</strong> — Choose <em>Find value (X% of Y)</em> or <em>Find percent (X is what % of Y)</em>; the first two fields relabel automatically.</li>
@@ -394,11 +430,12 @@ function methodologyLegacyByFileName(helpers, fileName, lang) {
     "debt-to-income-calculator.html": `<h3>${escapeHtml(L.methodologyInputs)}</h3>
 <ul>
 <li><strong>Monthly gross income</strong> — Denominator for the ratio.</li>
-<li><strong>Monthly debt payments</strong> — Total minimum obligations the tool compares to income.</li>
+<li><strong>Monthly debt payments</strong> — Intended as total recurring minimum payments (credit cards, auto, student loans, other installment debt). Mortgage calculators on this site can help estimate a housing payment component.</li>
 </ul>
 <h3>${escapeHtml(L.methodologyFormula)}</h3>
-<p><em>DTI (%) ≈ (monthly debt ÷ monthly gross income) × 100</em> as implemented.</p>
-<p class="small">Lenders use front-end/back-end definitions and exclude some debts; this is a generic ratio only.</p>`,
+<p><em>DTI (%) ≈ (monthly debt ÷ monthly gross income) × 100</em> as implemented—a generic <strong>back-end</strong>-style ratio.</p>
+<p><strong>Front-end vs back-end:</strong> Some lenders emphasize housing payment vs income (“front-end”) separately from all debts (“back-end”). This page uses one combined debts field.</p>
+<p class="small">Lenders use underwriting-specific definitions; this is not a credit decision.</p>`,
     "emergency-fund-calculator.html": `<h3>${escapeHtml(L.methodologyInputs)}</h3>
 <ul>
 <li><strong>Monthly expenses</strong> — Spending level you want covered.</li>

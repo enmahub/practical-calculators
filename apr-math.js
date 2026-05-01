@@ -155,11 +155,111 @@
     return out;
   }
 
+  /**
+   * Implied nominal annual rate (compounded monthly) on a fixed amortizing loan:
+   * find monthly rate r such that PV(level payment M at r for n months) = principal P.
+   */
+  function solveImpliedAnnualRate(principal, monthlyPayment, years) {
+    const out = {
+      ok: false,
+      error: "",
+      nominalAnnualPct: NaN,
+      effectiveAnnualPct: NaN,
+      nMonths: 0
+    };
+
+    if (!Number.isFinite(principal) || principal <= 0) {
+      out.error = "Enter a valid loan principal.";
+      return out;
+    }
+    if (!Number.isFinite(monthlyPayment) || monthlyPayment <= 0) {
+      out.error = "Enter a valid monthly payment.";
+      return out;
+    }
+    if (!Number.isFinite(years) || years <= 0) {
+      out.error = "Enter a valid loan term in years.";
+      return out;
+    }
+
+    const n = Math.round(years * 12);
+    if (n < 1) {
+      out.error = "Loan term must be at least one month.";
+      return out;
+    }
+
+    out.nMonths = n;
+
+    const maxPv = monthlyPayment * n;
+    if (principal > maxPv + 1e-6 * Math.max(1, principal)) {
+      out.error =
+        "Monthly payment is too low to amortize this principal over the term at any nonnegative rate.";
+      return out;
+    }
+
+    function f(rm) {
+      return pvLevelMonthlyPayments(monthlyPayment, rm, n) - principal;
+    }
+
+    const f0 = f(0);
+    if (Math.abs(f0) <= 1e-9 * Math.max(1, principal)) {
+      out.ok = true;
+      out.nominalAnnualPct = 0;
+      out.effectiveAnnualPct = 0;
+      return out;
+    }
+
+    if (f0 < 0) {
+      out.error = "Could not solve (unexpected payment vs principal relationship).";
+      return out;
+    }
+
+    let lo = 0;
+    let hi = 1e-8;
+    let fHi = f(hi);
+    let expanded = 0;
+    while (fHi > 0 && expanded < 120) {
+      hi = Math.min(hi * 1.35 + 1e-8, 0.49);
+      fHi = f(hi);
+      expanded += 1;
+    }
+    if (fHi > 0) {
+      out.error = "Could not bracket an implied interest rate.";
+      return out;
+    }
+
+    for (let iter = 0; iter < 100; iter += 1) {
+      const mid = (lo + hi) / 2;
+      const fm = f(mid);
+      if (Math.abs(fm) < 1e-10 * Math.max(1, principal)) {
+        lo = hi = mid;
+        break;
+      }
+      if (fm > 0) {
+        lo = mid;
+      } else {
+        hi = mid;
+      }
+    }
+
+    const rStar = (lo + hi) / 2;
+    const residual = Math.abs(f(rStar));
+    if (residual > 1e-6 * Math.max(1, principal)) {
+      out.error = "Could not solve implied rate to sufficient accuracy.";
+      return out;
+    }
+
+    out.ok = true;
+    out.nominalAnnualPct = rStar * 12 * 100;
+    out.effectiveAnnualPct = (Math.pow(1 + rStar, 12) - 1) * 100;
+    return out;
+  }
+
   const api = {
     monthlyPayment,
     pvLevelMonthlyPayments,
     npvMonthly,
-    solveApr
+    solveApr,
+    solveImpliedAnnualRate
   };
 
   if (typeof module !== "undefined" && module.exports) {

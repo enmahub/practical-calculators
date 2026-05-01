@@ -42,7 +42,7 @@
 <label for="anos">Plazo (años):</label>
 <input type="number" id="anos" value="15"><br><br>
 <button onclick="calcular()">Calcular</button>
-<h2 id="result" class="result">Resultado: -</h2>
+<h2 class="result"><span class="result-label">Resultado</span><div class="result-body" id="result">—</div></h2>
 <script>
 function calcular() {
   const monto = parseFloat(document.getElementById("monto").value) || 0;

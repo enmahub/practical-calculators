@@ -39,7 +39,7 @@
 <label for="minutes">Minutes</label>
 <input type="number" id="minutes" step="any" placeholder="Enter minutes">
 <button onclick="convert()">Convert</button>
-<h2 class="result" id="result">Result: -</h2>
+<h2 class="result"><span class="result-label">Result</span><div class="result-body" id="result">—</div></h2>
 <script>
 function convert() {
   const sField = document.getElementById("seconds");

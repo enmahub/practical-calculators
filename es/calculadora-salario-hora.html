@@ -42,7 +42,7 @@
 <label for="semanas">Semanas por año:</label>
 <input type="number" id="semanas" value="52"><br><br>
 <button onclick="calcular()">Calcular</button>
-<h2 id="result" class="result">Resultado: -</h2>
+<h2 class="result"><span class="result-label">Resultado</span><div class="result-body" id="result">—</div></h2>
 <script>
 function calcular() {
   const salario = parseFloat(document.getElementById("salario").value) || 0;

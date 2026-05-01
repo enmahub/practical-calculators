@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en" data-page-path="salary-plus-commission-calculator.html">
+<head>
+<title>Salary Plus Commission Calculator (Free) – Total Compensation</title>
+<meta name="description" content="Add annual base salary to commission earned on sales at your stated rate—quick gross compensation estimate.">
+<meta property="og:title" content="Salary Plus Commission Calculator (Free) – Total Compensation">
+<meta property="og:description" content="Add annual base salary to commission earned on sales at your stated rate—quick gross compensation estimate.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://enmahub.github.io/practical-calculators/salary-plus-commission-calculator.html">
+<meta property="og:site_name" content="Practical Calculators">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Salary Plus Commission Calculator (Free) – Total Compensation">
+<meta name="twitter:description" content="Add annual base salary to commission earned on sales at your stated rate—quick gross compensation estimate.">
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"WebApplication","name":"Salary Plus Commission Calculator (Free) – Total Compensation","description":"Add annual base salary to commission earned on sales at your stated rate—quick gross compensation estimate.","url":"https://enmahub.github.io/practical-calculators/salary-plus-commission-calculator.html","applicationCategory":"UtilitiesApplication","operatingSystem":"Any","browserRequirements":"Requires JavaScript. Requires HTML5.","offers":{"@type":"Offer","price":"0","priceCurrency":"USD"}}</script>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="robots" content="index, follow">
+<link rel="canonical" href="https://enmahub.github.io/practical-calculators/salary-plus-commission-calculator.html">
+<link rel="alternate" hreflang="en" href="https://enmahub.github.io/practical-calculators/salary-plus-commission-calculator.html">
+<link rel="stylesheet" href="styles.css">
+<script src="site-analytics.js" data-analytics-page defer></script>
+</head>
+<body>
+<div class="top">
+<div class="wrap top-inner">
+<a class="brand" href="index.html">Practical Calculators</a>
+<div class="site-search" data-site-search data-search-index="search-index.json" data-page-path="salary-plus-commission-calculator.html" data-pref-lang="en" data-no-results="No matches">
+<label class="visually-hidden" for="site-search-q">Search calculators</label>
+<input type="search" id="site-search-q" class="site-search-input" placeholder="Search calculators…" autocomplete="off" spellcheck="false" role="combobox" aria-haspopup="listbox" aria-autocomplete="list" aria-controls="site-search-results" aria-expanded="false">
+<div class="site-search-dropdown" id="site-search-results" hidden role="listbox" aria-label="Search calculators"></div>
+</div>
+</div>
+</div>
+<div class="wrap">
+<div class="card">
+<h1>Salary Plus Commission Calculator</h1>
+<p class="desc">Adds <strong>annual base</strong> and <strong>commission</strong> (<em>sales × rate</em>) for a gross total before tax. See also <a href="commission-calculator.html">Commission calculator</a> and <a href="bonus-calculator.html">Bonus calculator</a>.</p>
+<label for="base">Annual base salary</label>
+<input id="base" type="number" step="any" placeholder="55000">
+<label for="sales">Sales amount</label>
+<input id="sales" type="number" step="any" placeholder="120000">
+<label for="rate">Commission rate (%)</label>
+<input id="rate" type="number" step="any" value="6">
+<button onclick="calc()">Calculate</button>
+<h2 class="result"><span class="result-label">Result</span><div class="result-body" id="result">—</div></h2>
+<script>
+function calc(){
+  const base = parseFloat(document.getElementById('base').value);
+  const sales = parseFloat(document.getElementById('sales').value);
+  const rate = parseFloat(document.getElementById('rate').value);
+  const out = document.getElementById('result');
+  if (!Number.isFinite(base) || !Number.isFinite(sales) || !Number.isFinite(rate) || base < 0 || sales < 0 || rate < 0) {
+    out.innerHTML = 'Enter valid values.';
+    return;
+  }
+  const commission = sales * (rate / 100);
+  const total = base + commission;
+  out.innerHTML = 'Commission: $' + commission.toFixed(2) + '<br>Total compensation: <strong>$' + total.toFixed(2) + '</strong>';
+}
+</script>
+<details class="methodology-block">
+<summary>How this calculation works</summary>
+<div>
+<h3>What each input means</h3>
+<ul>
+<li><strong>Annual base salary</strong> — Fixed component.</li>
+<li><strong>Sales amount</strong> — Multiplied by commission rate.</li>
+<li><strong>Commission rate (%)</strong> — <em>Commission = sales × (rate ÷ 100)</em>.</li>
+</ul>
+<h3>Formula used</h3>
+<p><em>Total ≈ base + commission</em> as entered; all figures are gross before tax.</p>
+<p class="small">Does not prorate partial years, tiers, draws, or accelerators.</p>
+</div>
+</details>
+<div class="trust-block">
+<h2>How this result is estimated</h2>
+<p class="desc">This total compensation calculator provides estimate-level outputs based on the values you enter. Review assumptions and verify important decisions independently.</p>
+<ul>
+<li>Inputs are user-provided and may include rounding.</li>
+<li>Results are informational and not financial, tax, legal, or medical advice.</li>
+<li>For high-impact decisions, confirm with a licensed professional.</li>
+</ul>
+<p class="small">Last reviewed: 2026-04-17</p>
+</div>
+<div class="faq-block">
+<h2>Frequently asked questions</h2>
+<details>
+<summary>Is this calculator result exact?</summary>
+<p>It is an estimate based on your inputs and may differ from official or provider-specific calculations.</p>
+</details>
+<details>
+<summary>Can I rely on this for final financial decisions?</summary>
+<p>Use it for planning and verify important numbers with official sources or licensed professionals.</p>
+</details>
+</div>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"Is this calculator result exact?","acceptedAnswer":{"@type":"Answer","text":"It is an estimate based on your inputs and may differ from official or provider-specific calculations."}},{"@type":"Question","name":"Can I rely on this for final financial decisions?","acceptedAnswer":{"@type":"Answer","text":"Use it for planning and verify important numbers with official sources or licensed professionals."}}]}</script>
+<p><a href="index.html">Home</a> | <a href="career-calculators.html">Category Hub</a></p>
+<h2>Related Calculators</h2>
+<ul>
+<li><a href="salary-calculator.html">Hourly to Salary Calculator</a></li>
+<li><a href="commission-calculator.html">Commission Calculator</a></li>
+<li><a href="bonus-calculator.html">Bonus Calculator</a></li>
+<li><a href="take-home-paycheck-calculator.html">Take-Home Paycheck Calculator</a></li>
+<li><a href="raise-calculator.html">Raise Calculator</a></li>
+<li><a href="overtime-pay-calculator.html">Overtime Pay Calculator</a></li>
+<li><a href="gpa-calculator.html">GPA Calculator</a></li>
+<li><a href="biweekly-to-annual-salary-calculator.html">Biweekly to Annual Salary Calculator</a></li>
+<li><a href="salary-after-tax-calculator.html">Salary After Tax Calculator (US)</a></li>
+<li><a href="hourly-to-salary-after-tax-calculator.html">Hourly to Salary After Tax Calculator</a></li>
+</ul>
+<details>
+<summary>More related calculators</summary>
+<ul>
+<li><a href="1099-vs-w2-income-calculator.html">1099 vs W2 Income Calculator</a></li>
+<li><a href="self-employment-tax-calculator.html">Self-Employment Tax Calculator</a></li>
+<li><a href="freelance-tax-estimate-calculator.html">Freelance Tax Estimate Calculator</a></li>
+<li><a href="side-hustle-income-tax-calculator.html">Side Hustle Income Tax Calculator</a></li>
+</ul>
+</details>
+</div>
+<div class="footer">
+<p>Browse Categories</p>
+<div class="category-grid">
+<a class="category-link" href="financial-calculators.html">Financial</a>
+<a class="category-link" href="health-calculators.html">Health</a>
+<a class="category-link" href="conversion-calculators.html">Conversions</a>
+<a class="category-link" href="career-calculators.html">Career</a>
+</div>
+<p><a class="home-link" href="index.html">Home</a></p>
+<p class="footer-meta">
+<a href="about.html">About</a> |
+<a href="contact.html">Contact</a> |
+<a href="privacy.html">Privacy</a> |
+<a href="terms.html">Terms</a>
+</p>
+</div>
+</div>
+<script src="number-format.js" defer></script>
+<script src="site-search.js" defer></script>
+</body>
+</html>
