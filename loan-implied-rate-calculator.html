@@ -33,7 +33,7 @@
 <div class="wrap">
 <div class="card">
 <h1>Loan implied rate calculator</h1>
-<p class="desc">Fixed-rate, level-payment model: finds the <strong>nominal annual rate</strong> with <strong>monthly compounding</strong> so that your payment amortizes the principal over the term. Use with the <a href="loan-calculator.html">loan calculator</a> or <a href="mortgage-calculator.html">mortgage calculator</a>; for fees + note rate → APR, see <a href="apr-calculator.html">APR calculator</a>.</p>
+<p class="desc">Fixed-rate, level-payment model: solves for the <strong>nominal annual rate</strong> with <strong>monthly compounding</strong> such that the payment amortizes the principal over the term. Related pages on this site: <a href="loan-calculator.html">Loan calculator</a>, <a href="mortgage-calculator.html">Mortgage calculator</a>; combined note rate and upfront fees are modeled on the <a href="apr-calculator.html">APR calculator</a>.</p>
 <label for="principal">Loan principal ($)</label>
 <input id="principal" type="number" step="any" placeholder="200000">
 <label for="payment">Monthly payment ($)</label>
@@ -78,11 +78,10 @@ function calc(){
 </details>
 <div class="trust-block">
 <h2>How this result is estimated</h2>
-<p class="desc">This loan rate calculator provides estimate-level outputs based on the values you enter. Review assumptions and verify important decisions independently.</p>
+<p class="desc">This loan rate calculator applies the formulas described on this page to the values you enter. Outputs are not financial, tax, legal, or medical advice.</p>
 <ul>
 <li>Inputs are user-provided and may include rounding.</li>
-<li>Results are informational and not financial, tax, legal, or medical advice.</li>
-<li>For high-impact decisions, confirm with a licensed professional.</li>
+<li>Where accuracy, eligibility, or obligations matter, rely on official disclosures and licensed professionals.</li>
 </ul>
 <p class="small">Last reviewed: 2026-04-17</p>
 </div>
@@ -98,10 +97,10 @@ function calc(){
 </details>
 <details>
 <summary>Does this include upfront fees?</summary>
-<p>No. For fees that reduce net proceeds while payments amortize full principal, use the APR calculator on this site.</p>
+<p>No. Net-proceeds fee treatment alongside full-principal amortization appears on the APR calculator page on this site.</p>
 </details>
 </div>
-<script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"What rate is this solving for?","acceptedAnswer":{"@type":"Answer","text":"A nominal annual rate with monthly compounding that makes your fixed monthly payment amortize the principal over the term—the usual level-payment mortgage-style assumption."}},{"@type":"Question","name":"Why might the calculator say my payment is too low?","acceptedAnswer":{"@type":"Answer","text":"If the payment cannot amortize the principal over that many months at any nonnegative interest rate, no solution exists for this model."}},{"@type":"Question","name":"Does this include upfront fees?","acceptedAnswer":{"@type":"Answer","text":"No. For fees that reduce net proceeds while payments amortize full principal, use the APR calculator on this site."}}]}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"What rate is this solving for?","acceptedAnswer":{"@type":"Answer","text":"A nominal annual rate with monthly compounding that makes your fixed monthly payment amortize the principal over the term—the usual level-payment mortgage-style assumption."}},{"@type":"Question","name":"Why might the calculator say my payment is too low?","acceptedAnswer":{"@type":"Answer","text":"If the payment cannot amortize the principal over that many months at any nonnegative interest rate, no solution exists for this model."}},{"@type":"Question","name":"Does this include upfront fees?","acceptedAnswer":{"@type":"Answer","text":"No. Net-proceeds fee treatment alongside full-principal amortization appears on the APR calculator page on this site."}}]}</script>
 <p><a href="index.html">Home</a> | <a href="financial-calculators.html">Category Hub</a></p>
 <h2>Related Calculators</h2>
 <ul>
