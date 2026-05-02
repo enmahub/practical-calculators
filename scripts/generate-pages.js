@@ -104,10 +104,10 @@ const LOCALE_LABELS = {
     categoryHub: "Category Hub",
     trustTitle: "How this result is estimated",
     trustDescription:
-      "This {topic} provides estimate-level outputs based on the values you enter. Review assumptions and verify important decisions independently.",
+      "This {topic} applies the formulas described on this page to the values you enter. Outputs are not financial, tax, legal, or medical advice.",
     trustItem1: "Inputs are user-provided and may include rounding.",
-    trustItem2: "Results are informational and not financial, tax, legal, or medical advice.",
-    trustItem3: "For high-impact decisions, confirm with a licensed professional.",
+    trustItem2: "Where accuracy, eligibility, or obligations matter, rely on official disclosures and licensed professionals.",
+    trustItem3: "",
     trustReviewed: "Last reviewed",
     faqTitle: "Frequently asked questions",
     methodologyTitle: "How this calculation works",
@@ -135,9 +135,9 @@ const LOCALE_LABELS = {
     categoryHub: "Índice de categoría",
     trustTitle: "Información sobre este cálculo",
     trustDescription:
-      "{topic} ofrece resultados estimados a partir de los valores que ingresas. Revisa los supuestos y verifica las decisiones importantes de manera independiente.",
-    trustItem1: "Los valores mostrados pueden incluir redondeos y son solo informativos.",
-    trustItem2: "Para decisiones relevantes, verifique la información o consulte a un profesional.",
+      "{topic} aplica las fórmulas indicadas en esta página a los valores que ingresas. Los resultados no constituyen asesoría financiera, fiscal, legal ni médica.",
+    trustItem1: "Los valores ingresados pueden incluir redondeos.",
+    trustItem2: "Cuando importen exactitud, elegibilidad u obligaciones, consulte documentación oficial y profesionales autorizados.",
     trustItem3: "",
     trustReviewed: "Última revisión",
     faqTitle: "Preguntas frecuentes",
@@ -229,7 +229,7 @@ const EN_INFO_PAGES = [
 <p class="desc">By using Practical Calculators, you agree to use the website for lawful purposes only.</p>
 <p>The calculators and tools are provided for general informational use. Results are estimates based on the values entered.</p>
 <p>No guarantee is made regarding completeness or suitability for financial, legal, tax, medical, or professional decisions.</p>
-<p>Users should verify important results independently.</p>
+<p>Where outcomes affect obligations or eligibility, official documents and qualified professionals are the appropriate sources.</p>
 <p>This website may update, change, or remove tools at any time without notice.</p>
 <p>Use of this site is at your own risk.</p>
 
@@ -700,13 +700,13 @@ function informationalFooterHtml(lang = "en") {
   if (locale === "es") {
     return `<div class="trust-block">
 <h2>Información del sitio</h2>
-<p class="desc">Las calculadoras ofrecen estimaciones para planificación; no sustituyen asesoría profesional. Los detalles sobre datos, cookies y publicidad están en la <a href="privacy.html">Política de privacidad</a>.</p>
+<p class="desc">Las calculadoras aplican las fórmulas indicadas a los valores ingresados; no sustituyen asesoría profesional. Los detalles sobre datos, cookies y publicidad están en la <a href="privacy.html">Política de privacidad</a>.</p>
 <p class="small">${LOCALE_LABELS.es.trustReviewed}: ${escapeHtml(trustUpdatedDate)}</p>
 </div>`;
   }
   return `<div class="trust-block">
 <h2>Site information</h2>
-<p class="desc">Calculator results are for planning and learning; they are not professional advice. For data practices, cookies, and advertising, see the <a href="privacy.html">Privacy Policy</a>.</p>
+<p class="desc">Calculator outputs reflect the formulas on each page from your inputs; they are not professional advice. For data practices, cookies, and advertising, see the <a href="privacy.html">Privacy Policy</a>.</p>
 <p class="small">Last reviewed: ${escapeHtml(trustUpdatedDate)}</p>
 </div>`;
 }
@@ -760,7 +760,8 @@ function faqItemsForEntry(entry) {
       },
       {
         question: "What happens if live rates fail to load?",
-        answer: "The calculator shows a fallback message so you can retry or check rates later."
+        answer:
+          "The calculator may show a fallback message when rates fail to load; checking rates again later or entering a manual rate remains possible."
       }
     ];
   }
@@ -776,8 +777,9 @@ function faqItemsForEntry(entry) {
         answer: "The calculator uses a standard fixed-rate amortization formula."
       },
       {
-        question: "Is this good enough for final loan decisions?",
-        answer: "Use it for planning only and confirm terms directly with your lender."
+        question: "Does this establish final loan terms?",
+        answer:
+          "No. It applies standard amortization to your inputs. Loan costs, disclosures, and eligibility come only from your lender and official loan documents."
       }
     ];
   }
@@ -809,7 +811,7 @@ function faqItemsForEntry(entry) {
       {
         question: "Why is state tax shown as a flat percent?",
         answer:
-          "These state pages use a single transparent percentage on gross as a planning shortcut—not a full state tax return, credits, or local add-ons."
+          "These state pages apply one transparent percentage on gross income—not a full state tax return, credits, or local add-ons."
       },
       {
         question: "How should I use the monthly or biweekly numbers?",
@@ -834,9 +836,9 @@ function faqItemsForEntry(entry) {
             "It is (total upfront fees ÷ loan principal ÷ years in the loan) × 100, expressed as a simple percent per year. It is a rough fee load, not a full APR."
         },
         {
-          question: "When should I use this?",
+          question: "How does this relate to Truth-in-Lending APR?",
           answer:
-            "For quick comparisons when you already have a ballpark for upfront costs and want a simple yearly figure. For borrowing decisions, rely on your lender’s official disclosures and qualified professionals."
+            "Truth-in-Lending APR follows regulatory definitions, fee inclusion rules, and rounding. This tool applies only the simple fee÷principal÷years annualization shown above to your inputs."
         }
       ];
     }
@@ -845,7 +847,7 @@ function faqItemsForEntry(entry) {
         {
           question: "Is this the same APR as on my Loan Estimate or closing disclosure?",
           answer:
-            "No. Official disclosures follow Truth in Lending / Regulation Z rules, fee inclusion lists, rounding, and timing details this tool does not model. This page gives a transparent actuarial-style estimate from a few inputs for planning only."
+            "No. Official disclosures follow Truth in Lending / Regulation Z rules, fee inclusion lists, rounding, and timing details this tool does not model. This page applies the actuarial-style formulation described here to your inputs only."
         },
         {
           question: "What fee model does this calculator use?",
@@ -864,7 +866,7 @@ function faqItemsForEntry(entry) {
         {
           question: "Is APY the same as APR on my loan?",
           answer:
-            "No. Loan APR communicates borrowing cost under lender or regulatory conventions. This APY tool converts a nominal rate you enter into a yearly yield assuming periodic compounding—typical for savings and investments, not loan disclosures."
+            "No. Loan APR follows lender and regulatory disclosure rules. This page converts a nominal rate you enter into APY from periodic compounding—the formula documented here—not a loan disclosure."
         },
         {
           question: "Why does APY change when I change compounding frequency?",
@@ -893,7 +895,7 @@ function faqItemsForEntry(entry) {
         {
           question: "Does this include upfront fees?",
           answer:
-            "No. For fees that reduce net proceeds while payments amortize full principal, use the APR calculator on this site."
+            "No. Net-proceeds fee treatment alongside full-principal amortization appears on the APR calculator page on this site."
         }
       ];
     }
@@ -902,7 +904,7 @@ function faqItemsForEntry(entry) {
         {
           question: "Is this ovulation date medically exact?",
           answer:
-            "No. It uses a simple calendar rule (about 14 days before your next expected period) and is for general planning only—not diagnosis, treatment, or contraception timing."
+            "No. It uses a simple calendar rule (about 14 days before your next expected period) for illustration only—not diagnosis, treatment, or contraception timing."
         },
         {
           question: "What is the fertile window shown here?",
@@ -913,6 +915,25 @@ function faqItemsForEntry(entry) {
           question: "Should I use this instead of talking to a clinician?",
           answer:
             "For health decisions, use professional guidance and not this calculator alone."
+        }
+      ];
+    }
+    if (legacyKey === "steps-calories-calculator.html") {
+      return [
+        {
+          question: "Will my fitness tracker match this calorie number?",
+          answer:
+            "Often no. Devices blend heart rate, personal profiles, and proprietary models. This tool uses a transparent MET × weight × time approximation from steps and your pace/terrain choices."
+        },
+        {
+          question: "Does walking uphill change the result?",
+          answer:
+            "Yes. Real hills and treadmill inclines usually raise energy cost per step. The terrain menu applies a simple multiplier on intensity—it is not a measured slope grade."
+        },
+        {
+          question: "Are the weekly weight-change lines guaranteed?",
+          answer:
+            "No. They apply rough rules of thumb (~3,500 kcal per lb) to hypothetical deficits from steps alone. Total calories eaten, other exercise, water retention, and hormones strongly affect scale weight."
         }
       ];
     }
@@ -943,8 +964,9 @@ function faqItemsForEntry(entry) {
       answer: "It is an estimate based on your inputs and may differ from official or provider-specific calculations."
     },
     {
-      question: "Can I rely on this for final financial decisions?",
-      answer: "Use it for planning and verify important numbers with official sources or licensed professionals."
+      question: "Does this site provide financial, tax, or legal advice?",
+      answer:
+        "No. Each tool applies explicit formulas to values you supply. Financial, tax, and legal conclusions belong with licensed professionals and official documents."
     }
   ];
 }
@@ -2356,7 +2378,7 @@ function upsertFinancialHubSplitSection(entries) {
   const blocks = [];
   if (popularEntries.length > 0) {
     blocks.push(`<h2>Popular financial calculators</h2>
-<p class="small">Core tools for payments, savings, taxes, and planning.</p>
+<p class="small">Core tools for payments, savings, taxes, and percentage arithmetic.</p>
 <ul>
 ${popularEntries.map(linkItem).join("\n")}
 </ul>`);
@@ -2377,7 +2399,7 @@ ${salaryEntries.map(linkItem).join("\n")}
   }
   if (otherEntries.length > 0) {
     blocks.push(`<h2>More financial calculators (${otherEntries.length})</h2>
-<p class="small">Additional tools for debt, investing, housing, and business planning.</p>
+<p class="small">Additional tools for debt payoff schedules, housing-cost arithmetic, and business margins.</p>
 <ul>
 ${otherEntries.map(linkItem).join("\n")}
 </ul>`);
@@ -2811,7 +2833,7 @@ ${topBarHtml({ pagePath: "", lang: "en" })}
 <div class="wrap">
 <div class="card">
 <h1>Free Online Calculators</h1>
-<p class="desc">Practical Calculators offers fast, free tools for loans, mortgages, savings, health metrics, and everyday conversions—with short methodology notes on each page so you can see what is (and is not) modeled.</p>
+<p class="desc">Practical Calculators hosts free calculators for loans, mortgages, savings, health metrics, and everyday conversions. Each calculator page documents inputs and formulas in a methodology section.</p>
 <h2>Popular calculators</h2>
 <ul>
 <li><a href="apr-calculator.html">APR calculator (estimate)</a></li>

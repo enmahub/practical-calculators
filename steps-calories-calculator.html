@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="en" data-page-path="steps-calories-calculator.html">
+<head>
+<title>Steps to Calories Calculator (Free) – Walking Burn Estimate</title>
+<meta name="description" content="Estimate calories burned from steps walked using pace and terrain assumptions; optional daily-average totals with weight-change disclaimers.">
+<meta property="og:title" content="Steps to Calories Calculator (Free) – Walking Burn Estimate">
+<meta property="og:description" content="Estimate calories burned from steps walked using pace and terrain assumptions; optional daily-average totals with weight-change disclaimers.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://enmahub.github.io/practical-calculators/steps-calories-calculator.html">
+<meta property="og:site_name" content="Practical Calculators">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Steps to Calories Calculator (Free) – Walking Burn Estimate">
+<meta name="twitter:description" content="Estimate calories burned from steps walked using pace and terrain assumptions; optional daily-average totals with weight-change disclaimers.">
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"WebApplication","name":"Steps to Calories Calculator (Free) – Walking Burn Estimate","description":"Estimate calories burned from steps walked using pace and terrain assumptions; optional daily-average totals with weight-change disclaimers.","url":"https://enmahub.github.io/practical-calculators/steps-calories-calculator.html","applicationCategory":"UtilitiesApplication","operatingSystem":"Any","browserRequirements":"Requires JavaScript. Requires HTML5.","offers":{"@type":"Offer","price":"0","priceCurrency":"USD"}}</script>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="robots" content="index, follow">
+<link rel="canonical" href="https://enmahub.github.io/practical-calculators/steps-calories-calculator.html">
+<link rel="alternate" hreflang="en" href="https://enmahub.github.io/practical-calculators/steps-calories-calculator.html">
+<link rel="stylesheet" href="styles.css">
+<script src="site-analytics.js" data-analytics-page defer></script>
+</head>
+<body>
+<div class="top">
+<div class="wrap top-inner">
+<a class="brand" href="index.html">Practical Calculators</a>
+<div class="site-search" data-site-search data-search-index="search-index.json" data-page-path="steps-calories-calculator.html" data-pref-lang="en" data-no-results="No matches">
+<label class="visually-hidden" for="site-search-q">Search calculators</label>
+<input type="search" id="site-search-q" class="site-search-input" placeholder="Search calculators…" autocomplete="off" spellcheck="false" role="combobox" aria-haspopup="listbox" aria-autocomplete="list" aria-controls="site-search-results" aria-expanded="false">
+<div class="site-search-dropdown" id="site-search-results" hidden role="listbox" aria-label="Search calculators"></div>
+</div>
+</div>
+</div>
+<div class="wrap">
+<div class="card">
+<h1>Steps to Calories Calculator</h1>
+<p class="desc">Estimates calories burned from walking using your step count, body weight, an assumed stride length (refined if you enter height), walking pace, and terrain. <strong>Surface, incline, speed changes, fitness level, footwear, carrying weight, and how your watch counts steps</strong> can shift real energy use up or down—treat this as a planning band, not a lab measurement. Optional totals assume your step entry is a <strong>typical daily average</strong> and use rough fat-equivalent math (~3,500 kcal per lb, ~7,700 per kg) only if diet and everything else stayed identical—real scale weight moves with water, salt, hormones, and appetite too.</p>
+
+<label for="steps">Steps walked</label>
+<input id="steps" type="number" min="1" step="1" placeholder="e.g. 8000">
+
+<label for="weight">Body weight</label>
+<input id="weight" type="number" min="1" step="any" placeholder="Enter weight">
+<label for="wunit">Weight units</label>
+<select id="wunit">
+<option value="kg">Kilograms (kg)</option>
+<option value="lb">Pounds (lb)</option>
+</select>
+
+<label for="heightcm">Height (cm), optional — refines stride length</label>
+<input id="heightcm" type="number" min="100" step="any" placeholder="Leave blank for ~76 cm stride">
+
+<label for="pace">Walking pace / intensity</label>
+<select id="pace">
+<option value="slow">Slow stroll (~3.2 km/h)</option>
+<option value="moderate" selected>Moderate walk (~4.5 km/h)</option>
+<option value="brisk">Brisk walk (~5.6 km/h)</option>
+<option value="fast">Very brisk / fitness walk (~6.5 km/h)</option>
+</select>
+
+<label for="terrain">Terrain / incline (extra effort factor)</label>
+<select id="terrain">
+<option value="flat" selected>Mostly flat</option>
+<option value="light">Some hills / mild incline</option>
+<option value="hilly">Hilly / sustained moderate incline</option>
+<option value="steep">Steep hills / strong treadmill incline</option>
+</select>
+
+<p><label><input type="checkbox" id="daily"> Treat step count as my typical <strong>daily</strong> average (add weekly / monthly burn totals)</label></p>
+
+<button onclick="calc()">Calculate</button>
+<h2 class="result"><span class="result-label">Result</span><div class="result-body" id="r">—</div></h2>
+
+<script src="steps-calories-math.js"></script>
+<script>
+function calc(){
+  var steps = parseFloat(document.getElementById('steps').value);
+  var weight = parseFloat(document.getElementById('weight').value);
+  var wunit = document.getElementById('wunit').value;
+  var heightCm = parseFloat(document.getElementById('heightcm').value);
+  var paceKey = document.getElementById('pace').value;
+  var terrainKey = document.getElementById('terrain').value;
+  var daily = document.getElementById('daily').checked;
+  var out = document.getElementById('r');
+  if (typeof StepsCaloriesMath === 'undefined') {
+    out.innerHTML = 'Could not load calculation script.';
+    return;
+  }
+  var res = StepsCaloriesMath.estimate({
+    steps: steps,
+    weight: weight,
+    weightUnit: wunit,
+    heightCm: heightCm,
+    paceKey: paceKey,
+    terrainKey: terrainKey,
+    dailyHabit: daily
+  });
+  if (!res.ok) {
+    out.innerHTML = res.error;
+    return;
+  }
+  var html = 'Estimated calories burned: <strong>' + res.calories.toFixed(0) + '</strong> kcal<br>';
+  html += 'Approx. distance: ' + res.distanceMi.toFixed(2) + ' mi (' + res.distanceKm.toFixed(2) + ' km)<br>';
+  html += 'Active walking time at chosen pace: ~' + (res.durationHours * 60).toFixed(0) + ' min<br>';
+  html += '<span class="small">MET-based estimate; stride ~' + (res.strideMeters * 100).toFixed(0) + ' cm (height adjusts when provided).</span>';
+  if (daily) {
+    html += '<br><br>If this step count repeats every day: ~<strong>' + res.weeklyCalories.toFixed(0) + '</strong> kcal/week from these steps; ~<strong>' + res.monthlyCalories30.toFixed(0) + '</strong> kcal over 30 days.<br>';
+    html += '<span class="small">Illustrative fat-equivalent band (often overstated): ~' + res.roughLbPerWeekIllustrative.toFixed(2) + ' lb/week (~' + res.roughKgPerWeekIllustrative.toFixed(3) + ' kg/week) only if every burned calorie translated into stored-fat deficit—which usually does not happen.</span>';
+  }
+  out.innerHTML = html;
+  document.dispatchEvent(new CustomEvent('pc:calculator_result', { detail: { type: 'steps_calories' } }));
+}
+</script>
+
+<details class="methodology-block">
+<summary>How this calculation works</summary>
+<div>
+<h3>What each input means</h3>
+<ul>
+<li><strong>Steps walked</strong> — Total step count for the walk or day you are estimating.</li>
+<li><strong>Body weight</strong> — MET-based formulas scale with mass (kg internally).</li>
+<li><strong>Height (optional)</strong> — When provided, stride length defaults to about <strong>41.3% of height</strong> (walking heuristic); otherwise a fixed ~76 cm stride.</li>
+<li><strong>Pace</strong> — Chooses a <strong>MET</strong> value and a <strong>walking speed</strong> used only to turn distance into time: <em>hours = distance ÷ speed</em>.</li>
+<li><strong>Terrain / incline</strong> — Multiplies MET upward for hills or treadmill incline (coarse factors, not measured grade).</li>
+<li><strong>Daily-average checkbox</strong> — Scales one-day burn to week/month totals and shows illustrative lb/kg/week figures using common rule-of-thumb energy densities (~3,500 kcal per lb, ~7,700 per kg).</li>
+</ul>
+<h3>Formula used</h3>
+<p><em>Distance</em> ≈ steps × stride (m). <em>Time</em> ≈ distance ÷ pace speed. <em>Calories</em> ≈ MET × weight(kg) × time(hours), with MET adjusted by terrain.</p>
+<p class="small">Wearables and lab measures disagree; this page does not replace metabolic testing. Weight-change lines assume calories translate directly into fat deficit, which real life usually violates.</p>
+</div>
+</details>
+<div class="trust-block">
+<h2>How this result is estimated</h2>
+<p class="desc">This steps and walking calorie-burn estimator applies the formulas described on this page to the values you enter. Outputs are not financial, tax, legal, or medical advice.</p>
+<ul>
+<li>Inputs are user-provided and may include rounding.</li>
+<li>Where accuracy, eligibility, or obligations matter, rely on official disclosures and licensed professionals.</li>
+</ul>
+<p class="small">Last reviewed: 2026-04-17</p>
+</div>
+<div class="faq-block">
+<h2>Frequently asked questions</h2>
+<details>
+<summary>Will my fitness tracker match this calorie number?</summary>
+<p>Often no. Devices blend heart rate, personal profiles, and proprietary models. This tool uses a transparent MET × weight × time approximation from steps and your pace/terrain choices.</p>
+</details>
+<details>
+<summary>Does walking uphill change the result?</summary>
+<p>Yes. Real hills and treadmill inclines usually raise energy cost per step. The terrain menu applies a simple multiplier on intensity—it is not a measured slope grade.</p>
+</details>
+<details>
+<summary>Are the weekly weight-change lines guaranteed?</summary>
+<p>No. They apply rough rules of thumb (~3,500 kcal per lb) to hypothetical deficits from steps alone. Total calories eaten, other exercise, water retention, and hormones strongly affect scale weight.</p>
+</details>
+</div>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"Will my fitness tracker match this calorie number?","acceptedAnswer":{"@type":"Answer","text":"Often no. Devices blend heart rate, personal profiles, and proprietary models. This tool uses a transparent MET × weight × time approximation from steps and your pace/terrain choices."}},{"@type":"Question","name":"Does walking uphill change the result?","acceptedAnswer":{"@type":"Answer","text":"Yes. Real hills and treadmill inclines usually raise energy cost per step. The terrain menu applies a simple multiplier on intensity—it is not a measured slope grade."}},{"@type":"Question","name":"Are the weekly weight-change lines guaranteed?","acceptedAnswer":{"@type":"Answer","text":"No. They apply rough rules of thumb (~3,500 kcal per lb) to hypothetical deficits from steps alone. Total calories eaten, other exercise, water retention, and hormones strongly affect scale weight."}}]}</script>
+<p><a href="index.html">Home</a> | <a href="health-calculators.html">Category Hub</a></p>
+<h2>Related Calculators</h2>
+<ul>
+<li><a href="age-calculator.html">Age Calculator</a></li>
+<li><a href="bmi-calculator.html">BMI Calculator</a></li>
+<li><a href="calorie-calculator.html">Daily Calorie Calculator</a></li>
+<li><a href="macros-calculator.html">Macros Calculator</a></li>
+<li><a href="ovulation-calculator.html">Ovulation Calculator</a></li>
+<li><a href="weight-loss-calculator.html">Weight Loss Calculator</a></li>
+</ul>
+
+</div>
+<div class="footer">
+<p>Browse Categories</p>
+<div class="category-grid">
+<a class="category-link" href="financial-calculators.html">Financial</a>
+<a class="category-link" href="health-calculators.html">Health</a>
+<a class="category-link" href="conversion-calculators.html">Conversions</a>
+<a class="category-link" href="career-calculators.html">Career</a>
+</div>
+<p><a class="home-link" href="index.html">Home</a></p>
+<p class="footer-meta">
+<a href="about.html">About</a> |
+<a href="contact.html">Contact</a> |
+<a href="privacy.html">Privacy</a> |
+<a href="terms.html">Terms</a>
+</p>
+</div>
+</div>
+<script src="number-format.js" defer></script>
+<script src="site-search.js" defer></script>
+</body>
+</html>

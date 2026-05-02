@@ -252,7 +252,7 @@ function methodologyLegacyByFileName(helpers, fileName, lang) {
 </ul>
 <h3>${escapeHtml(L.methodologyFormula)}</h3>
 <p><em>Simple annualized fee rate (%) ≈ (fees ÷ principal ÷ years) × 100</em></p>
-<p class="small">This is a planning shortcut, not Truth-in-Lending APR: it ignores payment timing, compounding, nominal interest rate, and lender rounding rules.</p>`,
+<p class="small">Rough comparison figure only—not Truth-in-Lending APR: it ignores payment timing, compounding, nominal interest rate, and lender rounding rules.</p>`,
     "apr-calculator.html": `<h3>${escapeHtml(L.methodologyInputs)}</h3>
 <ul>
 <li><strong>Loan principal / contract amount</strong> — Balance used to compute the level monthly payment at the stated note rate.</li>
@@ -262,7 +262,7 @@ function methodologyLegacyByFileName(helpers, fileName, lang) {
 </ul>
 <h3>${escapeHtml(L.methodologyFormula)}</h3>
 <p>Monthly payment <em>M</em> = standard amortization on principal <em>P</em> at monthly rate <em>i = (note% ÷ 100 ÷ 12)</em> for <em>n</em> months. Net proceeds <em>N = P − fees</em>. The tool finds monthly IRR <em>r</em> such that present value of <em>n</em> payments of <em>M</em> at rate <em>r</em> equals <em>N</em>, then reports <strong>actuarial APR ≈ 12 × r</strong> (and an effective annual rate for comparison).</p>
-<p><strong>APR vs APY:</strong> APR here reflects loan cash-flow timing (cost of borrowing). APY describes compounded growth on savings—see the <a href="apy-calculator.html">APY calculator</a>.</p>
+<p><strong>APR vs APY:</strong> APR here reflects loan cash-flow timing for borrowing. APY describes compounded growth on savings; the <a href="apy-calculator.html">APY calculator</a> page documents that conversion.</p>
 <p class="small">Not a Reg Z / Loan Estimate substitute: ignores PMI, escrow, odd-day interest, APR tolerance rules, prepaid finance charges definitions, variable rates, and lender-specific cash-flow timing.</p>`,
     "apy-calculator.html": `<h3>${escapeHtml(L.methodologyInputs)}</h3>
 <ul>
@@ -430,7 +430,7 @@ function methodologyLegacyByFileName(helpers, fileName, lang) {
     "debt-to-income-calculator.html": `<h3>${escapeHtml(L.methodologyInputs)}</h3>
 <ul>
 <li><strong>Monthly gross income</strong> — Denominator for the ratio.</li>
-<li><strong>Monthly debt payments</strong> — Intended as total recurring minimum payments (credit cards, auto, student loans, other installment debt). Mortgage calculators on this site can help estimate a housing payment component.</li>
+<li><strong>Monthly debt payments</strong> — Total recurring minimum payments you choose to include (credit cards, auto, housing, other installment debt, etc.). Which debts belong in the ratio depends on the lender or program.</li>
 </ul>
 <h3>${escapeHtml(L.methodologyFormula)}</h3>
 <p><em>DTI (%) ≈ (monthly debt ÷ monthly gross income) × 100</em> as implemented—a generic <strong>back-end</strong>-style ratio.</p>
@@ -642,6 +642,18 @@ function methodologyLegacyByFileName(helpers, fileName, lang) {
 <h3>${escapeHtml(L.methodologyFormula)}</h3>
 <p><em>Extra tax ≈ side income × (marginal% ÷ 100)</em>; <em>net side income ≈ side income − extra tax</em>.</p>
 <p class="small">Flat marginal rate; ignores SE tax, phase-outs, and state taxes.</p>`,
+    "steps-calories-calculator.html": `<h3>${escapeHtml(L.methodologyInputs)}</h3>
+<ul>
+<li><strong>Steps walked</strong> — Total step count for the walk or day you are estimating.</li>
+<li><strong>Body weight</strong> — MET-based formulas scale with mass (kg internally).</li>
+<li><strong>Height (optional)</strong> — When provided, stride length defaults to about <strong>41.3% of height</strong> (walking heuristic); otherwise a fixed ~76 cm stride.</li>
+<li><strong>Pace</strong> — Chooses a <strong>MET</strong> value and a <strong>walking speed</strong> used only to turn distance into time: <em>hours = distance ÷ speed</em>.</li>
+<li><strong>Terrain / incline</strong> — Multiplies MET upward for hills or treadmill incline (coarse factors, not measured grade).</li>
+<li><strong>Daily-average checkbox</strong> — Scales one-day burn to week/month totals and shows illustrative lb/kg/week figures using common rule-of-thumb energy densities (~3,500 kcal per lb, ~7,700 per kg).</li>
+</ul>
+<h3>${escapeHtml(L.methodologyFormula)}</h3>
+<p><em>Distance</em> ≈ steps × stride (m). <em>Time</em> ≈ distance ÷ pace speed. <em>Calories</em> ≈ MET × weight(kg) × time(hours), with MET adjusted by terrain.</p>
+<p class="small">Wearables and lab measures disagree; this page does not replace metabolic testing. Weight-change lines assume calories translate directly into fat deficit, which real life usually violates.</p>`,
     "take-home-paycheck-calculator.html": `<h3>${escapeHtml(L.methodologyInputs)}</h3>
 <ul>
 <li><strong>Gross paycheck</strong> — Per-period gross.</li>

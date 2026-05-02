@@ -302,11 +302,11 @@ button:hover{
 .result-label{
   display:block;
   margin-bottom:8px;
-  font-size:12px;
-  font-weight:700;
-  letter-spacing:0.06em;
-  text-transform:uppercase;
-  color:#1e3a5f;
+  font-size:inherit;
+  font-weight:inherit;
+  letter-spacing:normal;
+  text-transform:none;
+  color:inherit;
 }
 
 .result-body{

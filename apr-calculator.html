@@ -33,26 +33,7 @@
 <div class="wrap">
 <div class="card">
 <h1>APR calculator (estimate)</h1>
-<p class="desc">Uses your <strong>stated note rate</strong> (compounded monthly), <strong>loan principal</strong>, <strong>term</strong>, and <strong>upfront fees</strong> that reduce <strong>net cash received</strong> at closing while payments still amortize the full principal. Solves the monthly rate so the present value of payments equals net proceeds, then shows <strong>actuarial APR ≈ 12 × monthly IRR</strong>. Ignores PMI, escrow, odd days, prepaid per-diem interest, and Reg Z fee rules—<strong>not your Loan Estimate APR</strong>. For a fee-only yearly spread with no interest rate, use the <a href="loan-fee-annualizer.html">loan fee annualizer</a>.</p>
-<p class="see-also"><strong>See also:</strong> <a href="loan-calculator.html">Loan calculator</a> · <a href="mortgage-calculator.html">Mortgage calculator</a> · <a href="interest-rate-calculator.html">Simple interest calculator</a> · <a href="compound-interest.html">Compound interest</a> · <a href="apy-calculator.html">APY calculator</a> · <a href="loan-implied-rate-calculator.html">Implied loan rate (payment solver)</a></p>
-<h2>When APR matters</h2>
-<ul>
-<li><strong>Comparing loans with different upfront costs</strong> — Fees reduce cash you receive while payments may still amortize the full principal.</li>
-<li><strong>Beyond the note rate</strong> — APR folds fee timing into an annualized borrowing-cost figure.</li>
-<li><strong>Planning only</strong> — Truth-in-Lending / Regulation Z disclosures use definitions and rounding this tool does not implement.</li>
-</ul>
-<h2>APR vs APY</h2>
-<p><strong>APR</strong> here reflects <em>loan cash flows</em>: payments versus net funding, expressed as an annualized rate from the solved monthly IRR.</p>
-<p><strong>APY</strong> describes how an <em>earning</em> balance grows when interest compounds within the year (for example savings). Use the <a href="apy-calculator.html">APY calculator</a> to convert nominal rate + compounding frequency into APY.</p>
-<h2>Quick examples ($320k principal, 30-year, 6.5% note)</h2>
-<ul>
-<li><strong>$0 upfront fees</strong> — Net proceeds equal principal; actuarial APR matches the note rate in this model.</li>
-<li><strong>$6,500 fees deducted from proceeds</strong> — You receive less cash at closing but payments still amortize $320k; APR rises above the note rate.</li>
-</ul>
-<h2>Equation solved</h2>
-<p>Let <em>M</em> be the monthly payment amortizing principal <em>P</em> at the stated note rate, and <em>N = P − fees</em> net proceeds. The tool finds monthly IRR <em>r</em> such that</p>
-<p class="formula-line"><em>N</em> = Σ<sub>k=1</sub><sup>n</sup> <em>M</em> ⁄ (1 + <em>r</em>)<sup>k</sup></p>
-<p>then reports <strong>actuarial APR ≈ 12 × r</strong> and an effective annual rate for comparison.</p>
+<p class="desc">Uses your <strong>stated note rate</strong> (compounded monthly), <strong>loan principal</strong>, <strong>term</strong>, and <strong>upfront fees</strong> that reduce <strong>net cash received</strong> at closing while payments still amortize the full principal. Solves the monthly rate so the present value of payments equals net proceeds, then shows <strong>actuarial APR ≈ 12 × monthly IRR</strong>. Ignores PMI, escrow, odd days, prepaid per-diem interest, and Reg Z fee rules—<strong>not your Loan Estimate APR</strong>. The <a href="loan-fee-annualizer.html">loan fee annualizer</a> describes fee-only annualization without modeling a separate note rate.</p>
 <label for="principal">Loan principal / contract amount ($)</label>
 <input id="principal" type="number" step="any" placeholder="320000">
 <label for="note">Stated interest rate (% per year)</label>
@@ -63,6 +44,25 @@
 <input id="fees" type="number" step="any" placeholder="6500">
 <button onclick="calc()">Calculate</button>
 <h2 class="result"><span class="result-label">Result</span><div class="result-body" id="result">—</div></h2>
+<p class="see-also"><strong>Related calculators:</strong> <a href="loan-calculator.html">Loan calculator</a> · <a href="mortgage-calculator.html">Mortgage calculator</a> · <a href="interest-rate-calculator.html">Simple interest calculator</a> · <a href="compound-interest.html">Compound interest</a> · <a href="apy-calculator.html">APY calculator</a> · <a href="loan-implied-rate-calculator.html">Implied loan rate (payment solver)</a></p>
+<h2>What this tool illustrates</h2>
+<ul>
+<li><strong>Fees netted from proceeds</strong> — Net cash at closing is below principal while scheduled payments amortize the stated principal at the note rate.</li>
+<li><strong>Note rate vs displayed APR estimate</strong> — The solved rate folds fee timing into an annualized figure alongside the stated note rate.</li>
+<li><strong>Regulatory APR</strong> — Truth-in-Lending / Regulation Z disclosures use definitions, fee sets, and rounding not reproduced here.</li>
+</ul>
+<h2>APR vs APY</h2>
+<p><strong>APR</strong> here reflects <em>loan cash flows</em>: payments versus net funding, expressed as an annualized rate from the solved monthly IRR.</p>
+<p><strong>APY</strong> describes how an <em>earning</em> balance grows when interest compounds within the year (for example savings). The <a href="apy-calculator.html">APY calculator</a> converts nominal rate and compounding frequency into APY.</p>
+<h2>Worked examples ($320k principal, 30-year, 6.5% note)</h2>
+<ul>
+<li><strong>$0 upfront fees</strong> — Net proceeds equal principal; actuarial APR matches the note rate in this model.</li>
+<li><strong>$6,500 fees deducted from proceeds</strong> — Net cash at closing is lower while payments still amortize $320k; the displayed APR estimate exceeds the note rate in this model.</li>
+</ul>
+<h2>Equation solved</h2>
+<p>Let <em>M</em> be the monthly payment amortizing principal <em>P</em> at the stated note rate, and <em>N = P − fees</em> net proceeds. The tool finds monthly IRR <em>r</em> such that</p>
+<p class="formula-line"><em>N</em> = Σ<sub>k=1</sub><sup>n</sup> <em>M</em> ⁄ (1 + <em>r</em>)<sup>k</sup></p>
+<p>then reports <strong>actuarial APR ≈ 12 × r</strong> and an effective annual rate for comparison.</p>
 <script src="apr-math.js"></script>
 <script>
 function calc(){
@@ -100,17 +100,16 @@ function calc(){
 </ul>
 <h3>Formula used</h3>
 <p>Monthly payment <em>M</em> = standard amortization on principal <em>P</em> at monthly rate <em>i = (note% ÷ 100 ÷ 12)</em> for <em>n</em> months. Net proceeds <em>N = P − fees</em>. The tool finds monthly IRR <em>r</em> such that present value of <em>n</em> payments of <em>M</em> at rate <em>r</em> equals <em>N</em>, then reports <strong>actuarial APR ≈ 12 × r</strong> (and an effective annual rate for comparison).</p>
-<p><strong>APR vs APY:</strong> APR here reflects loan cash-flow timing (cost of borrowing). APY describes compounded growth on savings—see the <a href="apy-calculator.html">APY calculator</a>.</p>
+<p><strong>APR vs APY:</strong> APR here reflects loan cash-flow timing for borrowing. APY describes compounded growth on savings; the <a href="apy-calculator.html">APY calculator</a> page documents that conversion.</p>
 <p class="small">Not a Reg Z / Loan Estimate substitute: ignores PMI, escrow, odd-day interest, APR tolerance rules, prepaid finance charges definitions, variable rates, and lender-specific cash-flow timing.</p>
 </div>
 </details>
 <div class="trust-block">
 <h2>How this result is estimated</h2>
-<p class="desc">This APR estimate calculator provides estimate-level outputs based on the values you enter. Review assumptions and verify important decisions independently.</p>
+<p class="desc">This APR estimate calculator applies the formulas described on this page to the values you enter. Outputs are not financial, tax, legal, or medical advice.</p>
 <ul>
 <li>Inputs are user-provided and may include rounding.</li>
-<li>Results are informational and not financial, tax, legal, or medical advice.</li>
-<li>For high-impact decisions, confirm with a licensed professional.</li>
+<li>Where accuracy, eligibility, or obligations matter, rely on official disclosures and licensed professionals.</li>
 </ul>
 <p class="small">Last reviewed: 2026-04-17</p>
 </div>
@@ -118,7 +117,7 @@ function calc(){
 <h2>Frequently asked questions</h2>
 <details>
 <summary>Is this the same APR as on my Loan Estimate or closing disclosure?</summary>
-<p>No. Official disclosures follow Truth in Lending / Regulation Z rules, fee inclusion lists, rounding, and timing details this tool does not model. This page gives a transparent actuarial-style estimate from a few inputs for planning only.</p>
+<p>No. Official disclosures follow Truth in Lending / Regulation Z rules, fee inclusion lists, rounding, and timing details this tool does not model. This page applies the actuarial-style formulation described here to your inputs only.</p>
 </details>
 <details>
 <summary>What fee model does this calculator use?</summary>
@@ -129,7 +128,7 @@ function calc(){
 <p>The page finds the monthly interest rate that makes the present value of your fixed monthly payments equal that net cash amount, then multiplies by 12 for a quoted annual figure. It also shows an effective annual rate for comparison. Your lender may quote APR differently.</p>
 </details>
 </div>
-<script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"Is this the same APR as on my Loan Estimate or closing disclosure?","acceptedAnswer":{"@type":"Answer","text":"No. Official disclosures follow Truth in Lending / Regulation Z rules, fee inclusion lists, rounding, and timing details this tool does not model. This page gives a transparent actuarial-style estimate from a few inputs for planning only."}},{"@type":"Question","name":"What fee model does this calculator use?","acceptedAnswer":{"@type":"Answer","text":"It assumes upfront fees reduce the net cash you receive at closing to (loan principal − fees), while the monthly payment is computed as if the full principal is amortizing at the stated note rate. Other fee treatments (for example fees folded into principal) can change APR and are not implemented here."}},{"@type":"Question","name":"What does “actuarial APR” mean here?","acceptedAnswer":{"@type":"Answer","text":"The page finds the monthly interest rate that makes the present value of your fixed monthly payments equal that net cash amount, then multiplies by 12 for a quoted annual figure. It also shows an effective annual rate for comparison. Your lender may quote APR differently."}}]}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"Is this the same APR as on my Loan Estimate or closing disclosure?","acceptedAnswer":{"@type":"Answer","text":"No. Official disclosures follow Truth in Lending / Regulation Z rules, fee inclusion lists, rounding, and timing details this tool does not model. This page applies the actuarial-style formulation described here to your inputs only."}},{"@type":"Question","name":"What fee model does this calculator use?","acceptedAnswer":{"@type":"Answer","text":"It assumes upfront fees reduce the net cash you receive at closing to (loan principal − fees), while the monthly payment is computed as if the full principal is amortizing at the stated note rate. Other fee treatments (for example fees folded into principal) can change APR and are not implemented here."}},{"@type":"Question","name":"What does “actuarial APR” mean here?","acceptedAnswer":{"@type":"Answer","text":"The page finds the monthly interest rate that makes the present value of your fixed monthly payments equal that net cash amount, then multiplies by 12 for a quoted annual figure. It also shows an effective annual rate for comparison. Your lender may quote APR differently."}}]}</script>
 <p><a href="index.html">Home</a> | <a href="financial-calculators.html">Category Hub</a></p>
 <h2>Related Calculators</h2>
 <ul>
