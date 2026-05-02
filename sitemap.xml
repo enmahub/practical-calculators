@@ -86,6 +86,7 @@
   <url><loc>https://enmahub.github.io/practical-calculators/cad-to-usd-converter.html</loc></url>
   <url><loc>https://enmahub.github.io/practical-calculators/cad-to-zar-converter.html</loc></url>
   <url><loc>https://enmahub.github.io/practical-calculators/calorie-calculator.html</loc></url>
+  <url><loc>https://enmahub.github.io/practical-calculators/calorie-deficit-planner.html</loc></url>
   <url><loc>https://enmahub.github.io/practical-calculators/career-calculators.html</loc></url>
   <url><loc>https://enmahub.github.io/practical-calculators/celsius-to-fahrenheit-converter.html</loc></url>
   <url><loc>https://enmahub.github.io/practical-calculators/chf-to-aud-converter.html</loc></url>
@@ -174,6 +175,7 @@
   <url><loc>https://enmahub.github.io/practical-calculators/google00989570bfb5b7e8.html</loc></url>
   <url><loc>https://enmahub.github.io/practical-calculators/gpa-calculator.html</loc></url>
   <url><loc>https://enmahub.github.io/practical-calculators/health-calculators.html</loc></url>
+  <url><loc>https://enmahub.github.io/practical-calculators/heart-rate-zone-calculator.html</loc></url>
   <url><loc>https://enmahub.github.io/practical-calculators/hourly-to-salary-after-tax-calculator.html</loc></url>
   <url><loc>https://enmahub.github.io/practical-calculators/hours-to-days-converter.html</loc></url>
   <url><loc>https://enmahub.github.io/practical-calculators/index.html</loc></url>
@@ -204,6 +206,7 @@
   <url><loc>https://enmahub.github.io/practical-calculators/mxn-to-eur-converter.html</loc></url>
   <url><loc>https://enmahub.github.io/practical-calculators/mxn-to-gbp-converter.html</loc></url>
   <url><loc>https://enmahub.github.io/practical-calculators/mxn-to-usd-converter.html</loc></url>
+  <url><loc>https://enmahub.github.io/practical-calculators/navy-body-fat-calculator.html</loc></url>
   <url><loc>https://enmahub.github.io/practical-calculators/net-worth-calculator.html</loc></url>
   <url><loc>https://enmahub.github.io/practical-calculators/node_modules/miniflare/dist/local-explorer-ui/index.html</loc></url>
   <url><loc>https://enmahub.github.io/practical-calculators/nok-to-aud-converter.html</loc></url>
@@ -227,6 +230,11 @@
   <url><loc>https://enmahub.github.io/practical-calculators/salary-calculator.html</loc></url>
   <url><loc>https://enmahub.github.io/practical-calculators/salary-plus-commission-calculator.html</loc></url>
   <url><loc>https://enmahub.github.io/practical-calculators/savings-calculator.html</loc></url>
+  <url><loc>https://enmahub.github.io/practical-calculators/scripts/bodies/calorie-deficit-planner-body.html</loc></url>
+  <url><loc>https://enmahub.github.io/practical-calculators/scripts/bodies/heart-rate-zone-calculator-body.html</loc></url>
+  <url><loc>https://enmahub.github.io/practical-calculators/scripts/bodies/navy-body-fat-calculator-body.html</loc></url>
+  <url><loc>https://enmahub.github.io/practical-calculators/scripts/bodies/waist-to-height-calculator-body.html</loc></url>
+  <url><loc>https://enmahub.github.io/practical-calculators/scripts/bodies/water-intake-calculator-body.html</loc></url>
   <url><loc>https://enmahub.github.io/practical-calculators/seconds-to-minutes-converter.html</loc></url>
   <url><loc>https://enmahub.github.io/practical-calculators/sek-to-aud-converter.html</loc></url>
   <url><loc>https://enmahub.github.io/practical-calculators/sek-to-cad-converter.html</loc></url>
@@ -268,6 +276,8 @@
   <url><loc>https://enmahub.github.io/practical-calculators/usd-to-sek-converter.html</loc></url>
   <url><loc>https://enmahub.github.io/practical-calculators/usd-to-sgd-converter.html</loc></url>
   <url><loc>https://enmahub.github.io/practical-calculators/usd-to-zar-converter.html</loc></url>
+  <url><loc>https://enmahub.github.io/practical-calculators/waist-to-height-calculator.html</loc></url>
+  <url><loc>https://enmahub.github.io/practical-calculators/water-intake-calculator.html</loc></url>
   <url><loc>https://enmahub.github.io/practical-calculators/weight-loss-calculator.html</loc></url>
   <url><loc>https://enmahub.github.io/practical-calculators/zar-to-aud-converter.html</loc></url>
   <url><loc>https://enmahub.github.io/practical-calculators/zar-to-cad-converter.html</loc></url>

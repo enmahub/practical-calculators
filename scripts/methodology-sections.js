@@ -654,6 +654,52 @@ function methodologyLegacyByFileName(helpers, fileName, lang) {
 <h3>${escapeHtml(L.methodologyFormula)}</h3>
 <p><em>Distance</em> ≈ steps × stride (m). <em>Time</em> ≈ distance ÷ pace speed. <em>Calories</em> ≈ MET × weight(kg) × time(hours), with MET adjusted by terrain.</p>
 <p class="small">Wearables and lab measures disagree; this page does not replace metabolic testing. Weight-change lines assume calories translate directly into fat deficit, which real life usually violates.</p>`,
+    "calorie-deficit-planner.html": `<h3>${escapeHtml(L.methodologyInputs)}</h3>
+<ul>
+<li><strong>Maintenance calories / day</strong> — The energy budget you treat as “break even” (often from a TDEE-style estimate like the <a href="calorie-calculator.html">daily calorie calculator</a> on this site).</li>
+<li><strong>Current and goal weight</strong> — Same units throughout (lb or kg).</li>
+<li><strong>Timeline</strong> — Either a fixed number of weeks or a goal date; the page counts whole days from today to that date (local calendar).</li>
+</ul>
+<h3>${escapeHtml(L.methodologyFormula)}</h3>
+<p>Absolute mass change <em>Δ</em> = |current − goal|. Rule-of-thumb energy: <em>≈ 3,500 kcal per lb</em> or <em>≈ 7,700 kcal per kg</em>. Average daily deficit (loss) ≈ (Δ in lb × 3,500) ÷ days, or (Δ in kg × 7,700) ÷ days. Illustrative intake ≈ maintenance − average deficit (surplus for intentional weight gain).</p>
+<p class="small">Does not model metabolic adaptation, muscle gain, nutrient timing, or minimum safe intake—aggressive deficits deserve professional oversight.</p>`,
+    "heart-rate-zone-calculator.html": `<h3>${escapeHtml(L.methodologyInputs)}</h3>
+<ul>
+<li><strong>Age</strong> — Feeds the common <em>220 − age</em> max heart-rate estimate.</li>
+<li><strong>Resting heart rate (optional)</strong> — When provided and below max, zones use the Karvonen formula (heart-rate reserve): target = resting + (% reserve) × (max − resting).</li>
+</ul>
+<h3>${escapeHtml(L.methodologyFormula)}</h3>
+<p><strong>Max HR estimate:</strong> <em>HR<sub>max</sub> ≈ 220 − age</em> (many alternatives exist). <strong>Five bands</strong> use 50–60%, 60–70%, 70–80%, 80–90%, and 90–100% of either reserve (Karvonen) or of max HR when resting HR is absent.</p>
+<p class="small">Beta blockers, illness, heat, and fitness shift HR response—zones are planning aids, not prescriptions.</p>`,
+    "navy-body-fat-calculator.html": `<h3>${escapeHtml(L.methodologyInputs)}</h3>
+<ul>
+<li><strong>Height</strong> — Standing height (converted to inches internally if you choose cm).</li>
+<li><strong>Neck</strong> — Below the larynx, perpendicular to the long axis.</li>
+<li><strong>Waist</strong> — Males: at the navel; females: natural waist (narrowest).</li>
+<li><strong>Hips</strong> — Females only: widest protrusion.</li>
+</ul>
+<h3>${escapeHtml(L.methodologyFormula)}</h3>
+<p>U.S. Navy circumference method (measurements in inches):</p>
+<p><strong>Male:</strong> <em>%BF = 86.010 × log<sub>10</sub>(waist − neck) − 70.041 × log<sub>10</sub>(height) + 36.76</em></p>
+<p><strong>Female:</strong> <em>%BF = 163.205 × log<sub>10</sub>(waist + hip − neck) − 97.684 × log<sub>10</sub>(height) − 78.387</em></p>
+<p class="small">Requires male waist &gt; neck and female waist + hip &gt; neck. Official readiness tables may differ; this is the published log equation only.</p>`,
+    "waist-to-height-calculator.html": `<h3>${escapeHtml(L.methodologyInputs)}</h3>
+<ul>
+<li><strong>Waist</strong> and <strong>height</strong> — Use identical units (both cm or both in).</li>
+</ul>
+<h3>${escapeHtml(L.methodologyFormula)}</h3>
+<p><em>WHtR = waist ÷ height</em>. Sometimes expressed as a percent: <em>waist ÷ height × 100</em>. Values near or above <strong>0.5</strong> often trigger cardiometabolic screening conversations in population guidelines—your clinician interprets risk.</p>
+<p class="small">Measure waist horizontally at the midpoint between iliac crest and lowest rib after normal exhale (protocols vary slightly).</p>`,
+    "water-intake-calculator.html": `<h3>${escapeHtml(L.methodologyInputs)}</h3>
+<ul>
+<li><strong>Weight</strong> — Converted to kilograms internally.</li>
+<li><strong>Activity tier</strong> — Adds a flat millilitre bump for light/moderate/heavy usual days.</li>
+<li><strong>Exercise minutes</strong> — Adds ~350 ml per 30 minutes of extra sweating effort.</li>
+<li><strong>Climate</strong> — Optional extra bump for hot/high-sweat environments.</li>
+</ul>
+<h3>${escapeHtml(L.methodologyFormula)}</h3>
+<p><strong>Baseline</strong> ≈ <em>35 ml × body weight (kg)</em> per day (widely used rough guideline). <strong>Total</strong> sums baseline + activity + exercise + heat adjustments, then shows ±10% as an individuality band.</p>
+<p class="small">Counts beverages generally—not “plain water only.” Ignore or adjust per clinician advice if you have fluid restrictions.</p>`,
     "take-home-paycheck-calculator.html": `<h3>${escapeHtml(L.methodologyInputs)}</h3>
 <ul>
 <li><strong>Gross paycheck</strong> — Per-period gross.</li>

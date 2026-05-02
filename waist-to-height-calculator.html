@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en" data-page-path="waist-to-height-calculator.html">
+<head>
+<title>Waist-to-Height Ratio Calculator (Free) – WHtR Screening Tool</title>
+<meta name="description" content="Compute waist-to-height ratio from waist and height in the same units and compare to common screening benchmarks.">
+<meta property="og:title" content="Waist-to-Height Ratio Calculator (Free) – WHtR Screening Tool">
+<meta property="og:description" content="Compute waist-to-height ratio from waist and height in the same units and compare to common screening benchmarks.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://enmahub.github.io/practical-calculators/waist-to-height-calculator.html">
+<meta property="og:site_name" content="Practical Calculators">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Waist-to-Height Ratio Calculator (Free) – WHtR Screening Tool">
+<meta name="twitter:description" content="Compute waist-to-height ratio from waist and height in the same units and compare to common screening benchmarks.">
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"WebApplication","name":"Waist-to-Height Ratio Calculator (Free) – WHtR Screening Tool","description":"Compute waist-to-height ratio from waist and height in the same units and compare to common screening benchmarks.","url":"https://enmahub.github.io/practical-calculators/waist-to-height-calculator.html","applicationCategory":"UtilitiesApplication","operatingSystem":"Any","browserRequirements":"Requires JavaScript. Requires HTML5.","offers":{"@type":"Offer","price":"0","priceCurrency":"USD"}}</script>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="robots" content="index, follow">
+<link rel="canonical" href="https://enmahub.github.io/practical-calculators/waist-to-height-calculator.html">
+<link rel="alternate" hreflang="en" href="https://enmahub.github.io/practical-calculators/waist-to-height-calculator.html">
+<link rel="stylesheet" href="styles.css">
+<script src="site-analytics.js" data-analytics-page defer></script>
+</head>
+<body>
+<div class="top">
+<div class="wrap top-inner">
+<a class="brand" href="index.html">Practical Calculators</a>
+<div class="site-search" data-site-search data-search-index="search-index.json" data-page-path="waist-to-height-calculator.html" data-pref-lang="en" data-no-results="No matches">
+<label class="visually-hidden" for="site-search-q">Search calculators</label>
+<input type="search" id="site-search-q" class="site-search-input" placeholder="Search calculators…" autocomplete="off" spellcheck="false" role="combobox" aria-haspopup="listbox" aria-autocomplete="list" aria-controls="site-search-results" aria-expanded="false">
+<div class="site-search-dropdown" id="site-search-results" hidden role="listbox" aria-label="Search calculators"></div>
+</div>
+</div>
+</div>
+<div class="wrap">
+<div class="card">
+<h1>Waist-to-Height Ratio Calculator</h1>
+<p class="desc"><strong>Waist-to-height ratio (WHtR)</strong> compares waist circumference to height using the <strong>same units</strong>. It reflects central adiposity more directly than weight alone. A common public-health screening cue is keeping waist under about <strong>half of height</strong> (WHtR below 0.5)—cutoffs vary by age, sex, and ethnicity; this page does not diagnose disease.</p>
+
+<label for="waist">Waist circumference</label>
+<input id="waist" type="number" min="1" step="any" placeholder="Waist measurement">
+<label for="height">Height</label>
+<input id="height" type="number" min="1" step="any" placeholder="Height">
+<label for="units">Units for both waist and height</label>
+<select id="units">
+<option value="cm">Centimeters (cm)</option>
+<option value="in">Inches (in)</option>
+</select>
+
+<button onclick="calc()">Calculate</button>
+<h2 class="result"><span class="result-label">Result</span><div class="result-body" id="r">—</div></h2>
+
+<script>
+function calc() {
+  var w = parseFloat(document.getElementById('waist').value);
+  var h = parseFloat(document.getElementById('height').value);
+  var out = document.getElementById('r');
+  if (!Number.isFinite(w) || !Number.isFinite(h) || w <= 0 || h <= 0) {
+    out.innerHTML = 'Enter positive waist and height in the same units.';
+    return;
+  }
+  var ratio = w / h;
+  var pct = ratio * 100;
+  var html = '<strong>WHtR:</strong> ' + ratio.toFixed(4) + ' (' + pct.toFixed(1) + '% when expressed as waist ÷ height × 100)<br>';
+  if (ratio < 0.5) {
+    html += '<span class="small">Below the common 0.5 screening benchmark (waist less than half of height)—still only one piece of overall risk information.</span>';
+  } else {
+    html += '<span class="small">At or above the frequently cited 0.5 benchmark—consider discussing cardiometabolic risk factors with a clinician; WHtR is not a diagnosis.</span>';
+  }
+  out.innerHTML = html;
+  document.dispatchEvent(new CustomEvent('pc:calculator_result', { detail: { type: 'waist_to_height' } }));
+}
+</script>
+
+<details class="methodology-block">
+<summary>How this calculation works</summary>
+<div>
+<h3>What each input means</h3>
+<ul>
+<li><strong>Waist</strong> and <strong>height</strong> — Use identical units (both cm or both in).</li>
+</ul>
+<h3>Formula used</h3>
+<p><em>WHtR = waist ÷ height</em>. Sometimes expressed as a percent: <em>waist ÷ height × 100</em>. Values near or above <strong>0.5</strong> often trigger cardiometabolic screening conversations in population guidelines—your clinician interprets risk.</p>
+<p class="small">Measure waist horizontally at the midpoint between iliac crest and lowest rib after normal exhale (protocols vary slightly).</p>
+</div>
+</details>
+<div class="trust-block">
+<h2>How this result is estimated</h2>
+<p class="desc">This waist-to-height ratio calculator applies the formulas described on this page to the values you enter. Outputs are not financial, tax, legal, or medical advice.</p>
+<ul>
+<li>Inputs are user-provided and may include rounding.</li>
+<li>Where accuracy, eligibility, or obligations matter, rely on official disclosures and licensed professionals.</li>
+</ul>
+<p class="small">Last reviewed: 2026-04-17</p>
+</div>
+<div class="faq-block">
+<h2>Frequently asked questions</h2>
+<details>
+<summary>What does below 0.5 mean?</summary>
+<p>Many public-health references use WHtR under 0.5 (waist less than half your height) as a simple benchmark. It is not a personal diagnosis—overall risk depends on many factors.</p>
+</details>
+<details>
+<summary>Should I measure waist at the navel?</summary>
+<p>Protocols differ by guideline. Use a consistent horizontal tape position—commonly midway between the top of the iliac crest and the bottom of the rib cage after a normal exhale.</p>
+</details>
+<details>
+<summary>How is this different from BMI?</summary>
+<p>BMI relates weight to height squared. WHtR emphasizes central adiposity from waist size relative to stature—useful context, not a replacement for medical assessment.</p>
+</details>
+</div>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"What does below 0.5 mean?","acceptedAnswer":{"@type":"Answer","text":"Many public-health references use WHtR under 0.5 (waist less than half your height) as a simple benchmark. It is not a personal diagnosis—overall risk depends on many factors."}},{"@type":"Question","name":"Should I measure waist at the navel?","acceptedAnswer":{"@type":"Answer","text":"Protocols differ by guideline. Use a consistent horizontal tape position—commonly midway between the top of the iliac crest and the bottom of the rib cage after a normal exhale."}},{"@type":"Question","name":"How is this different from BMI?","acceptedAnswer":{"@type":"Answer","text":"BMI relates weight to height squared. WHtR emphasizes central adiposity from waist size relative to stature—useful context, not a replacement for medical assessment."}}]}</script>
+<p><a href="index.html">Home</a> | <a href="health-calculators.html">Category Hub</a></p>
+<h2>Related Calculators</h2>
+<ul>
+<li><a href="age-calculator.html">Age Calculator</a></li>
+<li><a href="bmi-calculator.html">BMI Calculator</a></li>
+<li><a href="calorie-calculator.html">Daily Calorie Calculator</a></li>
+<li><a href="steps-calories-calculator.html">Steps to Calories Calculator</a></li>
+<li><a href="calorie-deficit-planner.html">Calorie Deficit Planner</a></li>
+<li><a href="heart-rate-zone-calculator.html">Heart Rate Zone Calculator</a></li>
+<li><a href="navy-body-fat-calculator.html">Navy Body Fat Calculator</a></li>
+<li><a href="water-intake-calculator.html">Water Intake Calculator</a></li>
+<li><a href="macros-calculator.html">Macros Calculator</a></li>
+<li><a href="ovulation-calculator.html">Ovulation Calculator</a></li>
+</ul>
+<details>
+<summary>More related calculators</summary>
+<ul>
+<li><a href="weight-loss-calculator.html">Weight Loss Calculator</a></li>
+</ul>
+</details>
+</div>
+<div class="footer">
+<p>Browse Categories</p>
+<div class="category-grid">
+<a class="category-link" href="financial-calculators.html">Financial</a>
+<a class="category-link" href="health-calculators.html">Health</a>
+<a class="category-link" href="conversion-calculators.html">Conversions</a>
+<a class="category-link" href="career-calculators.html">Career</a>
+</div>
+<p><a class="home-link" href="index.html">Home</a></p>
+<p class="footer-meta">
+<a href="about.html">About</a> |
+<a href="contact.html">Contact</a> |
+<a href="privacy.html">Privacy</a> |
+<a href="terms.html">Terms</a>
+</p>
+</div>
+</div>
+<script src="number-format.js" defer></script>
+<script src="site-search.js" defer></script>
+</body>
+</html>

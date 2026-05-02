@@ -937,6 +937,101 @@ function faqItemsForEntry(entry) {
         }
       ];
     }
+    if (legacyKey === "calorie-deficit-planner.html") {
+      return [
+        {
+          question: "Is this the same as the Daily Calorie Calculator?",
+          answer:
+            "No. The daily calorie tool estimates maintenance-style calories from demographics and activity. This planner starts from maintenance you supply (often from that page) and spreads a weight goal across weeks or a target date using rule-of-thumb energy density."
+        },
+        {
+          question: "Why might my real weight change differ?",
+          answer:
+            "Metabolism adapts, muscle changes alter scale weight, sodium shifts water retention, and calorie labels are imperfect. The planner illustrates math from your inputs—not guaranteed biology."
+        },
+        {
+          question: "Is a larger deficit always better?",
+          answer:
+            "No. Very low intakes can miss nutrients and raise medical risk. Discuss aggressive deficits with a qualified professional."
+        }
+      ];
+    }
+    if (legacyKey === "heart-rate-zone-calculator.html") {
+      return [
+        {
+          question: "Is 220 minus age accurate for my max heart rate?",
+          answer:
+            "It is only a population estimate; measured max varies widely. Use zones as flexible guides—rating of perceived exertion and talk tests still matter."
+        },
+        {
+          question: "Why enter resting heart rate?",
+          answer:
+            "With resting HR, the tool can apply the Karvonen (heart-rate reserve) approach. Without it, zones fall back to percentages of the estimated max HR only."
+        },
+        {
+          question: "Can I use these zones if I take heart medications?",
+          answer:
+            "Some drugs blunt exercise heart rate. Ask your clinician how to interpret zones or whether another intensity prescription fits better."
+        }
+      ];
+    }
+    if (legacyKey === "navy-body-fat-calculator.html") {
+      return [
+        {
+          question: "Will this match military readiness charts?",
+          answer:
+            "This page applies the published Navy circumference log equation to your measurements. Official screening also depends on measurement protocol, rounding, and applicable tables—your result here is an estimate only."
+        },
+        {
+          question: "Why did it say waist must be greater than neck?",
+          answer:
+            "The male Navy formula uses log(waist − neck); that difference must be positive. Recheck tape placement (male waist at the navel per Navy guidance)."
+        },
+        {
+          question: "Is body fat from tape as accurate as a DXA scan?",
+          answer:
+            "No. Tape estimates can be useful for tracking trends but differ from lab methods—hydration and measurement tension alone shift outcomes."
+        }
+      ];
+    }
+    if (legacyKey === "waist-to-height-calculator.html") {
+      return [
+        {
+          question: "What does below 0.5 mean?",
+          answer:
+            "Many public-health references use WHtR under 0.5 (waist less than half your height) as a simple benchmark. It is not a personal diagnosis—overall risk depends on many factors."
+        },
+        {
+          question: "Should I measure waist at the navel?",
+          answer:
+            "Protocols differ by guideline. Use a consistent horizontal tape position—commonly midway between the top of the iliac crest and the bottom of the rib cage after a normal exhale."
+        },
+        {
+          question: "How is this different from BMI?",
+          answer:
+            "BMI relates weight to height squared. WHtR emphasizes central adiposity from waist size relative to stature—useful context, not a replacement for medical assessment."
+        }
+      ];
+    }
+    if (legacyKey === "water-intake-calculator.html") {
+      return [
+        {
+          question: "Do coffee or tea count toward hydration?",
+          answer:
+            "For most healthy adults, caffeinated beverages still contribute to fluids. If your clinician wants you counting only certain fluids, follow that instruction instead."
+        },
+        {
+          question: "What if I have kidney or heart fluid limits?",
+          answer:
+            "Follow your medical team’s restriction. This calculator is not for clinically prescribed fluid ceilings."
+        },
+        {
+          question: "Why show a percentage band around the estimate?",
+          answer:
+            "Needs swing with sweat, diet moisture, and individual thirst response; the band reflects that uncertainty—not precision."
+        }
+      ];
+    }
     if (legacyKey === "weight-loss-calculator.html") {
       return [
         {

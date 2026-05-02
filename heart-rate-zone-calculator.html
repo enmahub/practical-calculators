@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en" data-page-path="heart-rate-zone-calculator.html">
+<head>
+<title>Heart Rate Zone Calculator (Free) – Training Bands by Age</title>
+<meta name="description" content="Estimate heart rate training zones using age-based max HR and optional resting HR for Karvonen zones.">
+<meta property="og:title" content="Heart Rate Zone Calculator (Free) – Training Bands by Age">
+<meta property="og:description" content="Estimate heart rate training zones using age-based max HR and optional resting HR for Karvonen zones.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://enmahub.github.io/practical-calculators/heart-rate-zone-calculator.html">
+<meta property="og:site_name" content="Practical Calculators">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Heart Rate Zone Calculator (Free) – Training Bands by Age">
+<meta name="twitter:description" content="Estimate heart rate training zones using age-based max HR and optional resting HR for Karvonen zones.">
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"WebApplication","name":"Heart Rate Zone Calculator (Free) – Training Bands by Age","description":"Estimate heart rate training zones using age-based max HR and optional resting HR for Karvonen zones.","url":"https://enmahub.github.io/practical-calculators/heart-rate-zone-calculator.html","applicationCategory":"UtilitiesApplication","operatingSystem":"Any","browserRequirements":"Requires JavaScript. Requires HTML5.","offers":{"@type":"Offer","price":"0","priceCurrency":"USD"}}</script>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="robots" content="index, follow">
+<link rel="canonical" href="https://enmahub.github.io/practical-calculators/heart-rate-zone-calculator.html">
+<link rel="alternate" hreflang="en" href="https://enmahub.github.io/practical-calculators/heart-rate-zone-calculator.html">
+<link rel="stylesheet" href="styles.css">
+<script src="site-analytics.js" data-analytics-page defer></script>
+</head>
+<body>
+<div class="top">
+<div class="wrap top-inner">
+<a class="brand" href="index.html">Practical Calculators</a>
+<div class="site-search" data-site-search data-search-index="search-index.json" data-page-path="heart-rate-zone-calculator.html" data-pref-lang="en" data-no-results="No matches">
+<label class="visually-hidden" for="site-search-q">Search calculators</label>
+<input type="search" id="site-search-q" class="site-search-input" placeholder="Search calculators…" autocomplete="off" spellcheck="false" role="combobox" aria-haspopup="listbox" aria-autocomplete="list" aria-controls="site-search-results" aria-expanded="false">
+<div class="site-search-dropdown" id="site-search-results" hidden role="listbox" aria-label="Search calculators"></div>
+</div>
+</div>
+</div>
+<div class="wrap">
+<div class="card">
+<h1>Heart Rate Zone Calculator</h1>
+<p class="desc">Estimates training heart-rate zones using your age (for maximum heart rate) and, if you enter it, resting heart rate for the <strong>Karvonen</strong> (heart-rate reserve) method. These are fitness-planning bands, not medical targets—medications, fatigue, heat, and fitness level change how hard the same pace feels.</p>
+
+<label for="age">Age (years)</label>
+<input id="age" type="number" min="10" max="120" step="1" placeholder="Your age">
+
+<label for="rest">Resting heart rate (bpm), optional</label>
+<input id="rest" type="number" min="30" max="120" step="1" placeholder="Leave blank for % of max HR only">
+
+<button onclick="calc()">Calculate</button>
+<h2 class="result"><span class="result-label">Result</span><div class="result-body" id="r">—</div></h2>
+
+<script>
+function calc() {
+  var age = parseFloat(document.getElementById('age').value);
+  var rest = parseFloat(document.getElementById('rest').value);
+  var out = document.getElementById('r');
+  if (!Number.isFinite(age) || age < 10 || age > 120) {
+    out.innerHTML = 'Enter a realistic age.';
+    return;
+  }
+  var maxHr = 220 - age;
+  var labels = ['Warm-up / recovery', 'Easy aerobic', 'Tempo', 'Hard threshold', 'VO2 / sprint'];
+  var pctLow = [0.5, 0.6, 0.7, 0.8, 0.9];
+  var pctHigh = [0.6, 0.7, 0.8, 0.9, 1.0];
+
+  var html = 'Estimated max HR (220 − age): ~<strong>' + maxHr.toFixed(0) + '</strong> bpm <span class="small">(population estimate—individual max varies).</span><br><br>';
+
+  if (Number.isFinite(rest) && rest > 30 && rest < maxHr - 10) {
+    var reserve = maxHr - rest;
+    html += '<strong>Karvonen zones</strong> (uses resting HR ' + rest.toFixed(0) + ' bpm):<br>';
+    for (var i = 0; i < 5; i++) {
+      var lo = Math.round(rest + reserve * pctLow[i]);
+      var hi = Math.round(rest + reserve * pctHigh[i]);
+      html += labels[i] + ': ' + lo + '–' + hi + ' bpm<br>';
+    }
+  } else {
+    html += '<strong>Zones as % of estimated max HR</strong> (enter resting HR above for Karvonen):<br>';
+    for (var j = 0; j < 5; j++) {
+      var lo2 = Math.round(maxHr * pctLow[j]);
+      var hi2 = Math.round(maxHr * pctHigh[j]);
+      html += labels[j] + ': ' + lo2 + '–' + hi2 + ' bpm<br>';
+    }
+    if (Number.isFinite(rest)) {
+      html += '<span class="small">Resting HR must be well below max for reserve math—showing %max fallback.</span>';
+    }
+  }
+  out.innerHTML = html;
+  document.dispatchEvent(new CustomEvent('pc:calculator_result', { detail: { type: 'heart_rate_zones' } }));
+}
+</script>
+
+<details class="methodology-block">
+<summary>How this calculation works</summary>
+<div>
+<h3>What each input means</h3>
+<ul>
+<li><strong>Age</strong> — Feeds the common <em>220 − age</em> max heart-rate estimate.</li>
+<li><strong>Resting heart rate (optional)</strong> — When provided and below max, zones use the Karvonen formula (heart-rate reserve): target = resting + (% reserve) × (max − resting).</li>
+</ul>
+<h3>Formula used</h3>
+<p><strong>Max HR estimate:</strong> <em>HR<sub>max</sub> ≈ 220 − age</em> (many alternatives exist). <strong>Five bands</strong> use 50–60%, 60–70%, 70–80%, 80–90%, and 90–100% of either reserve (Karvonen) or of max HR when resting HR is absent.</p>
+<p class="small">Beta blockers, illness, heat, and fitness shift HR response—zones are planning aids, not prescriptions.</p>
+</div>
+</details>
+<div class="trust-block">
+<h2>How this result is estimated</h2>
+<p class="desc">This heart rate zone estimator applies the formulas described on this page to the values you enter. Outputs are not financial, tax, legal, or medical advice.</p>
+<ul>
+<li>Inputs are user-provided and may include rounding.</li>
+<li>Where accuracy, eligibility, or obligations matter, rely on official disclosures and licensed professionals.</li>
+</ul>
+<p class="small">Last reviewed: 2026-04-17</p>
+</div>
+<div class="faq-block">
+<h2>Frequently asked questions</h2>
+<details>
+<summary>Is 220 minus age accurate for my max heart rate?</summary>
+<p>It is only a population estimate; measured max varies widely. Use zones as flexible guides—rating of perceived exertion and talk tests still matter.</p>
+</details>
+<details>
+<summary>Why enter resting heart rate?</summary>
+<p>With resting HR, the tool can apply the Karvonen (heart-rate reserve) approach. Without it, zones fall back to percentages of the estimated max HR only.</p>
+</details>
+<details>
+<summary>Can I use these zones if I take heart medications?</summary>
+<p>Some drugs blunt exercise heart rate. Ask your clinician how to interpret zones or whether another intensity prescription fits better.</p>
+</details>
+</div>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"Is 220 minus age accurate for my max heart rate?","acceptedAnswer":{"@type":"Answer","text":"It is only a population estimate; measured max varies widely. Use zones as flexible guides—rating of perceived exertion and talk tests still matter."}},{"@type":"Question","name":"Why enter resting heart rate?","acceptedAnswer":{"@type":"Answer","text":"With resting HR, the tool can apply the Karvonen (heart-rate reserve) approach. Without it, zones fall back to percentages of the estimated max HR only."}},{"@type":"Question","name":"Can I use these zones if I take heart medications?","acceptedAnswer":{"@type":"Answer","text":"Some drugs blunt exercise heart rate. Ask your clinician how to interpret zones or whether another intensity prescription fits better."}}]}</script>
+<p><a href="index.html">Home</a> | <a href="health-calculators.html">Category Hub</a></p>
+<h2>Related Calculators</h2>
+<ul>
+<li><a href="age-calculator.html">Age Calculator</a></li>
+<li><a href="bmi-calculator.html">BMI Calculator</a></li>
+<li><a href="calorie-calculator.html">Daily Calorie Calculator</a></li>
+<li><a href="steps-calories-calculator.html">Steps to Calories Calculator</a></li>
+<li><a href="calorie-deficit-planner.html">Calorie Deficit Planner</a></li>
+<li><a href="navy-body-fat-calculator.html">Navy Body Fat Calculator</a></li>
+<li><a href="waist-to-height-calculator.html">Waist-to-Height Ratio Calculator</a></li>
+<li><a href="water-intake-calculator.html">Water Intake Calculator</a></li>
+<li><a href="macros-calculator.html">Macros Calculator</a></li>
+<li><a href="ovulation-calculator.html">Ovulation Calculator</a></li>
+</ul>
+<details>
+<summary>More related calculators</summary>
+<ul>
+<li><a href="weight-loss-calculator.html">Weight Loss Calculator</a></li>
+</ul>
+</details>
+</div>
+<div class="footer">
+<p>Browse Categories</p>
+<div class="category-grid">
+<a class="category-link" href="financial-calculators.html">Financial</a>
+<a class="category-link" href="health-calculators.html">Health</a>
+<a class="category-link" href="conversion-calculators.html">Conversions</a>
+<a class="category-link" href="career-calculators.html">Career</a>
+</div>
+<p><a class="home-link" href="index.html">Home</a></p>
+<p class="footer-meta">
+<a href="about.html">About</a> |
+<a href="contact.html">Contact</a> |
+<a href="privacy.html">Privacy</a> |
+<a href="terms.html">Terms</a>
+</p>
+</div>
+</div>
+<script src="number-format.js" defer></script>
+<script src="site-search.js" defer></script>
+</body>
+</html>

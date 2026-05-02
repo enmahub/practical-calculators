@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="en" data-page-path="calorie-deficit-planner.html">
+<head>
+<title>Calorie Deficit Planner (Free) – Goal Timeline vs Maintenance</title>
+<meta name="description" content="Plan average daily calorie deficit or surplus from goal weight, timeline, and maintenance calories—with rule-of-thumb energy density notes.">
+<meta property="og:title" content="Calorie Deficit Planner (Free) – Goal Timeline vs Maintenance">
+<meta property="og:description" content="Plan average daily calorie deficit or surplus from goal weight, timeline, and maintenance calories—with rule-of-thumb energy density notes.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://enmahub.github.io/practical-calculators/calorie-deficit-planner.html">
+<meta property="og:site_name" content="Practical Calculators">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Calorie Deficit Planner (Free) – Goal Timeline vs Maintenance">
+<meta name="twitter:description" content="Plan average daily calorie deficit or surplus from goal weight, timeline, and maintenance calories—with rule-of-thumb energy density notes.">
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"WebApplication","name":"Calorie Deficit Planner (Free) – Goal Timeline vs Maintenance","description":"Plan average daily calorie deficit or surplus from goal weight, timeline, and maintenance calories—with rule-of-thumb energy density notes.","url":"https://enmahub.github.io/practical-calculators/calorie-deficit-planner.html","applicationCategory":"UtilitiesApplication","operatingSystem":"Any","browserRequirements":"Requires JavaScript. Requires HTML5.","offers":{"@type":"Offer","price":"0","priceCurrency":"USD"}}</script>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="robots" content="index, follow">
+<link rel="canonical" href="https://enmahub.github.io/practical-calculators/calorie-deficit-planner.html">
+<link rel="alternate" hreflang="en" href="https://enmahub.github.io/practical-calculators/calorie-deficit-planner.html">
+<link rel="stylesheet" href="styles.css">
+<script src="site-analytics.js" data-analytics-page defer></script>
+</head>
+<body>
+<div class="top">
+<div class="wrap top-inner">
+<a class="brand" href="index.html">Practical Calculators</a>
+<div class="site-search" data-site-search data-search-index="search-index.json" data-page-path="calorie-deficit-planner.html" data-pref-lang="en" data-no-results="No matches">
+<label class="visually-hidden" for="site-search-q">Search calculators</label>
+<input type="search" id="site-search-q" class="site-search-input" placeholder="Search calculators…" autocomplete="off" spellcheck="false" role="combobox" aria-haspopup="listbox" aria-autocomplete="list" aria-controls="site-search-results" aria-expanded="false">
+<div class="site-search-dropdown" id="site-search-results" hidden role="listbox" aria-label="Search calculators"></div>
+</div>
+</div>
+</div>
+<div class="wrap">
+<div class="card">
+<h1>Calorie Deficit Planner</h1>
+<p class="desc">Turn a <strong>weight goal</strong> and <strong>timeline</strong> into an average daily calorie deficit or surplus versus the <strong>maintenance calories</strong> you enter. Use the <a href="calorie-calculator.html">daily calorie calculator</a> first if you need a maintenance estimate from age, height, weight, and activity. This tool applies rough energy-density rules (~3,500 kcal per lb, ~7,700 kcal per kg of tissue change) spread evenly across the days you choose—real bodies fluctuate with water, hormones, and adherence.</p>
+
+<label for="maint">Maintenance calories / day (kcal)</label>
+<input id="maint" type="number" min="800" step="any" placeholder="e.g. 2200">
+
+<label for="cw">Current weight</label>
+<input id="cw" type="number" min="1" step="any" placeholder="Current weight">
+<label for="gw">Goal weight</label>
+<input id="gw" type="number" min="1" step="any" placeholder="Goal weight">
+
+<label for="wunit">Weight units</label>
+<select id="wunit">
+<option value="lb">Pounds (lb)</option>
+<option value="kg">Kilograms (kg)</option>
+</select>
+
+<label for="mode">Timeline style</label>
+<select id="mode" onchange="toggleTimeline()">
+<option value="weeks">Reach goal in a number of weeks</option>
+<option value="date">Reach goal by a target date</option>
+</select>
+
+<div id="weekblock">
+<label for="weeks">Weeks to goal</label>
+<input id="weeks" type="number" min="1" step="1" placeholder="e.g. 12">
+</div>
+
+<div id="dateblock" style="display:none">
+<label for="goaldate">Goal date</label>
+<input id="goaldate" type="date">
+</div>
+
+<button onclick="calc()">Calculate</button>
+<h2 class="result"><span class="result-label">Result</span><div class="result-body" id="r">—</div></h2>
+
+<script>
+function toggleTimeline() {
+  var m = document.getElementById('mode').value;
+  document.getElementById('weekblock').style.display = m === 'weeks' ? 'block' : 'none';
+  document.getElementById('dateblock').style.display = m === 'date' ? 'block' : 'none';
+}
+
+function calc() {
+  var maint = parseFloat(document.getElementById('maint').value);
+  var cw = parseFloat(document.getElementById('cw').value);
+  var gw = parseFloat(document.getElementById('gw').value);
+  var unit = document.getElementById('wunit').value;
+  var mode = document.getElementById('mode').value;
+  var out = document.getElementById('r');
+  var KLB = 3500;
+  var KKG = 7700;
+
+  if (!Number.isFinite(maint) || maint <= 0) {
+    out.innerHTML = 'Enter a positive maintenance calorie value.';
+    return;
+  }
+  if (!Number.isFinite(cw) || !Number.isFinite(gw) || cw <= 0 || gw <= 0) {
+    out.innerHTML = 'Enter valid current and goal weights.';
+    return;
+  }
+
+  var delta = cw - gw;
+  var days;
+  if (mode === 'weeks') {
+    var w = parseFloat(document.getElementById('weeks').value);
+    if (!Number.isFinite(w) || w <= 0) {
+      out.innerHTML = 'Enter a positive number of weeks.';
+      return;
+    }
+    days = Math.round(w * 7);
+  } else {
+    var ds = document.getElementById('goaldate').value;
+    if (!ds) {
+      out.innerHTML = 'Pick a goal date.';
+      return;
+    }
+    var goal = new Date(ds + 'T12:00:00');
+    var today = new Date();
+    today.setHours(0, 0, 0, 0);
+    goal.setHours(0, 0, 0, 0);
+    var ms = goal.getTime() - today.getTime();
+    days = Math.ceil(ms / (86400000));
+    if (days < 1) {
+      out.innerHTML = 'Goal date should be at least one day from today.';
+      return;
+    }
+  }
+
+  var absMass = Math.abs(delta);
+  var totalKcal = unit === 'kg' ? absMass * KKG : absMass * KLB;
+  var avgDaily = totalKcal / days;
+  var direction = delta > 0 ? 'loss' : delta < 0 ? 'gain' : 'maintain';
+
+  if (direction === 'maintain') {
+    out.innerHTML = 'Current and goal weights are the same—no average deficit or surplus needed for weight change.';
+    document.dispatchEvent(new CustomEvent('pc:calculator_result', { detail: { type: 'calorie_deficit_planner' } }));
+    return;
+  }
+
+  var suggested = direction === 'loss' ? maint - avgDaily : maint + avgDaily;
+  var html = '<strong>Average daily energy ' + (direction === 'loss' ? 'deficit' : 'surplus') + ':</strong> ~' + avgDaily.toFixed(0) + ' kcal/day over ' + days + ' days.<br>';
+  html += '<strong>Total energy budget for change:</strong> ~' + totalKcal.toFixed(0) + ' kcal (rule-of-thumb density).<br>';
+  html += '<strong>Illustrative intake target:</strong> ~<strong>' + suggested.toFixed(0) + '</strong> kcal/day vs maintenance ' + maint.toFixed(0) + '.<br>';
+  html += '<span class="small">Very low intakes can be unsafe—verify aggressive deficits with a clinician or dietitian. Does not model metabolic adaptation, training load, or nutrient needs.</span>';
+  out.innerHTML = html;
+  document.dispatchEvent(new CustomEvent('pc:calculator_result', { detail: { type: 'calorie_deficit_planner' } }));
+}
+</script>
+
+<details class="methodology-block">
+<summary>How this calculation works</summary>
+<div>
+<h3>What each input means</h3>
+<ul>
+<li><strong>Maintenance calories / day</strong> — The energy budget you treat as “break even” (often from a TDEE-style estimate like the <a href="calorie-calculator.html">daily calorie calculator</a> on this site).</li>
+<li><strong>Current and goal weight</strong> — Same units throughout (lb or kg).</li>
+<li><strong>Timeline</strong> — Either a fixed number of weeks or a goal date; the page counts whole days from today to that date (local calendar).</li>
+</ul>
+<h3>Formula used</h3>
+<p>Absolute mass change <em>Δ</em> = |current − goal|. Rule-of-thumb energy: <em>≈ 3,500 kcal per lb</em> or <em>≈ 7,700 kcal per kg</em>. Average daily deficit (loss) ≈ (Δ in lb × 3,500) ÷ days, or (Δ in kg × 7,700) ÷ days. Illustrative intake ≈ maintenance − average deficit (surplus for intentional weight gain).</p>
+<p class="small">Does not model metabolic adaptation, muscle gain, nutrient timing, or minimum safe intake—aggressive deficits deserve professional oversight.</p>
+</div>
+</details>
+<div class="trust-block">
+<h2>How this result is estimated</h2>
+<p class="desc">This calorie deficit timeline planner applies the formulas described on this page to the values you enter. Outputs are not financial, tax, legal, or medical advice.</p>
+<ul>
+<li>Inputs are user-provided and may include rounding.</li>
+<li>Where accuracy, eligibility, or obligations matter, rely on official disclosures and licensed professionals.</li>
+</ul>
+<p class="small">Last reviewed: 2026-04-17</p>
+</div>
+<div class="faq-block">
+<h2>Frequently asked questions</h2>
+<details>
+<summary>Is this the same as the Daily Calorie Calculator?</summary>
+<p>No. The daily calorie tool estimates maintenance-style calories from demographics and activity. This planner starts from maintenance you supply (often from that page) and spreads a weight goal across weeks or a target date using rule-of-thumb energy density.</p>
+</details>
+<details>
+<summary>Why might my real weight change differ?</summary>
+<p>Metabolism adapts, muscle changes alter scale weight, sodium shifts water retention, and calorie labels are imperfect. The planner illustrates math from your inputs—not guaranteed biology.</p>
+</details>
+<details>
+<summary>Is a larger deficit always better?</summary>
+<p>No. Very low intakes can miss nutrients and raise medical risk. Discuss aggressive deficits with a qualified professional.</p>
+</details>
+</div>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"Is this the same as the Daily Calorie Calculator?","acceptedAnswer":{"@type":"Answer","text":"No. The daily calorie tool estimates maintenance-style calories from demographics and activity. This planner starts from maintenance you supply (often from that page) and spreads a weight goal across weeks or a target date using rule-of-thumb energy density."}},{"@type":"Question","name":"Why might my real weight change differ?","acceptedAnswer":{"@type":"Answer","text":"Metabolism adapts, muscle changes alter scale weight, sodium shifts water retention, and calorie labels are imperfect. The planner illustrates math from your inputs—not guaranteed biology."}},{"@type":"Question","name":"Is a larger deficit always better?","acceptedAnswer":{"@type":"Answer","text":"No. Very low intakes can miss nutrients and raise medical risk. Discuss aggressive deficits with a qualified professional."}}]}</script>
+<p><a href="index.html">Home</a> | <a href="health-calculators.html">Category Hub</a></p>
+<h2>Related Calculators</h2>
+<ul>
+<li><a href="age-calculator.html">Age Calculator</a></li>
+<li><a href="bmi-calculator.html">BMI Calculator</a></li>
+<li><a href="calorie-calculator.html">Daily Calorie Calculator</a></li>
+<li><a href="steps-calories-calculator.html">Steps to Calories Calculator</a></li>
+<li><a href="heart-rate-zone-calculator.html">Heart Rate Zone Calculator</a></li>
+<li><a href="navy-body-fat-calculator.html">Navy Body Fat Calculator</a></li>
+<li><a href="waist-to-height-calculator.html">Waist-to-Height Ratio Calculator</a></li>
+<li><a href="water-intake-calculator.html">Water Intake Calculator</a></li>
+<li><a href="macros-calculator.html">Macros Calculator</a></li>
+<li><a href="ovulation-calculator.html">Ovulation Calculator</a></li>
+</ul>
+<details>
+<summary>More related calculators</summary>
+<ul>
+<li><a href="weight-loss-calculator.html">Weight Loss Calculator</a></li>
+</ul>
+</details>
+</div>
+<div class="footer">
+<p>Browse Categories</p>
+<div class="category-grid">
+<a class="category-link" href="financial-calculators.html">Financial</a>
+<a class="category-link" href="health-calculators.html">Health</a>
+<a class="category-link" href="conversion-calculators.html">Conversions</a>
+<a class="category-link" href="career-calculators.html">Career</a>
+</div>
+<p><a class="home-link" href="index.html">Home</a></p>
+<p class="footer-meta">
+<a href="about.html">About</a> |
+<a href="contact.html">Contact</a> |
+<a href="privacy.html">Privacy</a> |
+<a href="terms.html">Terms</a>
+</p>
+</div>
+</div>
+<script src="number-format.js" defer></script>
+<script src="site-search.js" defer></script>
+</body>
+</html>

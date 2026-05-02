@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="en" data-page-path="navy-body-fat-calculator.html">
+<head>
+<title>Navy Body Fat Calculator (Free) – Tape Method Estimate</title>
+<meta name="description" content="Estimate body fat percentage from neck, waist, and hip circumferences using the U.S. Navy circumference formula.">
+<meta property="og:title" content="Navy Body Fat Calculator (Free) – Tape Method Estimate">
+<meta property="og:description" content="Estimate body fat percentage from neck, waist, and hip circumferences using the U.S. Navy circumference formula.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://enmahub.github.io/practical-calculators/navy-body-fat-calculator.html">
+<meta property="og:site_name" content="Practical Calculators">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Navy Body Fat Calculator (Free) – Tape Method Estimate">
+<meta name="twitter:description" content="Estimate body fat percentage from neck, waist, and hip circumferences using the U.S. Navy circumference formula.">
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"WebApplication","name":"Navy Body Fat Calculator (Free) – Tape Method Estimate","description":"Estimate body fat percentage from neck, waist, and hip circumferences using the U.S. Navy circumference formula.","url":"https://enmahub.github.io/practical-calculators/navy-body-fat-calculator.html","applicationCategory":"UtilitiesApplication","operatingSystem":"Any","browserRequirements":"Requires JavaScript. Requires HTML5.","offers":{"@type":"Offer","price":"0","priceCurrency":"USD"}}</script>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="robots" content="index, follow">
+<link rel="canonical" href="https://enmahub.github.io/practical-calculators/navy-body-fat-calculator.html">
+<link rel="alternate" hreflang="en" href="https://enmahub.github.io/practical-calculators/navy-body-fat-calculator.html">
+<link rel="stylesheet" href="styles.css">
+<script src="site-analytics.js" data-analytics-page defer></script>
+</head>
+<body>
+<div class="top">
+<div class="wrap top-inner">
+<a class="brand" href="index.html">Practical Calculators</a>
+<div class="site-search" data-site-search data-search-index="search-index.json" data-page-path="navy-body-fat-calculator.html" data-pref-lang="en" data-no-results="No matches">
+<label class="visually-hidden" for="site-search-q">Search calculators</label>
+<input type="search" id="site-search-q" class="site-search-input" placeholder="Search calculators…" autocomplete="off" spellcheck="false" role="combobox" aria-haspopup="listbox" aria-autocomplete="list" aria-controls="site-search-results" aria-expanded="false">
+<div class="site-search-dropdown" id="site-search-results" hidden role="listbox" aria-label="Search calculators"></div>
+</div>
+</div>
+</div>
+<div class="wrap">
+<div class="card">
+<h1>Navy Body Fat Calculator</h1>
+<p class="desc">Estimates body fat percentage from circumference measurements using the <strong>U.S. Navy</strong> tape method (log formula). Men need neck and waist (waist measured at the navel); women need neck, waist at the narrowest point, and hips at the widest. Results are <strong>service-screening style estimates</strong>, not hydrostatic weighing or DEXA—tension on the tape and measurement sites dominate error.</p>
+
+<label for="sex">Sex (formula set)</label>
+<select id="sex" onchange="toggleHip()">
+<option value="male">Male</option>
+<option value="female">Female</option>
+</select>
+
+<label for="height">Height</label>
+<input id="height" type="number" min="1" step="any" placeholder="Height">
+<label for="hun">Height units</label>
+<select id="hun">
+<option value="in">Inches</option>
+<option value="cm">Centimeters (converted)</option>
+</select>
+
+<label for="neck">Neck circumference (below larynx)</label>
+<input id="neck" type="number" min="1" step="any" placeholder="Neck">
+<label for="waist">Waist circumference</label>
+<input id="waist" type="number" min="1" step="any" placeholder="Male: at navel · Female: narrowest waist">
+<div id="hipwrap" style="display:none">
+<label for="hip">Hip circumference (widest)</label>
+<input id="hip" type="number" min="1" step="any" placeholder="Female only">
+</div>
+<label for="mun">Neck / waist / hip units</label>
+<select id="mun">
+<option value="in">Inches</option>
+<option value="cm">Centimeters (converted)</option>
+</select>
+
+<button onclick="calc()">Calculate</button>
+<h2 class="result"><span class="result-label">Result</span><div class="result-body" id="r">—</div></h2>
+
+<script src="navy-body-fat-math.js"></script>
+<script>
+function toggleHip() {
+  document.getElementById('hipwrap').style.display =
+    document.getElementById('sex').value === 'female' ? 'block' : 'none';
+}
+
+function toInches(val, unit) {
+  if (unit === 'cm') return val / 2.54;
+  return val;
+}
+
+function calc() {
+  var sex = document.getElementById('sex').value;
+  var hRaw = parseFloat(document.getElementById('height').value);
+  var neckRaw = parseFloat(document.getElementById('neck').value);
+  var waistRaw = parseFloat(document.getElementById('waist').value);
+  var hipRaw = parseFloat(document.getElementById('hip').value);
+  var hun = document.getElementById('hun').value;
+  var mun = document.getElementById('mun').value;
+  var out = document.getElementById('r');
+
+  if (typeof NavyBodyFatMath === 'undefined') {
+    out.innerHTML = 'Could not load Navy body fat math script.';
+    return;
+  }
+
+  var hIn = toInches(hRaw, hun);
+  var neckIn = toInches(neckRaw, mun);
+  var waistIn = toInches(waistRaw, mun);
+  var hipIn = sex === 'female' ? toInches(hipRaw, mun) : 0;
+
+  var res = NavyBodyFatMath.estimate({
+    sex: sex,
+    heightIn: hIn,
+    neckIn: neckIn,
+    waistIn: waistIn,
+    hipIn: hipIn
+  });
+
+  if (!res.ok) {
+    out.innerHTML = res.error;
+    return;
+  }
+
+  var pct = res.bodyFatPct;
+  var html = 'Estimated body fat: <strong>' + pct.toFixed(1) + '</strong> %<br>';
+  html += '<span class="small">Navy circumference equation; not identical to service readiness tables that may apply age/sex standards and measurement QA.</span>';
+  out.innerHTML = html;
+  document.dispatchEvent(new CustomEvent('pc:calculator_result', { detail: { type: 'navy_body_fat' } }));
+}
+toggleHip();
+</script>
+
+<details class="methodology-block">
+<summary>How this calculation works</summary>
+<div>
+<h3>What each input means</h3>
+<ul>
+<li><strong>Height</strong> — Standing height (converted to inches internally if you choose cm).</li>
+<li><strong>Neck</strong> — Below the larynx, perpendicular to the long axis.</li>
+<li><strong>Waist</strong> — Males: at the navel; females: natural waist (narrowest).</li>
+<li><strong>Hips</strong> — Females only: widest protrusion.</li>
+</ul>
+<h3>Formula used</h3>
+<p>U.S. Navy circumference method (measurements in inches):</p>
+<p><strong>Male:</strong> <em>%BF = 86.010 × log<sub>10</sub>(waist − neck) − 70.041 × log<sub>10</sub>(height) + 36.76</em></p>
+<p><strong>Female:</strong> <em>%BF = 163.205 × log<sub>10</sub>(waist + hip − neck) − 97.684 × log<sub>10</sub>(height) − 78.387</em></p>
+<p class="small">Requires male waist &gt; neck and female waist + hip &gt; neck. Official readiness tables may differ; this is the published log equation only.</p>
+</div>
+</details>
+<div class="trust-block">
+<h2>How this result is estimated</h2>
+<p class="desc">This Navy tape body fat estimator applies the formulas described on this page to the values you enter. Outputs are not financial, tax, legal, or medical advice.</p>
+<ul>
+<li>Inputs are user-provided and may include rounding.</li>
+<li>Where accuracy, eligibility, or obligations matter, rely on official disclosures and licensed professionals.</li>
+</ul>
+<p class="small">Last reviewed: 2026-04-17</p>
+</div>
+<div class="faq-block">
+<h2>Frequently asked questions</h2>
+<details>
+<summary>Will this match military readiness charts?</summary>
+<p>This page applies the published Navy circumference log equation to your measurements. Official screening also depends on measurement protocol, rounding, and applicable tables—your result here is an estimate only.</p>
+</details>
+<details>
+<summary>Why did it say waist must be greater than neck?</summary>
+<p>The male Navy formula uses log(waist − neck); that difference must be positive. Recheck tape placement (male waist at the navel per Navy guidance).</p>
+</details>
+<details>
+<summary>Is body fat from tape as accurate as a DXA scan?</summary>
+<p>No. Tape estimates can be useful for tracking trends but differ from lab methods—hydration and measurement tension alone shift outcomes.</p>
+</details>
+</div>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"Will this match military readiness charts?","acceptedAnswer":{"@type":"Answer","text":"This page applies the published Navy circumference log equation to your measurements. Official screening also depends on measurement protocol, rounding, and applicable tables—your result here is an estimate only."}},{"@type":"Question","name":"Why did it say waist must be greater than neck?","acceptedAnswer":{"@type":"Answer","text":"The male Navy formula uses log(waist − neck); that difference must be positive. Recheck tape placement (male waist at the navel per Navy guidance)."}},{"@type":"Question","name":"Is body fat from tape as accurate as a DXA scan?","acceptedAnswer":{"@type":"Answer","text":"No. Tape estimates can be useful for tracking trends but differ from lab methods—hydration and measurement tension alone shift outcomes."}}]}</script>
+<p><a href="index.html">Home</a> | <a href="health-calculators.html">Category Hub</a></p>
+<h2>Related Calculators</h2>
+<ul>
+<li><a href="age-calculator.html">Age Calculator</a></li>
+<li><a href="bmi-calculator.html">BMI Calculator</a></li>
+<li><a href="calorie-calculator.html">Daily Calorie Calculator</a></li>
+<li><a href="steps-calories-calculator.html">Steps to Calories Calculator</a></li>
+<li><a href="calorie-deficit-planner.html">Calorie Deficit Planner</a></li>
+<li><a href="heart-rate-zone-calculator.html">Heart Rate Zone Calculator</a></li>
+<li><a href="waist-to-height-calculator.html">Waist-to-Height Ratio Calculator</a></li>
+<li><a href="water-intake-calculator.html">Water Intake Calculator</a></li>
+<li><a href="macros-calculator.html">Macros Calculator</a></li>
+<li><a href="ovulation-calculator.html">Ovulation Calculator</a></li>
+</ul>
+<details>
+<summary>More related calculators</summary>
+<ul>
+<li><a href="weight-loss-calculator.html">Weight Loss Calculator</a></li>
+</ul>
+</details>
+</div>
+<div class="footer">
+<p>Browse Categories</p>
+<div class="category-grid">
+<a class="category-link" href="financial-calculators.html">Financial</a>
+<a class="category-link" href="health-calculators.html">Health</a>
+<a class="category-link" href="conversion-calculators.html">Conversions</a>
+<a class="category-link" href="career-calculators.html">Career</a>
+</div>
+<p><a class="home-link" href="index.html">Home</a></p>
+<p class="footer-meta">
+<a href="about.html">About</a> |
+<a href="contact.html">Contact</a> |
+<a href="privacy.html">Privacy</a> |
+<a href="terms.html">Terms</a>
+</p>
+</div>
+</div>
+<script src="number-format.js" defer></script>
+<script src="site-search.js" defer></script>
+</body>
+</html>
