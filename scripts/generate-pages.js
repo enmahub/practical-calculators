@@ -598,6 +598,7 @@ function htmlShell({
     : `<p><a class="home-link" href="${homeHref}">${labels.home}</a></p>`;
   const searchScriptHref = toHref(pagePath, "site-search.js");
   const numberFormatHref = toHref(pagePath, "number-format.js");
+  const calcOnEnterHref = toHref(pagePath, "calc-on-enter.js");
   const socialWebApp = headFragmentSocialWebApp(title, description, canonicalPath, pagePath, lang);
   const hreflangTags = hreflangTagsHtml(canonicalPath || pagePath, lang);
   return `<!DOCTYPE html>
@@ -629,6 +630,7 @@ ${footerInfoLinksHtml}
 </div>
 </div>
 <script src="${numberFormatHref}" defer></script>
+<script src="${calcOnEnterHref}" defer></script>
 <script src="${searchScriptHref}" defer></script>
 </body>
 </html>
@@ -2837,6 +2839,7 @@ window.location.replace("index.html");
 </div>
 </div>
 <script src="number-format.js" defer></script>
+<script src="calc-on-enter.js" defer></script>
 <script src="site-search.js" defer></script>
 </body>
 </html>
@@ -2965,6 +2968,7 @@ ${footerInfoLinksHtml}
 </div>
 </div>
 <script src="number-format.js" defer></script>
+<script src="calc-on-enter.js" defer></script>
 <script src="site-search.js" defer></script>
 </body>
 </html>

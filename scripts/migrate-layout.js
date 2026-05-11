@@ -61,6 +61,7 @@ function escapeAttr(value) {
 
 function removeExistingShell(content) {
   let updated = content;
+  updated = updated.replace(/\s*<script\b[^>]*\bcalc-on-enter\.js[^>]*>\s*<\/script>\s*/gi, "");
   updated = updated.replace(/\s*<script\b[^>]*\bsite-search\.js[^>]*>\s*<\/script>\s*$/i, "");
   updated = updated.replace(/^\s*<div class="top">[\s\S]*?<\/div>\s*/i, "");
   updated = updated.replace(/\s*<div class="footer">[\s\S]*?<\/div>\s*$/i, "");
@@ -177,6 +178,7 @@ ${main}
 ${buildFooterMarkup()}
 </div>
 <script src="number-format.js" defer></script>
+<script src="calc-on-enter.js" defer></script>
 <script src="site-search.js" defer></script>`;
 }
 
