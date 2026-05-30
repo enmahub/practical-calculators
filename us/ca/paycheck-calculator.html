@@ -1,17 +1,17 @@
 <!DOCTYPE html>
 <html lang="en" data-page-path="us/ca/paycheck-calculator.html">
 <head>
-<title>California Net Pay Estimate (Federal + State Income Tax Only)</title>
-<meta name="description" content="Rough annual take-home after estimated federal income tax and a flat California state income tax assumption—does not include FICA, local taxes, or pre-tax deductions.">
-<meta property="og:title" content="California Net Pay Estimate (Federal + State Income Tax Only)">
-<meta property="og:description" content="Rough annual take-home after estimated federal income tax and a flat California state income tax assumption—does not include FICA, local taxes, or pre-tax deductions.">
+<title>California Paycheck Calculator (2026) – Take-Home Pay Estimate</title>
+<meta name="description" content="Estimate net annual, monthly & biweekly pay from gross salary. Federal brackets + simplified California state income tax—planning only; FICA not included.">
+<meta property="og:title" content="California Paycheck Calculator (2026) – Take-Home Pay Estimate">
+<meta property="og:description" content="Estimate net annual, monthly &amp; biweekly pay from gross salary. Federal brackets + simplified California state income tax—planning only; FICA not included.">
 <meta property="og:type" content="website">
 <meta property="og:url" content="https://enmahub.github.io/practical-calculators/us/ca/paycheck-calculator.html">
 <meta property="og:site_name" content="Practical Calculators">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="California Net Pay Estimate (Federal + State Income Tax Only)">
-<meta name="twitter:description" content="Rough annual take-home after estimated federal income tax and a flat California state income tax assumption—does not include FICA, local taxes, or pre-tax deductions.">
-<script type="application/ld+json">{"@context":"https://schema.org","@type":"WebApplication","name":"California Net Pay Estimate (Federal + State Income Tax Only)","description":"Rough annual take-home after estimated federal income tax and a flat California state income tax assumption—does not include FICA, local taxes, or pre-tax deductions.","url":"https://enmahub.github.io/practical-calculators/us/ca/paycheck-calculator.html","applicationCategory":"UtilitiesApplication","operatingSystem":"Any","browserRequirements":"Requires JavaScript. Requires HTML5.","offers":{"@type":"Offer","price":"0","priceCurrency":"USD"}}</script>
+<meta name="twitter:title" content="California Paycheck Calculator (2026) – Take-Home Pay Estimate">
+<meta name="twitter:description" content="Estimate net annual, monthly &amp; biweekly pay from gross salary. Federal brackets + simplified California state income tax—planning only; FICA not included.">
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"WebApplication","name":"California Paycheck Calculator (2026) – Take-Home Pay Estimate","description":"Estimate net annual, monthly & biweekly pay from gross salary. Federal brackets + simplified California state income tax—planning only; FICA not included.","url":"https://enmahub.github.io/practical-calculators/us/ca/paycheck-calculator.html","applicationCategory":"UtilitiesApplication","operatingSystem":"Any","browserRequirements":"Requires JavaScript. Requires HTML5.","offers":{"@type":"Offer","price":"0","priceCurrency":"USD"}}</script>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="robots" content="index, follow">
 <link rel="canonical" href="https://enmahub.github.io/practical-calculators/us/ca/paycheck-calculator.html">
@@ -33,7 +33,14 @@
 <div class="wrap">
 <div class="card">
 <h1>California Paycheck Calculator</h1>
+<p class="desc">Use this <strong>California paycheck calculator</strong> to estimate <strong>net income</strong> and take-home pay from gross salary—a simple <strong>California salary calculator</strong> for after-tax planning with 2025–2026 federal brackets and a flat 8.2% CA state tax on gross.</p>
 <p class="desc">Planning-only estimate: federal income tax (IRS-style brackets + standard deduction) plus a flat <strong>8.2%</strong> state income tax on gross for California. <strong>Excludes FICA (Social Security and Medicare),</strong> local taxes, and paycheck deductions—compare with your actual pay stub.</p>
+<h2>Example outputs (2026, this calculator only)</h2>
+<ul>
+<li><strong>$70,000 gross, single</strong> — Estimated net annual about <strong>$57,378</strong> (~$4,782/month). Includes estimated federal income tax (~$6,882) and flat CA state tax (~$5,740) in this model only.</li>
+<li><strong>$100,000 gross, married filing jointly</strong> — Estimated net annual about <strong>$84,021</strong> (~$7,002/month). Includes estimated federal (~$7,779) and flat CA state (~$8,200) in this model only.</li>
+</ul>
+<p class="small">Examples use the same formulas as this tool—not pay-stub or payroll matches; FICA and other withholding not included.</p>
 <label for="salary">Annual Gross Salary ($):</label>
 <input type="number" id="salary" value="70000"><br><br>
 <label for="year">Federal Tax Year:</label>
@@ -160,6 +167,14 @@ function calcPaycheck() {
 <div class="faq-block">
 <h2>Frequently asked questions</h2>
 <details>
+<summary>How much is $70,000 after tax in California?</summary>
+<p>With this calculator's 2026 assumptions (single filing, federal brackets + flat 8.2% CA tax on gross, no FICA), $70,000 gross estimates to about $57,378 net annually (~$4,782/month). Actual take-home depends on withholding, benefits, and local taxes.</p>
+</details>
+<details>
+<summary>Is this a California salary calculator or paycheck calculator?</summary>
+<p>Both describe the same tool here: it estimates take-home pay (net income) from gross salary using simplified federal and California state income tax only—not full payroll withholding.</p>
+</details>
+<details>
 <summary>Does this estimate include Social Security and Medicare (FICA)?</summary>
 <p>No. This tool only subtracts estimated federal income tax and a simple flat state income tax assumption from gross. Real paychecks also withhold FICA, may include local taxes, and depend on your W-4 and benefits.</p>
 </details>
@@ -172,7 +187,7 @@ function calcPaycheck() {
 <p>Treat them as rough splits of the estimated annual net after the modeled taxes only. Compare with your pay stub or payroll provider for withholding-accurate amounts.</p>
 </details>
 </div>
-<script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"Does this estimate include Social Security and Medicare (FICA)?","acceptedAnswer":{"@type":"Answer","text":"No. This tool only subtracts estimated federal income tax and a simple flat state income tax assumption from gross. Real paychecks also withhold FICA, may include local taxes, and depend on your W-4 and benefits."}},{"@type":"Question","name":"Why is state tax shown as a flat percent?","acceptedAnswer":{"@type":"Answer","text":"These state pages apply one transparent percentage on gross income—not a full state tax return, credits, or local add-ons."}},{"@type":"Question","name":"How should I use the monthly or biweekly numbers?","acceptedAnswer":{"@type":"Answer","text":"Treat them as rough splits of the estimated annual net after the modeled taxes only. Compare with your pay stub or payroll provider for withholding-accurate amounts."}}]}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"How much is $70,000 after tax in California?","acceptedAnswer":{"@type":"Answer","text":"With this calculator's 2026 assumptions (single filing, federal brackets + flat 8.2% CA tax on gross, no FICA), $70,000 gross estimates to about $57,378 net annually (~$4,782/month). Actual take-home depends on withholding, benefits, and local taxes."}},{"@type":"Question","name":"Is this a California salary calculator or paycheck calculator?","acceptedAnswer":{"@type":"Answer","text":"Both describe the same tool here: it estimates take-home pay (net income) from gross salary using simplified federal and California state income tax only—not full payroll withholding."}},{"@type":"Question","name":"Does this estimate include Social Security and Medicare (FICA)?","acceptedAnswer":{"@type":"Answer","text":"No. This tool only subtracts estimated federal income tax and a simple flat state income tax assumption from gross. Real paychecks also withhold FICA, may include local taxes, and depend on your W-4 and benefits."}},{"@type":"Question","name":"Why is state tax shown as a flat percent?","acceptedAnswer":{"@type":"Answer","text":"These state pages apply one transparent percentage on gross income—not a full state tax return, credits, or local add-ons."}},{"@type":"Question","name":"How should I use the monthly or biweekly numbers?","acceptedAnswer":{"@type":"Answer","text":"Treat them as rough splits of the estimated annual net after the modeled taxes only. Compare with your pay stub or payroll provider for withholding-accurate amounts."}}]}</script>
 <p><a href="../../index.html">Home</a> | <a href="../../financial-calculators.html">Category Hub</a></p>
 <h2>Related Calculators</h2>
 <ul>

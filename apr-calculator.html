@@ -1,17 +1,17 @@
 <!DOCTYPE html>
 <html lang="en" data-page-path="apr-calculator.html">
 <head>
-<title>APR Calculator (Free) – Actuarial Estimate from Rate, Fees & Term</title>
-<meta name="description" content="Estimate APR on a fixed-rate amortizing loan when upfront fees reduce net proceeds: monthly IRR × 12. Not a Truth-in-Lending (TILA) disclosure substitute.">
-<meta property="og:title" content="APR Calculator (Free) – Actuarial Estimate from Rate, Fees &amp; Term">
-<meta property="og:description" content="Estimate APR on a fixed-rate amortizing loan when upfront fees reduce net proceeds: monthly IRR × 12. Not a Truth-in-Lending (TILA) disclosure substitute.">
+<title>APR Calculator – Estimate Loan APR from Rate & Fees</title>
+<meta name="description" content="Estimate how upfront fees affect loan APR. Enter note rate, loan amount, term & fees—planning estimate, not a lender disclosure.">
+<meta property="og:title" content="APR Calculator – Estimate Loan APR from Rate &amp; Fees">
+<meta property="og:description" content="Estimate how upfront fees affect loan APR. Enter note rate, loan amount, term &amp; fees—planning estimate, not a lender disclosure.">
 <meta property="og:type" content="website">
 <meta property="og:url" content="https://enmahub.github.io/practical-calculators/apr-calculator.html">
 <meta property="og:site_name" content="Practical Calculators">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="APR Calculator (Free) – Actuarial Estimate from Rate, Fees &amp; Term">
-<meta name="twitter:description" content="Estimate APR on a fixed-rate amortizing loan when upfront fees reduce net proceeds: monthly IRR × 12. Not a Truth-in-Lending (TILA) disclosure substitute.">
-<script type="application/ld+json">{"@context":"https://schema.org","@type":"WebApplication","name":"APR Calculator (Free) – Actuarial Estimate from Rate, Fees & Term","description":"Estimate APR on a fixed-rate amortizing loan when upfront fees reduce net proceeds: monthly IRR × 12. Not a Truth-in-Lending (TILA) disclosure substitute.","url":"https://enmahub.github.io/practical-calculators/apr-calculator.html","applicationCategory":"UtilitiesApplication","operatingSystem":"Any","browserRequirements":"Requires JavaScript. Requires HTML5.","offers":{"@type":"Offer","price":"0","priceCurrency":"USD"}}</script>
+<meta name="twitter:title" content="APR Calculator – Estimate Loan APR from Rate &amp; Fees">
+<meta name="twitter:description" content="Estimate how upfront fees affect loan APR. Enter note rate, loan amount, term &amp; fees—planning estimate, not a lender disclosure.">
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"WebApplication","name":"APR Calculator – Estimate Loan APR from Rate & Fees","description":"Estimate how upfront fees affect loan APR. Enter note rate, loan amount, term & fees—planning estimate, not a lender disclosure.","url":"https://enmahub.github.io/practical-calculators/apr-calculator.html","applicationCategory":"UtilitiesApplication","operatingSystem":"Any","browserRequirements":"Requires JavaScript. Requires HTML5.","offers":{"@type":"Offer","price":"0","priceCurrency":"USD"}}</script>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="robots" content="index, follow">
 <link rel="canonical" href="https://enmahub.github.io/practical-calculators/apr-calculator.html">
@@ -32,7 +32,8 @@
 </div>
 <div class="wrap">
 <div class="card">
-<h1>APR calculator (estimate)</h1>
+<h1>APR Calculator</h1>
+<p class="desc">Free <strong>APR calculator</strong> and <strong>APR estimator</strong> for fixed-rate loans: enter your <strong>interest rate</strong>, loan amount, term, and upfront fees to see an <strong>estimated APR</strong> when fees reduce cash received at closing. Example (this model): $320,000 at 6.5% for 30 years with $6,500 fees deducted from proceeds → estimated actuarial APR about <strong>6.70%</strong>; monthly payment about <strong>$2,023</strong> on full principal.</p>
 <p class="desc">Uses your <strong>stated note rate</strong> (compounded monthly), <strong>loan principal</strong>, <strong>term</strong>, and <strong>upfront fees</strong> that reduce <strong>net cash received</strong> at closing while payments still amortize the full principal. Solves the monthly rate so the present value of payments equals net proceeds, then shows <strong>actuarial APR ≈ 12 × monthly IRR</strong>. Ignores PMI, escrow, odd days, prepaid per-diem interest, and Reg Z fee rules—<strong>not your Loan Estimate APR</strong>. The <a href="loan-fee-annualizer.html">loan fee annualizer</a> describes fee-only annualization without modeling a separate note rate.</p>
 <label for="principal">Loan principal / contract amount ($)</label>
 <input id="principal" type="number" step="any" placeholder="320000">
@@ -116,6 +117,14 @@ function calc(){
 <div class="faq-block">
 <h2>Frequently asked questions</h2>
 <details>
+<summary>What is an APR interest calculator?</summary>
+<p>It estimates the annual percentage rate on a loan from your note interest rate plus upfront fees—here using fixed payments on full principal while net proceeds equal principal minus fees. It is a planning estimate, not your lender's Truth in Lending disclosure.</p>
+</details>
+<details>
+<summary>How is this APR estimator different from the interest rate?</summary>
+<p>The note rate drives your scheduled payment on the loan amount. When fees reduce what you actually receive at closing, the effective borrowing cost (estimated APR) is typically higher than the note rate. This tool solves for that with the fee model described on the page.</p>
+</details>
+<details>
 <summary>Is this the same APR as on my Loan Estimate or closing disclosure?</summary>
 <p>No. Official disclosures follow Truth in Lending / Regulation Z rules, fee inclusion lists, rounding, and timing details this tool does not model. This page applies the actuarial-style formulation described here to your inputs only.</p>
 </details>
@@ -128,7 +137,7 @@ function calc(){
 <p>The page finds the monthly interest rate that makes the present value of your fixed monthly payments equal that net cash amount, then multiplies by 12 for a quoted annual figure. It also shows an effective annual rate for comparison. Your lender may quote APR differently.</p>
 </details>
 </div>
-<script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"Is this the same APR as on my Loan Estimate or closing disclosure?","acceptedAnswer":{"@type":"Answer","text":"No. Official disclosures follow Truth in Lending / Regulation Z rules, fee inclusion lists, rounding, and timing details this tool does not model. This page applies the actuarial-style formulation described here to your inputs only."}},{"@type":"Question","name":"What fee model does this calculator use?","acceptedAnswer":{"@type":"Answer","text":"It assumes upfront fees reduce the net cash you receive at closing to (loan principal − fees), while the monthly payment is computed as if the full principal is amortizing at the stated note rate. Other fee treatments (for example fees folded into principal) can change APR and are not implemented here."}},{"@type":"Question","name":"What does “actuarial APR” mean here?","acceptedAnswer":{"@type":"Answer","text":"The page finds the monthly interest rate that makes the present value of your fixed monthly payments equal that net cash amount, then multiplies by 12 for a quoted annual figure. It also shows an effective annual rate for comparison. Your lender may quote APR differently."}}]}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"What is an APR interest calculator?","acceptedAnswer":{"@type":"Answer","text":"It estimates the annual percentage rate on a loan from your note interest rate plus upfront fees—here using fixed payments on full principal while net proceeds equal principal minus fees. It is a planning estimate, not your lender's Truth in Lending disclosure."}},{"@type":"Question","name":"How is this APR estimator different from the interest rate?","acceptedAnswer":{"@type":"Answer","text":"The note rate drives your scheduled payment on the loan amount. When fees reduce what you actually receive at closing, the effective borrowing cost (estimated APR) is typically higher than the note rate. This tool solves for that with the fee model described on the page."}},{"@type":"Question","name":"Is this the same APR as on my Loan Estimate or closing disclosure?","acceptedAnswer":{"@type":"Answer","text":"No. Official disclosures follow Truth in Lending / Regulation Z rules, fee inclusion lists, rounding, and timing details this tool does not model. This page applies the actuarial-style formulation described here to your inputs only."}},{"@type":"Question","name":"What fee model does this calculator use?","acceptedAnswer":{"@type":"Answer","text":"It assumes upfront fees reduce the net cash you receive at closing to (loan principal − fees), while the monthly payment is computed as if the full principal is amortizing at the stated note rate. Other fee treatments (for example fees folded into principal) can change APR and are not implemented here."}},{"@type":"Question","name":"What does “actuarial APR” mean here?","acceptedAnswer":{"@type":"Answer","text":"The page finds the monthly interest rate that makes the present value of your fixed monthly payments equal that net cash amount, then multiplies by 12 for a quoted annual figure. It also shows an effective annual rate for comparison. Your lender may quote APR differently."}}]}</script>
 <p><a href="index.html">Home</a> | <a href="financial-calculators.html">Category Hub</a></p>
 <h2>Related Calculators</h2>
 <ul>

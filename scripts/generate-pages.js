@@ -642,7 +642,7 @@ const homeSections = [
     category: "Financial",
     hub: "financial-calculators.html",
     items: [
-      { fileName: "apr-calculator.html", h1: "APR calculator (estimate)" },
+      { fileName: "apr-calculator.html", h1: "APR Calculator" },
       { fileName: "mortgage-calculator.html", h1: "Mortgage Calculator" },
       { fileName: "loan-calculator.html", h1: "Loan Calculator" },
       { fileName: "roi-calculator.html", h1: "ROI Calculator" },
@@ -804,7 +804,7 @@ function faqItemsForEntry(entry) {
   }
 
   if (entry.family === "statePaycheckPilotPage") {
-    return [
+    const items = [
       {
         question: "Does this estimate include Social Security and Medicare (FICA)?",
         answer:
@@ -821,6 +821,21 @@ function faqItemsForEntry(entry) {
           "Treat them as rough splits of the estimated annual net after the modeled taxes only. Compare with your pay stub or payroll provider for withholding-accurate amounts."
       }
     ];
+    if (entry.stateCode === "ca") {
+      items.unshift(
+        {
+          question: "How much is $70,000 after tax in California?",
+          answer:
+            "With this calculator's 2026 assumptions (single filing, federal brackets + flat 8.2% CA tax on gross, no FICA), $70,000 gross estimates to about $57,378 net annually (~$4,782/month). Actual take-home depends on withholding, benefits, and local taxes."
+        },
+        {
+          question: "Is this a California salary calculator or paycheck calculator?",
+          answer:
+            "Both describe the same tool here: it estimates take-home pay (net income) from gross salary using simplified federal and California state income tax only—not full payroll withholding."
+        }
+      );
+    }
+    return items;
   }
 
   if (entry.family === "legacyStaticPage") {
@@ -846,6 +861,16 @@ function faqItemsForEntry(entry) {
     }
     if (legacyKey === "apr-calculator.html") {
       return [
+        {
+          question: "What is an APR interest calculator?",
+          answer:
+            "It estimates the annual percentage rate on a loan from your note interest rate plus upfront fees—here using fixed payments on full principal while net proceeds equal principal minus fees. It is a planning estimate, not your lender's Truth in Lending disclosure."
+        },
+        {
+          question: "How is this APR estimator different from the interest rate?",
+          answer:
+            "The note rate drives your scheduled payment on the loan amount. When fees reduce what you actually receive at closing, the effective borrowing cost (estimated APR) is typically higher than the note rate. This tool solves for that with the fee model described on the page."
+        },
         {
           question: "Is this the same APR as on my Loan Estimate or closing disclosure?",
           answer:
@@ -1922,6 +1947,22 @@ ${relatedHtml(entries, entry)}`
   });
 }
 
+function statePaycheckIntroHtml(entry) {
+  const ratePct = (Number(entry.stateTaxRate) * 100).toFixed(1);
+  const planning = `Planning-only estimate: federal income tax (IRS-style brackets + standard deduction) plus a flat <strong>${ratePct}%</strong> state income tax on gross for ${entry.stateName}. <strong>Excludes FICA (Social Security and Medicare),</strong> local taxes, and paycheck deductions—compare with your actual pay stub.`;
+  if (entry.stateCode === "ca") {
+    return `<p class="desc">Use this <strong>California paycheck calculator</strong> to estimate <strong>net income</strong> and take-home pay from gross salary—a simple <strong>California salary calculator</strong> for after-tax planning with 2025–2026 federal brackets and a flat ${ratePct}% CA state tax on gross.</p>
+<p class="desc">${planning}</p>
+<h2>Example outputs (2026, this calculator only)</h2>
+<ul>
+<li><strong>$70,000 gross, single</strong> — Estimated net annual about <strong>$57,378</strong> (~$4,782/month). Includes estimated federal income tax (~$6,882) and flat CA state tax (~$5,740) in this model only.</li>
+<li><strong>$100,000 gross, married filing jointly</strong> — Estimated net annual about <strong>$84,021</strong> (~$7,002/month). Includes estimated federal (~$7,779) and flat CA state (~$8,200) in this model only.</li>
+</ul>
+<p class="small">Examples use the same formulas as this tool—not pay-stub or payroll matches; FICA and other withholding not included.</p>`;
+  }
+  return `<p class="desc">${planning}</p>`;
+}
+
 function statePaycheckTemplate(entry, entries) {
   const faqItems = faqItemsForEntry(entry);
   return htmlShell({
@@ -1932,7 +1973,7 @@ function statePaycheckTemplate(entry, entries) {
     robotsDirective: "index, follow",
     canonicalPath: entry.pagePath,
     body: `<h1>${entry.h1}</h1>
-<p class="desc">Planning-only estimate: federal income tax (IRS-style brackets + standard deduction) plus a flat <strong>${(entry.stateTaxRate * 100).toFixed(1)}%</strong> state income tax on gross for ${entry.stateName}. <strong>Excludes FICA (Social Security and Medicare),</strong> local taxes, and paycheck deductions—compare with your actual pay stub.</p>
+${statePaycheckIntroHtml(entry)}
 <label for="salary">Annual Gross Salary ($):</label>
 <input type="number" id="salary" value="70000"><br><br>
 <label for="year">Federal Tax Year:</label>
@@ -2189,8 +2230,8 @@ function buildEntries() {
       fileName,
       pagePath: normalizePath(`us/${stateCode}/${fileName}`),
       hubPath: "financial-calculators.html",
-      title: `${stateName} Net Pay Estimate (Federal + State Income Tax Only)`,
-      description: `Rough annual take-home after estimated federal income tax and a flat ${stateName} state income tax assumption—does not include FICA, local taxes, or pre-tax deductions.`,
+      title: `${stateName} Paycheck Calculator (2026) – Take-Home Pay Estimate`,
+      description: `Estimate net annual, monthly & biweekly pay from gross salary. Federal brackets + simplified ${stateName} state income tax—planning only; FICA not included.`,
       h1: `${stateName} Paycheck Calculator`,
       stateName,
       stateCode,
@@ -2800,7 +2841,7 @@ ${hubLinks}
       robotsDirective: "index, follow",
       canonicalPath: "us/index.html",
       body: `<h1>U.S. State Calculators</h1>
-<p class="desc">State-specific calculators. Current tools are paycheck estimators by state.</p>
+<p class="desc">State-specific calculators. Current tools include paycheck estimators—for federal brackets plus simplified state tax, see the <a href="ca/paycheck-calculator.html">California paycheck calculator</a>.</p>
 <ul>
 ${stateLinks}
 </ul>`
@@ -2934,7 +2975,7 @@ ${topBarHtml({ pagePath: "", lang: "en" })}
 <p class="desc">Practical Calculators hosts free calculators for loans, mortgages, savings, health metrics, and everyday conversions. Each calculator page documents inputs and formulas in a methodology section.</p>
 <h2>Popular calculators</h2>
 <ul>
-<li><a href="apr-calculator.html">APR calculator (estimate)</a></li>
+<li><a href="apr-calculator.html">APR Calculator</a></li>
 <li><a href="mortgage-calculator.html">Mortgage Calculator</a></li>
 <li><a href="roi-calculator.html">ROI Calculator</a></li>
 <li><a href="debt-to-income-calculator.html">Debt-to-Income (DTI) Calculator</a></li>
